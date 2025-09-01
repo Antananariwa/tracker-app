@@ -1,0 +1,11 @@
+.header{
+  padding: 3px;
+  margin: 0px;
+  background-color: #151b24;
+  height: 100px;
+}
+
+.header h1, .header h2 {
+  margin: 0;
+  padding: 0;
+}

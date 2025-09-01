@@ -1,0 +1,15 @@
+#root {
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+.bodyDiv {
+  margin: 0px;
+  padding: 0px;
+  display: flex;
+}
+
+.rightSideDiv {
+  flex: 1;
+}

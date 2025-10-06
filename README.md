@@ -1,10 +1,10 @@
 Now the goal is to:
 
-1. Understand API data structure and how to work on it.
-2. Extract data either according to needs or in a universal way.
-3. Create components for data handling - graphs, tables etc.
-4. Place new components within BoxMainContent.
-5. Transfer extracted data to the handling component.
+1. [DONE] Understand API data structure and how to work on it.
+2. [DONE] Extract data either according to needs or in a universal way.
+3. [DONE] Create components for data handling - graphs, tables etc.
+4. [DONE] Place new components within BoxMainContent.
+5. [DONE] Transfer extracted data to the handling component.
 6. What do I want to do with titles in the boxes? Maybe I should drop them, they are reusable but feels like causing more harm than good. I would skip title variable etc. displays usually require different formats so it's hard to make titles usable in majority of them.
 7. how do I deal with processing data? At the moment I store it in static variables, feels like we should be using and updating states. Is it good enough for now?
 8. Pros - Can easly extract symbol with metaData.symbol and reuse in other displays. Maybe every display should read symbol itself. 

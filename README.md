@@ -192,8 +192,9 @@ export default useAlphaVantage`
 
 
 Question:
-How to deal with the title defined here `      <ApiDataBox 
+1. How to deal with the title defined here `      <ApiDataBox 
         title=""
         loading={loading} 
         error={error}
       >` should I remove it form the Box?
+2. Why EVERY time do I need to handele null value of variable here? `const latestPriceTitle = latestPriceData && metaData ? metaData.symbol + " Latest Price: $" + latestPriceData.close : "Current Price"`, it might be empty on the load or something. But this thing is static so how is it being reloaded. Does it reload when other dynamic parts are being updated? So when I have state or some async action does it render entire page with new values when one od dynamic elements is updated? Does it mean entire pages is being updated when Api call is returned?

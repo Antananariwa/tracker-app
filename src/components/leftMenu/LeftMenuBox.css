@@ -1,11 +1,11 @@
-.BoxLeftMenuDiv {
+.LeftMenuBoxDiv {
   margin: 5px;
   padding-bottom: 4px;
   background-color: rgb(56, 57, 58);
   border-radius: 5px;
 }
 
-.BoxLeftMenuDiv h2 {
+.LeftMenuBoxDiv h2 {
   margin: 0px;
   padding-bottom: 6px;
   font-weight: normal;
@@ -14,7 +14,7 @@
 }
 
 
-.BoxLeftMenuDiv p {
+.LeftMenuBoxDiv p {
   margin: 2px;
   padding: 0px;
 }

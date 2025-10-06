@@ -1,8 +1,8 @@
 import React from 'react';
-import './BoxLeftMenu.css';
+import './LeftMenuBox.css';
 
-const BoxLeftMenu = ({ optionName = [], groupName = '' }) => (
-  <div className="BoxLeftMenuDiv">
+const LeftMenuBox = ({ optionName = [], groupName = '' }) => (
+  <div className="LeftMenuBoxDiv">
     {groupName && <h2>{groupName}</h2>}
     {optionName.map((text, index) => (
       <p key={index}>{text}</p>
@@ -10,4 +10,4 @@ const BoxLeftMenu = ({ optionName = [], groupName = '' }) => (
   </div>
 );
 
-export default BoxLeftMenu;
+export default LeftMenuBox;

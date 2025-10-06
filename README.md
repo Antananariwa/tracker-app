@@ -1,4 +1,5 @@
 Now the goal is to:
+
 Done	1. Understand API data structure and how to work on it.
 Done	2. Extract data either according to needs or in a universal way.
 Done 3. Create components for data handling - graphs, tables etc.

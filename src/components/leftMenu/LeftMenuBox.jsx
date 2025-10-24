@@ -1,12 +1,23 @@
 import React from 'react';
 import './LeftMenuBox.css';
 
-const LeftMenuBox = ({ optionName = [], groupName = '' }) => (
+const LeftMenuBox = ({ optionName = [], groupName = '', onOptionClick}) => (
   <div className="LeftMenuBoxDiv">
-    {groupName && <h2>{groupName}</h2>}
-    {optionName.map((text, index) => (
-      <p key={index}>{text}</p>
-    ))}
+    {groupName && (
+      <details>
+        <summary>{groupName}</summary>
+        <div className="OptionDiv">
+          {optionName.map((option) => (
+            <button 
+              key={option} 
+              onClick={() => onOptionClick(option)}
+            >
+              {option}
+            </button>
+          ))}
+        </div>
+      </details>
+    )}
   </div>
 );
 

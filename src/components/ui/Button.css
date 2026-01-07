@@ -1,0 +1,19 @@
+/*
+.btn {}
+*/
+.btn-left-bar {
+  width: 60%;
+  margin: 2px;
+  padding: 2px 0;
+  cursor: pointer;
+  background-color: hsl(201, 21%, 29%);
+  border-radius: 5px;
+  border: none;
+  outline: none;
+}
+
+.btn-secondary {
+  margin: 0px 5px;
+  padding: 2px;
+}
+

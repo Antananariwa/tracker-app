@@ -3,28 +3,22 @@ import './App.css'
 import Header from './components/headerSection/Header.jsx'
 import LeftMenuContainer from './components/leftMenu/LeftMenuContainer.jsx'
 import MainContentContainer from './components/mainContent/MainContentContainer.jsx'
-import useAlphaVantage from './hooks/useAlphaVantage'
+import { StockProvider } from './context/StockContext';
 
 
 function App() {
-  const [selectedStock, setSelectedStock] = useState('IBM')
-  const [selectedFunction, setSelectedFunction] = useState('TIME_SERIES_DAILY')
-  const { data, loading, error } = useAlphaVantage(selectedFunction, selectedStock)
+  const [currentPage, setCurrentPage] = useState('stocks')
 
   return (
-    <>
+    <StockProvider>
       <div className="bodyDiv">
-        <LeftMenuContainer title="Left Container"/>
+        <LeftMenuContainer onPageChange={setCurrentPage} title="Left Container"/>
         <div className="rightSideDiv">
           <Header title="Investments Calculator" subtitle="Table with individual assets"/>
-          <MainContentContainer 
-            data={data} 
-            loading={loading} 
-            error={error} 
-          />
+          <MainContentContainer currentPage={currentPage}/>
         </div>
       </div>
-    </>
+    </StockProvider>
   )
 }
 

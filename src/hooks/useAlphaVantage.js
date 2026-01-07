@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react'
 
 const useAlphaVantage = (functionName, symbol, interval = null, outputsize = null, datatype = null) => {
-  const [data, setData] = useState(null);
+  const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    let url = `https://www.alphavantage.co/query?function=${functionName}&symbol=${symbol}&apikey=demo`;
+    let url = `https://www.alphavantage.co/query?function=${functionName}&symbol=${symbol}`;
     
     if (interval) {
       url += `&interval=${interval}`;
@@ -18,6 +18,7 @@ const useAlphaVantage = (functionName, symbol, interval = null, outputsize = nul
       url += `&datatype=${datatype}`;
     }
 
+    url += `&apikey=demo`
     setLoading(true);
 
     fetch(url)

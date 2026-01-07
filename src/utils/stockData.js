@@ -24,3 +24,49 @@ export const extractLatestStockPrice = (data) => {
     close: data['Time Series (Daily)'][lastDate]['4. close']
   };
 };
+
+export const extractChartPriceByDate = (data) => {
+
+  if (!data || !data['Time Series (Daily)']) return [];
+
+  const timeSeries = data['Time Series (Daily)'];
+  const timeSeriesArray = Object.entries(timeSeries)
+  const timeSeriesArrayReversed = timeSeriesArray.toReversed()
+  
+  const preparedData = timeSeriesArrayReversed.map(([date, values]) => ({
+    date: date, 
+    close: parseFloat(values['4. close']),
+    volume: parseInt(values['5. volume'])
+  }))
+
+  return preparedData;
+
+};
+
+export const adjustDataByTime = (data, timeFrame) => {
+  switch (timeFrame) {
+    case "1M":
+      return data.slice(-30);
+
+    case "3M":
+      return data;
+      
+    case "1Y":
+      return data.slice(-365);
+
+    case "3Y":
+      return data.slice(-3 * 365);
+
+    case "5Y":
+      return data.slice(-5 * 365);
+
+    case "10Y":
+      return data.slice(-10 * 365);
+    
+    case "20Y":
+      return data;
+
+    default:
+      return data;
+  }
+};

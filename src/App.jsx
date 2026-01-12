@@ -3,14 +3,14 @@ import './App.css'
 import Header from './components/headerSection/Header.jsx'
 import LeftMenuContainer from './components/leftMenu/LeftMenuContainer.jsx'
 import MainContentContainer from './components/mainContent/MainContentContainer.jsx'
-import { StockProvider } from './context/StockContext';
+import { MainPageProvider } from './context/MainPageContext.jsx';
 
 
 function App() {
   const [currentPage, setCurrentPage] = useState('stocks')
 
   return (
-    <StockProvider>
+    <MainPageProvider>
       <div className="bodyDiv">
         <LeftMenuContainer onPageChange={setCurrentPage} title="Left Container"/>
         <div className="rightSideDiv">
@@ -18,7 +18,7 @@ function App() {
           <MainContentContainer currentPage={currentPage}/>
         </div>
       </div>
-    </StockProvider>
+    </MainPageProvider>
   )
 }
 

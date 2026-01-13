@@ -38,7 +38,10 @@ async function fetchAll() {
   }
   
   for (const symbol of stockSymbols) {
-    const result = await fetchAndSave(symbol, stockList); 
+    const result = await fetchAndSave(symbol, stockList);
+    if (result.fetched === false){
+      continue;
+    }
     stockList = result.list; 
   }
   

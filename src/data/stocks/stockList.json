@@ -1874,5 +1874,865 @@
   {
     "symbol": "NWS",
     "name": "News Corporation"
+  },
+  {
+    "symbol": "AMRK",
+    "name": "A-Mark Precious Metals Inc."
+  },
+  {
+    "symbol": "ALLY",
+    "name": "Ally Financial Inc."
+  },
+  {
+    "symbol": "AMJ",
+    "name": "JPMorgan Chase Capital XVI JP Morgan Alerian MLP ETN"
+  },
+  {
+    "symbol": "AADR",
+    "name": "AdvisorShares Dorsey Wright ADR"
+  },
+  {
+    "symbol": "AAMC",
+    "name": "Altisource Asset Management Corp Com"
+  },
+  {
+    "symbol": "AMBC",
+    "name": "Ambac Financial Group Inc."
+  },
+  {
+    "symbol": "CMRE",
+    "name": "Costamare Inc. $0.0001 par value"
+  },
+  {
+    "symbol": "ABR-B",
+    "name": "Arbor Realty Trust Cumulative Redeemable Preferred Series B"
+  },
+  {
+    "symbol": "CHD",
+    "name": "Church & Dwight Company Inc."
+  },
+  {
+    "symbol": "AAMC",
+    "name": "Altisource Asset Management Corp Com"
+  },
+  {
+    "symbol": "CPG",
+    "name": "Crescent Point Energy Corporation (Canada)"
+  },
+  {
+    "symbol": "AKG",
+    "name": "Asanko Gold Inc."
+  },
+  {
+    "symbol": "AAXJ",
+    "name": "iShares MSCI All Country Asia ex Japan Index Fund"
+  },
+  {
+    "symbol": "ACIA",
+    "name": "Acacia Communications Inc."
+  },
+  {
+    "symbol": "AAC",
+    "name": "AAC Holdings Inc."
+  },
+  {
+    "symbol": "AMRK",
+    "name": "A-Mark Precious Metals Inc."
+  },
+  {
+    "symbol": "ARTX",
+    "name": "Arotech Corporation"
+  },
+  {
+    "symbol": "AMJ",
+    "name": "JPMorgan Chase Capital XVI JP Morgan Alerian MLP ETN"
+  },
+  {
+    "symbol": "AMAL",
+    "name": "Amalgamated Bank"
+  },
+  {
+    "symbol": "ATO",
+    "name": "Atmos Energy Corporation"
+  },
+  {
+    "symbol": "A",
+    "name": "Agilent Technologies Inc."
+  },
+  {
+    "symbol": "AAOI",
+    "name": "Applied Optoelectronics Inc."
+  },
+  {
+    "symbol": "AAL",
+    "name": "American Airlines Group Inc."
+  },
+  {
+    "symbol": "ADSW",
+    "name": "Advanced Disposal Services Inc."
+  },
+  {
+    "symbol": "KDP",
+    "name": "Keurig Dr Pepper Inc."
+  },
+  {
+    "symbol": "AABA",
+    "name": "Altaba Inc."
+  },
+  {
+    "symbol": "FNDA",
+    "name": "Schwab Fundamental U.S. Small Company Index"
+  },
+  {
+    "symbol": "NBH",
+    "name": "Neuberger Berman Municipal Fund Inc."
+  },
+  {
+    "symbol": "A",
+    "name": "Agilent Technologies Inc."
+  },
+  {
+    "symbol": "FTXN",
+    "name": "First Trust Nasdaq Oil & Gas ETF"
+  },
+  {
+    "symbol": "IVZ",
+    "name": "Invesco Ltd"
+  },
+  {
+    "symbol": "GEVO",
+    "name": "Gevo Inc."
+  },
+  {
+    "symbol": "ALTR",
+    "name": "Altair Engineering Inc."
+  },
+  {
+    "symbol": "DNOW",
+    "name": "NOW Inc."
+  },
+  {
+    "symbol": "GIL",
+    "name": "Gildan Activewear Inc. Class A Sub. Vot."
+  },
+  {
+    "symbol": "CRBN",
+    "name": "iShares MSCI ACWI Low Carbon Target"
+  },
+  {
+    "symbol": "ACAD",
+    "name": "ACADIA Pharmaceuticals Inc."
+  },
+  {
+    "symbol": "HFBC",
+    "name": "HopFed Bancorp Inc."
+  },
+  {
+    "symbol": "SPWR",
+    "name": "SunPower Corporation"
+  },
+  {
+    "symbol": "AAU",
+    "name": "Almaden Minerals Ltd."
+  },
+  {
+    "symbol": "BLPH",
+    "name": "Bellerophon Therapeutics Inc."
+  },
+  {
+    "symbol": "BDCL",
+    "name": "2xLeveraged Long Exchange Traded Access Securities (E-TRACS) Linked to the Wells Fargo Business Development Company Index due May 24 2041"
+  },
+  {
+    "symbol": "AGF",
+    "name": "DB Agriculture Long ETN due April 1 2038"
+  },
+  {
+    "symbol": "BLMT",
+    "name": "BSB Bancorp Inc."
+  },
+  {
+    "symbol": "IPLDP",
+    "name": "Interstate Power and Light Company Interstate Power & Light Company Perp Preferred 5.10% Series D"
+  },
+  {
+    "symbol": "BBX",
+    "name": "BBX Capital Corporation Class A"
+  },
+  {
+    "symbol": "FSK",
+    "name": "FS KKR Capital Corp."
+  },
+  {
+    "symbol": "CNK",
+    "name": "Cinemark Holdings Inc Inc."
+  },
+  {
+    "symbol": "AAAU",
+    "name": "Perth Mint Physical Gold"
+  },
+  {
+    "symbol": "ACHC",
+    "name": "Acadia Healthcare Company Inc."
+  },
+  {
+    "symbol": "CMCO",
+    "name": "Columbus McKinnon Corporation"
+  },
+  {
+    "symbol": "BDCL",
+    "name": "2xLeveraged Long Exchange Traded Access Securities (E-TRACS) Linked to the Wells Fargo Business Development Company Index due May 24 2041"
+  },
+  {
+    "symbol": "ABG",
+    "name": "Asbury Automotive Group Inc"
+  },
+  {
+    "symbol": "AADR",
+    "name": "AdvisorShares Dorsey Wright ADR"
+  },
+  {
+    "symbol": "AGD",
+    "name": "Aberdeen Global Dynamic Dividend Fund"
+  },
+  {
+    "symbol": "ACU",
+    "name": "Acme United Corporation."
+  },
+  {
+    "symbol": "BOND",
+    "name": "PIMCO Active Bond Exchange-Traded Fund Exchange-Traded Fund"
+  },
+  {
+    "symbol": "ACT",
+    "name": "AdvisorShares Vice ETF"
+  },
+  {
+    "symbol": "C-N",
+    "name": "Citigroup Capital VIII 7.875% Fixed rate Floating Rate trust Preferred Securities (TruPS)"
+  },
+  {
+    "symbol": "DRE",
+    "name": "Duke Realty Corporation"
+  },
+  {
+    "symbol": "BWMC",
+    "name": "Boxwood Merger Corp."
+  },
+  {
+    "symbol": "ADRD",
+    "name": "Invesco BLDRS Developed Markets 100 ADR Index Fund"
+  },
+  {
+    "symbol": "COP",
+    "name": "ConocoPhillips"
+  },
+  {
+    "symbol": "GRSHW",
+    "name": "Gores Holdings III Inc. Warrants"
+  },
+  {
+    "symbol": "FUD",
+    "name": "E-TRACS USB Bloomberg Commodity Index Exchange Traded Notes UBS Bloomberg CMCI Food ETN"
+  },
+  {
+    "symbol": "BCRH",
+    "name": "Blue Capital Reinsurance Holdings Ltd."
+  },
+  {
+    "symbol": "ABT",
+    "name": "Abbott Laboratories"
+  },
+  {
+    "symbol": "BBK",
+    "name": "Blackrock Municipal Bond Trust"
+  },
+  {
+    "symbol": "AGND",
+    "name": "WisdomTree Barclays U.S. Aggregate Bond Negative D"
+  },
+  {
+    "symbol": "EELV",
+    "name": "Invesco S&P Emerging Markets Low Volatility"
+  },
+  {
+    "symbol": "AFT",
+    "name": "Apollo Senior Floating Rate Fund Inc."
+  },
+  {
+    "symbol": "AFSI-A",
+    "name": "AmTrust Financial Services Inc. Preferred Series A"
+  },
+  {
+    "symbol": "AGM",
+    "name": "Federal Agricultural Mortgage Corporation"
+  },
+  {
+    "symbol": "AAXJ",
+    "name": "iShares MSCI All Country Asia ex Japan Index Fund"
+  },
+  {
+    "symbol": "AAON",
+    "name": "AAON Inc."
+  },
+  {
+    "symbol": "EAGLW",
+    "name": "Platinum Eagle Acquisition Corp. Warrant"
+  },
+  {
+    "symbol": "DJCI",
+    "name": "E-TRACS Linked to the Bloomberg Commodity Index Total Return due October 31 2039"
+  },
+  {
+    "symbol": "AKO.A",
+    "name": "Embotelladora Andina S.A."
+  },
+  {
+    "symbol": "AA",
+    "name": "Alcoa Corporation"
+  },
+  {
+    "symbol": "ACES",
+    "name": "ALPS Clean Energy"
+  },
+  {
+    "symbol": "RWDC",
+    "name": "Direxion MSCI Defensives Over Cyclicals"
+  },
+  {
+    "symbol": "ETFC",
+    "name": "E*TRADE Financial Corporation"
+  },
+  {
+    "symbol": "BTCUSDT",
+    "name": "Bitcoin USD"
+  },
+  {
+    "symbol": "BVNSC",
+    "name": "Brandes Value NextShares ETF"
+  },
+  {
+    "symbol": "MMSI",
+    "name": "Merit Medical Systems Inc."
+  },
+  {
+    "symbol": "CTRV",
+    "name": "ContraVir Pharmaceuticals Inc."
+  },
+  {
+    "symbol": "IPWR",
+    "name": "Ideal Power Inc."
+  },
+  {
+    "symbol": "DCAR",
+    "name": "DropCar Inc."
+  },
+  {
+    "symbol": "CFR",
+    "name": "Cullen/Frost Bankers Inc."
+  },
+  {
+    "symbol": "DSPG",
+    "name": "DSP Group Inc."
+  },
+  {
+    "symbol": "AED",
+    "name": "AEGON N.V. Perp. Cap. Securities (Netherlands)"
+  },
+  {
+    "symbol": "MFG",
+    "name": "Mizuho Financial Group Inc. Sponosred ADR (Japan)"
+  },
+  {
+    "symbol": "EVIX",
+    "name": "VelocityShares 1x Long VSTOXX Futures ETN"
+  },
+  {
+    "symbol": "AAXJ",
+    "name": "iShares MSCI All Country Asia ex Japan Index Fund"
+  },
+  {
+    "symbol": "EVLO",
+    "name": "Evelo Biosciences Inc."
+  },
+  {
+    "symbol": "AAXJ",
+    "name": "iShares MSCI All Country Asia ex Japan Index Fund"
+  },
+  {
+    "symbol": "AMZN",
+    "name": "Amazon.com Inc."
+  },
+  {
+    "symbol": "A",
+    "name": "Agilent Technologies Inc."
+  },
+  {
+    "symbol": "AP",
+    "name": "Ampco-Pittsburgh Corporation"
+  },
+  {
+    "symbol": "AME",
+    "name": "AMETEK Inc."
+  },
+  {
+    "symbol": "ABEV",
+    "name": "Ambev S.A. American Depositary Shares (Each representing 1)"
+  },
+  {
+    "symbol": "AAXN",
+    "name": "Axon Enterprise Inc."
+  },
+  {
+    "symbol": "AAAU",
+    "name": "Perth Mint Physical Gold"
+  },
+  {
+    "symbol": "IBKR",
+    "name": "Interactive Brokers Group, Inc."
+  },
+  {
+    "symbol": "AI",
+    "name": "Arlington Asset Investment Corp Class A (new)"
+  },
+  {
+    "symbol": "ACC",
+    "name": "American Campus Communities Inc"
+  },
+  {
+    "symbol": "BKD",
+    "name": "Brookdale Senior Living Inc."
+  },
+  {
+    "symbol": "ADRU",
+    "name": "Invesco BLDRS Europe Select ADR Index Fund"
+  },
+  {
+    "symbol": "CRZO",
+    "name": "Carrizo Oil & Gas Inc."
+  },
+  {
+    "symbol": "CHKE",
+    "name": "Cherokee Inc."
+  },
+  {
+    "symbol": "CHKE",
+    "name": "Cherokee Inc."
+  },
+  {
+    "symbol": "EXC",
+    "name": "Exelon Corporation"
+  },
+  {
+    "symbol": "AAXJ",
+    "name": "iShares MSCI All Country Asia ex Japan Index Fund"
+  },
+  {
+    "symbol": "AMU",
+    "name": "ETRACS Alerian MLP Index ETN"
+  },
+  {
+    "symbol": "BPT",
+    "name": "BP Prudhoe Bay Royalty Trust"
+  },
+  {
+    "symbol": "CCCL",
+    "name": "China Ceramics Co. Ltd."
+  },
+  {
+    "symbol": "CLVS",
+    "name": "Clovis Oncology Inc."
+  },
+  {
+    "symbol": "AAOI",
+    "name": "Applied Optoelectronics Inc."
+  },
+  {
+    "symbol": "DESP",
+    "name": "Despegar.com Corp."
+  },
+  {
+    "symbol": "AADR",
+    "name": "AdvisorShares Dorsey Wright ADR"
+  },
+  {
+    "symbol": "ANGL",
+    "name": "VanEck Vectors Fallen Angel High Yield Bond"
+  },
+  {
+    "symbol": "BEP",
+    "name": "Brookfield Renewable Partners L.P."
+  },
+  {
+    "symbol": "AMCA",
+    "name": "iShares Russell 1000 Pure U.S. Revenue ETF"
+  },
+  {
+    "symbol": "AKR",
+    "name": "Acadia Realty Trust"
+  },
+  {
+    "symbol": "AHL-C",
+    "name": "Aspen Insurance Holdings Limited 5.95% Fixed-to-Floating Rate Perpetual Non-Cumulative Preference Shares"
+  },
+  {
+    "symbol": "CRMD",
+    "name": "CorMedix Inc"
+  },
+  {
+    "symbol": "AVAL",
+    "name": "Grupo Aval Acciones y Valores S.A. ADR (Each representing 20 preferred shares)"
+  },
+  {
+    "symbol": "EXPD",
+    "name": "Expeditors International of Washington Inc."
+  },
+  {
+    "symbol": "AAOI",
+    "name": "Applied Optoelectronics Inc."
+  },
+  {
+    "symbol": "NVTR",
+    "name": "Nuvectra Corporation"
+  },
+  {
+    "symbol": "AFIF",
+    "name": "Anfield Universal Fixed Income"
+  },
+  {
+    "symbol": "AAXN",
+    "name": "Axon Enterprise Inc."
+  },
+  {
+    "symbol": "AAL",
+    "name": "American Airlines Group Inc."
+  },
+  {
+    "symbol": "FIT",
+    "name": "Fitbit Inc. Class A"
+  },
+  {
+    "symbol": "AMTB",
+    "name": "Mercantil Bank Holding Corporation"
+  },
+  {
+    "symbol": "ACWF",
+    "name": "iShares Edge MSCI Multifactor Global"
+  },
+  {
+    "symbol": "AMTD",
+    "name": "TD Ameritrade Holding Corporation"
+  },
+  {
+    "symbol": "BUY",
+    "name": "USCF SummerHaven SHPEI Index Fund"
+  },
+  {
+    "symbol": "APC",
+    "name": "Anadarko Petroleum Corporation"
+  },
+  {
+    "symbol": "HNRG",
+    "name": "Hallador Energy Company"
+  },
+  {
+    "symbol": "AAMC",
+    "name": "Altisource Asset Management Corp Com"
+  },
+  {
+    "symbol": "A",
+    "name": "Agilent Technologies Inc."
+  },
+  {
+    "symbol": "DDE",
+    "name": "Dover Downs Gaming & Entertainment Inc"
+  },
+  {
+    "symbol": "AVGO",
+    "name": "Broadcom Inc."
+  },
+  {
+    "symbol": "NTCT",
+    "name": "NetScout Systems Inc."
+  },
+  {
+    "symbol": "BNS",
+    "name": "Bank Nova Scotia Halifax Pfd 3"
+  },
+  {
+    "symbol": "AMCN",
+    "name": "AirMedia Group Inc"
+  },
+  {
+    "symbol": "ABR",
+    "name": "Arbor Realty Trust"
+  },
+  {
+    "symbol": "AJRD",
+    "name": "Aerojet Rocketdyne Holdings Inc."
+  },
+  {
+    "symbol": "ABR-A",
+    "name": "Arbor Realty Trust Preferred Series A"
+  },
+  {
+    "symbol": "AAOI",
+    "name": "Applied Optoelectronics Inc."
+  },
+  {
+    "symbol": "A",
+    "name": "Agilent Technologies Inc."
+  },
+  {
+    "symbol": "AB",
+    "name": "AllianceBernstein Holding L.P. Units"
+  },
+  {
+    "symbol": "BRF",
+    "name": "VanEck Vectors Brazil Small-Cap"
+  },
+  {
+    "symbol": "AA",
+    "name": "Alcoa Corporation"
+  },
+  {
+    "symbol": "CCZ",
+    "name": "Comcast Holdings ZONES"
+  },
+  {
+    "symbol": "CB",
+    "name": "Chubb Limited"
+  },
+  {
+    "symbol": "CCC+",
+    "name": "Churchill Capital Corp Warrants each exercisable for one share of Class A common stock at an exercise price of $11.50 per share"
+  },
+  {
+    "symbol": "AWSM",
+    "name": "Cool Holdings Inc."
+  },
+  {
+    "symbol": "AQUA",
+    "name": "Evoqua Water Technologies Corp."
+  },
+  {
+    "symbol": "ANDX",
+    "name": "Andeavor Logistics LP representing Limited Partner Interests"
+  },
+  {
+    "symbol": "CEIX",
+    "name": "CONSOL Energy Inc."
+  },
+  {
+    "symbol": "BKYI",
+    "name": "BIO-key International Inc."
+  },
+  {
+    "symbol": "ARE",
+    "name": "Alexandria Real Estate Equities Inc."
+  },
+  {
+    "symbol": "AAL",
+    "name": "American Airlines Group Inc."
+  },
+  {
+    "symbol": "AFB",
+    "name": "AllianceBernstein National Municipal Income Fund Inc"
+  },
+  {
+    "symbol": "ADSW",
+    "name": "Advanced Disposal Services Inc."
+  },
+  {
+    "symbol": "A",
+    "name": "Agilent Technologies Inc."
+  },
+  {
+    "symbol": "BLHY",
+    "name": "Virtus Newfleet Dynamic Credit"
+  },
+  {
+    "symbol": "CWST",
+    "name": "Casella Waste Systems Inc."
+  },
+  {
+    "symbol": "AAOI",
+    "name": "Applied Optoelectronics Inc."
+  },
+  {
+    "symbol": "DTYL",
+    "name": "iPath US Treasury 10 Year Bull ETN"
+  },
+  {
+    "symbol": "ABG",
+    "name": "Asbury Automotive Group Inc"
+  },
+  {
+    "symbol": "ACSG",
+    "name": "Xtrackers MSCI ACWI ex USA ESG Leaders Equity"
+  },
+  {
+    "symbol": "ASNA",
+    "name": "Ascena Retail Group Inc."
+  },
+  {
+    "symbol": "AIN",
+    "name": "Albany International Corporation"
+  },
+  {
+    "symbol": "CHDN",
+    "name": "Churchill Downs Incorporated"
+  },
+  {
+    "symbol": "ADUS",
+    "name": "Addus HomeCare Corporation"
+  },
+  {
+    "symbol": "AB",
+    "name": "AllianceBernstein Holding L.P. Units"
+  },
+  {
+    "symbol": "EWY",
+    "name": "iShares Inc MSCI South Korea"
+  },
+  {
+    "symbol": "CLF",
+    "name": "Cleveland-Cliffs Inc."
+  },
+  {
+    "symbol": "FLNT",
+    "name": "Fluent Inc."
+  },
+  {
+    "symbol": "AAXJ",
+    "name": "iShares MSCI All Country Asia ex Japan Index Fund"
+  },
+  {
+    "symbol": "ABC",
+    "name": "AmerisourceBergen Corporation"
+  },
+  {
+    "symbol": "ADP",
+    "name": "Automatic Data Processing Inc."
+  },
+  {
+    "symbol": "AWSM",
+    "name": "Cool Holdings Inc."
+  },
+  {
+    "symbol": "ATKR",
+    "name": "Atkore International Group Inc."
+  },
+  {
+    "symbol": "CHII",
+    "name": "Global X MSCI China Industrials"
+  },
+  {
+    "symbol": "KELYB",
+    "name": "Kelly Services Inc. Class B Common Stock"
+  },
+  {
+    "symbol": "ABR-A",
+    "name": "Arbor Realty Trust Preferred Series A"
+  },
+  {
+    "symbol": "BLDP",
+    "name": "Ballard Power Systems Inc."
+  },
+  {
+    "symbol": "BBBY",
+    "name": "Bed Bath & Beyond Inc."
+  },
+  {
+    "symbol": "ABTX",
+    "name": "Allegiance Bancshares Inc."
+  },
+  {
+    "symbol": "ABTX",
+    "name": "Allegiance Bancshares Inc."
+  },
+  {
+    "symbol": "ADMS",
+    "name": "Adamas Pharmaceuticals Inc."
+  },
+  {
+    "symbol": "KBAL",
+    "name": "Kimball International Inc."
+  },
+  {
+    "symbol": "ACV",
+    "name": "AllianzGI Diversified Income & Convertible Fund of Beneficial Interest"
+  },
+  {
+    "symbol": "ADRA",
+    "name": "Invesco BLDRS Asia 50 ADR Index Fund"
+  },
+  {
+    "symbol": "BANF",
+    "name": "BancFirst Corporation"
+  },
+  {
+    "symbol": "AGG",
+    "name": "iShares Core U.S. Aggregate Bond"
+  },
+  {
+    "symbol": "ESTE",
+    "name": "Earthstone Energy Inc. Class A"
+  },
+  {
+    "symbol": "MUDS",
+    "name": "Mudrick Capital Acquisition Corporation"
+  },
+  {
+    "symbol": "AMJ",
+    "name": "JPMorgan Chase Capital XVI JP Morgan Alerian MLP ETN"
+  },
+  {
+    "symbol": "ARC",
+    "name": "ARC Document Solutions Inc."
+  },
+  {
+    "symbol": "ACGL",
+    "name": "Arch Capital Group Ltd."
+  },
+  {
+    "symbol": "CDAY",
+    "name": "Ceridian HCM Holding Inc."
+  },
+  {
+    "symbol": "DLPNW",
+    "name": "Dolphin Entertainment Inc. Warrant"
+  },
+  {
+    "symbol": "BSJM",
+    "name": "Invesco BulletShares 2022 High Yield Corporate Bond"
+  },
+  {
+    "symbol": "A",
+    "name": "Agilent Technologies Inc."
+  },
+  {
+    "symbol": "CHIS",
+    "name": "Global X Funds MSCI China Consumer Staples"
+  },
+  {
+    "symbol": "MHK",
+    "name": "Mohawk Industries Inc."
+  },
+  {
+    "symbol": "AAXJ",
+    "name": "iShares MSCI All Country Asia ex Japan Index Fund"
+  },
+  {
+    "symbol": "AGI",
+    "name": "Alamos Gold Inc. Class A"
+  },
+  {
+    "symbol": "AAP",
+    "name": "Advance Auto Parts Inc W/I"
+  },
+  {
+    "symbol": "ADILW",
+    "name": "Adial Pharmaceuticals Inc Warrant"
   }
 ]

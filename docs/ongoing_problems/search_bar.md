@@ -1,0 +1,2 @@
+- displays all companies at once on search.
+- does not properly match companies with typed characters

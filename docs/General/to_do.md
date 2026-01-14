@@ -1,0 +1,1 @@
+- low priority - check hidden script for fetching Weekly data from AlphaVantage

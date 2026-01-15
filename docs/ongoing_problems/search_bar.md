@@ -1,2 +1,2 @@
-- displays all companies at once on search.
-- does not properly match companies with typed characters
+- does not properly match companies with typed characters - works now? Just checked and looks good. maybe because of the changes in community scipt searching works better? But how? Wow it actually looks like it's working.
+- displays all companies at once on search. How to limit currently displayed companies to fixed amount and introduce scroll bar? Also it should be showned at separate pop up window instead of printing in the containter box.

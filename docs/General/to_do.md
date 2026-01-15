@@ -1,1 +1,2 @@
-- low priority - check hidden script for fetching Weekly data from AlphaVantage
+- low priority - check hidden script for fetching Weekly data from AlphaVantage, check how it works
+- search bar

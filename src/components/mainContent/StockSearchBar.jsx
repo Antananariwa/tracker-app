@@ -29,7 +29,7 @@ const StockSearchBar = ({ onStockSelect }) => {
   };
 
   return (
-    <div className="stock-search">
+    <div className="stock-search-bar-div">
       <input 
         type="text"
         placeholder="Type stock name..."

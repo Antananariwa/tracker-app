@@ -1,2 +1,4 @@
 - low priority - check hidden script for fetching Weekly data from AlphaVantage, check how it works
 - search bar
+- remove stock JSON files. Either move to different place or entirely remove. Easy to redownload in about 1.5h with weekly function.
+- update left menu section. Review code, it was made long time ago

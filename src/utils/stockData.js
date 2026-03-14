@@ -63,24 +63,30 @@ export const extractChartPriceByDateWeekly = (data) => {
 
 
 export const adjustDataByTime = (data, timeFrame) => {
+  let currDate = '';
+  let compare = [];
+  if (data && data['Meta Data'] && data['Meta Data']['3. Last Refreshed']){
+    currDate = data['Meta Data']['3. Last Refreshed'];
+    compare = currDate.split('-');
+  }
   switch (timeFrame) {
     case "1M":
-      return data.slice(-30);
+      return data.slice(-5);
 
     case "3M":
-      return data;
+      return data.slice(-14);
       
     case "1Y":
-      return data.slice(-365);
+      return data.slice(-53)
 
     case "3Y":
-      return data.slice(-3 * 365);
+      return data.slice(-53 * 3);
 
     case "5Y":
-      return data.slice(-5 * 365);
+      return data.slice(-53 * 5);
 
     case "10Y":
-      return data.slice(-10 * 365);
+      return data.slice(-53 * 10);
     
     case "20Y":
       return data;

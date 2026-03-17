@@ -63,35 +63,38 @@ export const extractChartPriceByDateWeekly = (data) => {
 
 
 export const adjustDataByTime = (data, timeFrame) => {
-  let currDate = '';
-  let compare = [];
-  if (data && data['Meta Data'] && data['Meta Data']['3. Last Refreshed']){
-    currDate = data['Meta Data']['3. Last Refreshed'];
-    compare = currDate.split('-');
-  }
+  if (!data || data.length === 0) return [];
+
+  const currDate = data[data.length - 1]["date"];
+  const compare = currDate.split('-');
+
+  let year = Number(compare[0]);
+  let month = Number(compare[1]);
+  let totalMonths = year * 12 + (month - 1);
+
   switch (timeFrame) {
-    case "1M":
-      return data.slice(-5);
-
-    case "3M":
-      return data.slice(-14);
-      
-    case "1Y":
-      return data.slice(-53)
-
-    case "3Y":
-      return data.slice(-53 * 3);
-
-    case "5Y":
-      return data.slice(-53 * 5);
-
-    case "10Y":
-      return data.slice(-53 * 10);
-    
-    case "20Y":
-      return data;
-
-    default:
-      return data;
+    case "1M":  totalMonths -= 1;   break;
+    case "3M":  totalMonths -= 3;   break;
+    case "6M":  totalMonths -= 6;   break;
+    case "1Y":  totalMonths -= 12;  break;
+    case "3Y":  totalMonths -= 36;  break;
+    case "5Y":  totalMonths -= 60;  break;
+    case "10Y": totalMonths -= 120; break;
+    case "20Y": return data;
+    default:    return data;
   }
+
+
+  const newYear = Math.floor(totalMonths / 12);
+  const newMonth = (totalMonths % 12) + 1;
+
+  const final = `${newYear}-${newMonth.toString().padStart(2, '0')}-${compare[2]}`;
+
+  for (let i = 0; i < data.length; i++) {
+    if (data[i].date >= final) {
+      return data.slice(i);
+    }
+  }
+
+  return [];
 };

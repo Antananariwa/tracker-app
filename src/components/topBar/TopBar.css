@@ -1,0 +1,8 @@
+.topBarDiv{
+  position: fixed;
+  margin: 0;
+  padding: 0;
+  background-color: #161617 ;
+  width: 100%;
+  height: 50px;
+}

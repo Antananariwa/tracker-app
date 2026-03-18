@@ -2,7 +2,7 @@ During implementation of TopBar component and layout changes I learned about mar
 
 I don't hate CSS enough, what a stupid rule.
 
-If there is block element has no barrier between itself and its first child (padding, boarder, formatting context), the child's top margin doesn't push the child down inside the parent. Instead it "escapes" through the parent and acts as if it belongs to the parent itself. The two margins merge into one, and the strongest one wins.
+If there is a block element has no barrier between itself and its first child (padding, boarder, formatting context), the child's top margin doesn't push the child down inside the parent. Instead it "escapes" through the parent and acts as if it belongs to the parent itself. The two margins merge into one, and the strongest one wins.
 
 Disgusting interaction.
 

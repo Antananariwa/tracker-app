@@ -2,9 +2,10 @@
   margin: 0;
   padding: 0;
   text-align: center;
+  overflow: hidden; /* Prevents margin collapsing due to lack of space between bodyWraper and parent component*/
 }
 
-.bodyDiv {
+.bodyWrapper {
   margin: 50px 0 0;
   padding: 0px;
   display: flex;

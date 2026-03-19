@@ -12,17 +12,16 @@ function App() {
 
   return (
     <MainPageProvider>
-      <div className="topBarWrapper">
-        <TopBar>
-  
-        </TopBar>
-      </div>
       <div className="bodyWrapper">
-        <LeftMenuContainer onPageChange={setCurrentPage} title="Left Container"/>
-        <div className="rightSideDiv">
+          <TopBar/>
+
+          <LeftMenuContainer onPageChange={setCurrentPage} title="Left Container"/>
+
+        <div className="contentDiv">
           <Header title="Investments Calculator" subtitle="Table with individual assets"/>
           <MainContentContainer currentPage={currentPage}/>
         </div>
+
       </div>
     </MainPageProvider>
   )

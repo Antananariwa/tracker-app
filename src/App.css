@@ -2,15 +2,14 @@
   margin: 0;
   padding: 0;
   text-align: center;
-  overflow: hidden; /* Prevents margin collapsing due to lack of space between bodyWraper and parent component*/
+  overflow: hidden;  /* Prevents margin collapsing due to lack of space between bodyWraper and parent component*/
 }
 
 .bodyWrapper {
-  margin: 50px 0 0;
-  padding: 0px;
-  display: flex;
+  overflow: hidden;
 }
 
-.rightSideDiv {
-  flex: 1;
+.contentDiv {
+  margin: 50px 0 0 200px;
+  padding: 0px;
 }

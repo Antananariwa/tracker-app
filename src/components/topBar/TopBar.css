@@ -1,5 +1,6 @@
 .topBarDiv{
   position: fixed;
+  display: flex;
   margin: 0;
   padding: 0;
   background-color: #161617;
@@ -23,4 +24,14 @@
 .rightGroup {
   display: flex;
   align-items: center;
+}
+
+.rightGroup Button {
+  padding: 5px;
+}
+
+.login-btn-topbar{
+  padding: 2px;
+  margin: 3px;
+  font-size: 15px;
 }

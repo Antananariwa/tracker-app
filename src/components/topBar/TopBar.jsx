@@ -18,7 +18,7 @@ const TopBar = () => {
           Register
         </Button>
         <Button variant='secondary'>
-          <img src='../../public/file-person.svg' alt='Profile' width="42" height="42"></img>
+          <img className="profileImage" src='../../public/file-person.svg' alt='Profile' width="42" height="42" />
         </Button>
       </div>
 

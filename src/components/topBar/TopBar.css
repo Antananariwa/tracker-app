@@ -24,14 +24,15 @@
 .rightGroup {
   display: flex;
   align-items: center;
+  gap: 5px;
 }
 
-.rightGroup Button {
-  padding: 5px;
-}
 
 .login-btn-topbar{
   padding: 2px;
-  margin: 3px;
   font-size: 15px;
+}
+
+.profileImage {
+  display: block;
 }

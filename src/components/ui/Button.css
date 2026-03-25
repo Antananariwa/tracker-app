@@ -1,6 +1,7 @@
 .btn {
   background: transparent;
   border: none;
+  cursor: pointer;
 }
 
 .btn-left-bar {

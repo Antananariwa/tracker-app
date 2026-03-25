@@ -8,7 +8,7 @@ const TopBar = () => {
 
       <div className='leftGroup'>
         <Button variant='secondary'>
-          <img className="homeImage" src='../../public/home.svg' alt='Home' width="46" height="46" />
+          <img className="homeImage" src='../../public/home.svg' alt='Home' width="40" height="40" />
         </Button>
       </div>
 
@@ -21,11 +21,11 @@ const TopBar = () => {
         <Button variant='secondary' className='login-btn-topbar'>
           Register
         </Button>
-        <Button varian='secondary'>
-          <img className="settingsImage" src='../../public/gear.svg' alt='Settings' width="46" height="46" />
+        <Button variant='secondary'>
+          <img className="settingsImage" src='../../public/gear.svg' alt='Settings' width="40" height="40" />
         </Button>
         <Button variant='secondary'>
-          <img className="profileImage" src='../../public/file-person.svg' alt='Profile' width="46" height="46" />
+          <img className="profileImage" src='../../public/file-person.svg' alt='Profile' width="40" height="40" />
         </Button>
       </div>
 

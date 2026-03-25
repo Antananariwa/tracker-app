@@ -1,6 +1,9 @@
-/*
-.btn {}
-*/
+.btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
 .btn-left-bar {
   width: 60%;
   margin: 2px;
@@ -13,6 +16,6 @@
 }
 
 .btn-secondary {
-  margin: 0;
+  margin: 0px;
   padding: 0px;
 }

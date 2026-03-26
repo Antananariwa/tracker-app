@@ -4,9 +4,14 @@ import MainContentBox from './MainContentBox';
 
 const LoginPage = () => {
   return (
-    <div>
+    <div className='loginPageWrapper'>
       <MainContentBox>
-        <h2>username/email</h2>
+          <h4>Username</h4>
+          <input></input>
+          <br/>
+          <br/>
+          <h4>Password</h4>
+          <input></input>
       </MainContentBox>
     </div>
   )

@@ -1,0 +1,36 @@
+.loginPageWrapper {
+  width: 400px;
+  margin: 0 auto;
+}
+
+.loginPageWrapper input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 6px;
+  margin: 4px 0;
+}
+
+.forgotPasswordButton {
+  background: grey;
+  padding: 2px 4px 2px;
+  margin: 0 3px 0;
+  border-radius: 2px;
+  display: block;
+  width: fit-content;
+  margin-left: auto;
+}
+
+.forgotPasswordButton:active {
+  background: #555;
+}
+
+.registerButton {
+  background: grey;
+  padding: 4px 8px;
+  border-radius: 2px;
+  font-size: 20px;
+}
+
+.registerButton:active {
+  background: #555;
+}

@@ -1,8 +1,11 @@
 import React from 'react';
 import './TopBar.css';
 import Button from '../ui/Button.jsx';
+import { useMainPage } from '../../context/MainPageContext';
 
 const TopBar = () => {
+  const {setSelectedMainPage} = useMainPage();
+  
   return (
     <div className = "topBarDiv">
 
@@ -15,7 +18,7 @@ const TopBar = () => {
       <div className='centerGroup'></div>
 
       <div className='rightGroup'>
-        <Button variant='secondary' className='login-btn-topbar'>
+        <Button variant='secondary' className='login-btn-topbar' onClick={()=>setSelectedMainPage('login')}>
           Log In
         </Button>
         <Button variant='secondary' className='login-btn-topbar'>

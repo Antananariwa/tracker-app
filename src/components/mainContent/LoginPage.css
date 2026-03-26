@@ -23,3 +23,14 @@
 .forgotPasswordButton:active {
   background: #555;
 }
+
+.registerButton {
+  background: grey;
+  padding: 4px 8px;
+  border-radius: 2px;
+  font-size: 20px;
+}
+
+.registerButton:active {
+  background: #555;
+}

@@ -17,6 +17,9 @@ const LoginPage = () => {
             Forgot Password
           </Button>
       </MainContentBox>
+      <Button varian='secondary' className='registerButton'>
+        <h3>Register</h3>
+      </Button>
     </div>
   )
 }

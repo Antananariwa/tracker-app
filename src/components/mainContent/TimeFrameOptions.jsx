@@ -10,6 +10,7 @@ const TimeFrameOptions = ({onOptionClick}) => {
       {timeRange.map((time) => (
         <Button
           variant={'secondary'}
+          className={'timeButton'}
           key={time}
           onClick={() => {
             if (time === "1M" || time === "3M") {

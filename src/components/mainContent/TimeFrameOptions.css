@@ -4,3 +4,13 @@
   text-align: center;
 }
 
+.timeButton {
+  background: grey;
+  padding: 2px 4px 2px;
+  margin: 0 3px 0;
+  border-radius: 2px;
+}
+
+.timeButton:active {
+  background: #555;
+}

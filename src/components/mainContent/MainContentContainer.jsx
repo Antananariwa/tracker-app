@@ -18,6 +18,7 @@ const { selectedMainPage } = useMainPage();
         {selectedMainPage === 'realEstate' && <RealEstateMainPage />}
 
         {selectedMainPage === 'login' && <LoginPage/>}
+        {selectedMainPage === 'register' && <RegisterPage/>}
     </div>
   )
 }

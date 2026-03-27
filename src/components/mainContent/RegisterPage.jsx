@@ -1,6 +1,7 @@
 import React from 'react'
 import './RegisterPage.css'
 import MainContentBox from './MainContentBox'
+import Button from '../ui/Button.jsx'
 
 const RegisterPage = () => {
   return (
@@ -21,6 +22,11 @@ const RegisterPage = () => {
         <br/>
         <h4>Confirm Password</h4>
         <input></input>
+
+      <Button varian='secondary' className='createAccountButton'>
+        <h3>Create Account</h3>
+      </Button>
+
       </MainContentBox>
     </div>
   )

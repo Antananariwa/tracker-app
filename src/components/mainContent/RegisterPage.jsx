@@ -19,7 +19,6 @@ const RegisterPage = () => {
         <h4>Password</h4>
         <input></input>
         <br/>
-        <br/>
         <h4>Confirm Password</h4>
         <input></input>
       </MainContentBox>

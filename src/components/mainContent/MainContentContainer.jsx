@@ -5,6 +5,7 @@ import { useMainPage } from '../../context/MainPageContext.jsx';
 import PrimaryGraph from './displays/groups/PrimaryGraph.jsx';
 import StockMainPage from './StockMainPage.jsx';
 import LoginPage from './LoginPage.jsx'
+import RegisterPage from './RegisterPage.jsx';
 
 
 const MainContentContainer = () => {

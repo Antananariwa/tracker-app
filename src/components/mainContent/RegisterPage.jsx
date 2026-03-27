@@ -22,12 +22,11 @@ const RegisterPage = () => {
         <br/>
         <h4>Confirm Password</h4>
         <input></input>
+      </MainContentBox>
 
       <Button varian='secondary' className='createAccountButton'>
         <h3>Create Account</h3>
       </Button>
-
-      </MainContentBox>
     </div>
   )
 }

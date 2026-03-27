@@ -2,8 +2,11 @@ import React from 'react';
 import './LoginPage.css'
 import MainContentBox from './MainContentBox';
 import Button from '../ui/Button.jsx'
+import { useMainPage } from '../../context/MainPageContext';
 
 const LoginPage = () => {
+  const {setSelectedMainPage} = useMainPage();
+  
   return (
     <div className='loginPageWrapper'>
       <MainContentBox>
@@ -13,11 +16,11 @@ const LoginPage = () => {
           <br/>
           <h4>Password</h4>
           <input></input>
-          <Button version='secondary' className='forgotPasswordButton'>
+          <Button version='secondary' className='forgotPasswordButton' >
             Forgot Password
           </Button>
       </MainContentBox>
-      <Button varian='secondary' className='registerButton'>
+      <Button varian='secondary' className='registerButton' onClick={()=>setSelectedMainPage('register')}>
         <h3>Register</h3>
       </Button>
     </div>

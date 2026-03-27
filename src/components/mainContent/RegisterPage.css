@@ -1,0 +1,22 @@
+.registerPageWrapper {
+  width: 400px;
+  margin: 0 auto;
+}
+
+.registerPageWrapper input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 6px;
+  margin: 4px 0;
+}
+
+.createAccountButton {
+  background: grey;
+  padding: 4px 8px;
+  border-radius: 2px;
+  font-size: 20px;
+}
+
+.createAccountButton:active {
+  background: #555;
+}

@@ -21,7 +21,7 @@ const TopBar = () => {
         <Button variant='secondary' className='login-btn-topbar' onClick={()=>setSelectedMainPage('login')}>
           Log In
         </Button>
-        <Button variant='secondary' className='login-btn-topbar'>
+        <Button variant='secondary' className='login-btn-topbar' onClick={()=>setSelectedMainPage('register')}>
           Register
         </Button>
         <Button variant='secondary'>

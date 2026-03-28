@@ -11,18 +11,14 @@
 }
 
 .forgotPasswordButton {
-  background: grey;
   padding: 2px 4px 2px;
   margin: 0 3px 0;
-  border-radius: 2px;
   display: block;
   width: fit-content;
   margin-left: auto;
 }
 
 .registerButton {
-  background: grey;
   padding: 4px 8px;
-  border-radius: 2px;
   font-size: 20px;
 }

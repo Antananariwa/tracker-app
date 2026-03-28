@@ -24,7 +24,7 @@ const RegisterPage = () => {
         <input></input>
       </MainContentBox>
 
-      <Button varian='secondary' className='createAccountButton'>
+      <Button variant='secondary' className='createAccountButton'>
         <h3>Create Account</h3>
       </Button>
     </div>

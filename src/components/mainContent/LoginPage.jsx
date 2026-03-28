@@ -16,11 +16,11 @@ const LoginPage = () => {
           <br/>
           <h4>Password</h4>
           <input></input>
-          <Button version='secondary' className='forgotPasswordButton' >
+          <Button variant='secondary' className='forgotPasswordButton' >
             Forgot Password
           </Button>
       </MainContentBox>
-      <Button varian='secondary' className='registerButton' onClick={()=>setSelectedMainPage('register')}>
+      <Button variant='secondary' className='registerButton' onClick={()=>setSelectedMainPage('register')}>
         <h3>Register</h3>
       </Button>
     </div>

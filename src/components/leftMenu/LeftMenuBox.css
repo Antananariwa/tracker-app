@@ -19,17 +19,16 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2px;
+  gap: 5px;
 }
 
-
-
-
-.LeftMenuBoxDiv button:hover {
-  background-color: rgba(9, 24, 51, 0.4); /* ← Visual feedback */
+.optionButtons {
+  width: 60%;
+  margin: 2px;
+  padding: 3px 0 3px;
+  border: none;
+  outline: none;
 }
-
-
 
 details {
   margin: 0;

@@ -10,7 +10,8 @@ const LeftMenuBox = ({ optionName = [], groupName = '', onOptionClick}) => (
         <div className="OptionDiv">
           {optionName.map((option) => (
             <Button 
-              variant={'left-bar'}
+              variant={'secondary'}
+              className={'optionButtons'}
               key={option} 
               onClick={() => onOptionClick(option)}
             >

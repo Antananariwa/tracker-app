@@ -30,13 +30,6 @@
   outline: none;
 }
 
-
-.LeftMenuBoxDiv button:hover {
-  background-color: rgba(9, 24, 51, 0.4); /* ← Visual feedback */
-}
-
-
-
 details {
   margin: 0;
   padding: 0;

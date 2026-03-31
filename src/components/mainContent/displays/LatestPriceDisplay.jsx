@@ -1,7 +1,7 @@
 import React from 'react'
 
 const LatestPriceDisplay = ({ latestPriceData }) => {
-  if (!latestPriceData) return <div>No price data available</div>
+  if (!latestPriceData) return <div></div>
 
   return (
       <div className="latestPriceDisplay">

@@ -29,11 +29,6 @@ const StockMainPage = () => {
   // const chartData = data ? extractChartPriceByDate(data) : []
   const chartData = data ? extractChartPriceByDateWeekly(data) : []
   const chartDataTimeFrame = chartData ? adjustDataByTime(chartData, selectedTimeFrame) : []
-
-  console.log('This is data format: ', data)
-  console.log("this is chartData ", chartData)
-  console.log("chartDataTimeFrame" + chartDataTimeFrame)
-  console.log('latest price data: ', latestPriceData)
   
   return (
     <div className="StockMainPage-Div">

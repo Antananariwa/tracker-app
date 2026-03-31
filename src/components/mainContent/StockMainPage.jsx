@@ -16,7 +16,6 @@ const StockMainPage = () => {
   const [ selectedFunction, setSelectedFunction ] = useState('TIME_SERIES_DAILY')
   const [ selectedTimeFrame, setSelectedTimeFrame ] = useState('3M')
   const [ selectedOutputSize, setSelectedOutputSize ] = useState()
-  console.log(selectedStock)
 
   
   // use this line instead after testing - const {data, loading, error} = useAlphaVantage(selectedFunction, selectedStock, null, selectedOutputSize)

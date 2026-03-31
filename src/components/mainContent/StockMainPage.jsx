@@ -16,7 +16,6 @@ const StockMainPage = () => {
   const [ selectedFunction, setSelectedFunction ] = useState('TIME_SERIES_DAILY')
   const [ selectedTimeFrame, setSelectedTimeFrame ] = useState('3M')
   const [ selectedOutputSize, setSelectedOutputSize ] = useState()
-  console.log(selectedStock)
 
   
   // use this line instead after testing - const {data, loading, error} = useAlphaVantage(selectedFunction, selectedStock, null, selectedOutputSize)
@@ -25,22 +24,10 @@ const StockMainPage = () => {
 
   const metaData = data ? extractStockOverview(data) : null
   const latestPriceData = data ? extractLatestStockPrice(data) : null
-  const latestPriceTitle = latestPriceData && metaData ? metaData.symbol + " Latest Price: $" + latestPriceData.close : "Current Price"
+  const latestPriceTitle = latestPriceData && metaData ? metaData.symbol + "          $" + latestPriceData.close : "Current Price"
   // const chartData = data ? extractChartPriceByDate(data) : []
   const chartData = data ? extractChartPriceByDateWeekly(data) : []
   const chartDataTimeFrame = chartData ? adjustDataByTime(chartData, selectedTimeFrame) : []
-
-
-
-
-
-
-
-
-
-  console.log(data)
-  console.log("chartData" + chartData)
-  console.log("chartDataTimeFrame" + chartDataTimeFrame)
   
   return (
     <div className="StockMainPage-Div">
@@ -53,7 +40,6 @@ const StockMainPage = () => {
           latestPriceTitle = {latestPriceTitle}
           loading = {loading}
           error = {error}
-          latestPriceData = {latestPriceData}
           chartDataTimeFrame = {chartDataTimeFrame}
           setSelectedTimeFrame = {setSelectedTimeFrame}
           setSelectedOutputSize = {setSelectedOutputSize}

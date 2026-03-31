@@ -10,18 +10,18 @@ export const extractStockOverview = (data) => {
 };
 
 export const extractLatestStockPrice = (data) => {
-  if (!data || !data['Time Series (Daily)']) return null;
+  if (!data || !data['Weekly Time Series']) return null;
   
-  const timeSeries = data['Time Series (Daily)'];
+  const timeSeries = data['Weekly Time Series'];
   const dates = Object.keys(timeSeries);
   const lastDate = dates[0];
 
   return {
     date: lastDate,
-    open: data['Time Series (Daily)'][lastDate]['1. open'],
-    high: data['Time Series (Daily)'][lastDate]['2. high'],
-    low: data['Time Series (Daily)'][lastDate]['3. low'],
-    close: data['Time Series (Daily)'][lastDate]['4. close']
+    open: data['Weekly Time Series'][lastDate]['1. open'],
+    high: data['Weekly Time Series'][lastDate]['2. high'],
+    low: data['Weekly Time Series'][lastDate]['3. low'],
+    close: data['Weekly Time Series'][lastDate]['4. close']
   };
 };
 

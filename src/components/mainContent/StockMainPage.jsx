@@ -30,14 +30,6 @@ const StockMainPage = () => {
   const chartData = data ? extractChartPriceByDateWeekly(data) : []
   const chartDataTimeFrame = chartData ? adjustDataByTime(chartData, selectedTimeFrame) : []
 
-
-
-
-
-
-
-
-
   console.log(data)
   console.log("chartData" + chartData)
   console.log("chartDataTimeFrame" + chartDataTimeFrame)

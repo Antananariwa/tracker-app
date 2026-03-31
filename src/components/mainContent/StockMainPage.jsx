@@ -25,14 +25,15 @@ const StockMainPage = () => {
 
   const metaData = data ? extractStockOverview(data) : null
   const latestPriceData = data ? extractLatestStockPrice(data) : null
-  const latestPriceTitle = latestPriceData && metaData ? metaData.symbol + " Latest Price: $" + latestPriceData.close : "Current Price"
+  const latestPriceTitle = latestPriceData && metaData ? metaData.symbol + "          $" + latestPriceData.close : "Current Price"
   // const chartData = data ? extractChartPriceByDate(data) : []
   const chartData = data ? extractChartPriceByDateWeekly(data) : []
   const chartDataTimeFrame = chartData ? adjustDataByTime(chartData, selectedTimeFrame) : []
 
-  console.log(data)
-  console.log("chartData" + chartData)
+  console.log('This is data format: ', data)
+  console.log("this is chartData ", chartData)
   console.log("chartDataTimeFrame" + chartDataTimeFrame)
+  console.log('latest price data: ', latestPriceData)
   
   return (
     <div className="StockMainPage-Div">
@@ -45,7 +46,6 @@ const StockMainPage = () => {
           latestPriceTitle = {latestPriceTitle}
           loading = {loading}
           error = {error}
-          latestPriceData = {latestPriceData}
           chartDataTimeFrame = {chartDataTimeFrame}
           setSelectedTimeFrame = {setSelectedTimeFrame}
           setSelectedOutputSize = {setSelectedOutputSize}

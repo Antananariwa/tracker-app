@@ -21,10 +21,10 @@ const LoginPage = () => {
           </Button>
 
       </MainContentBox>
-      <Button variant='secondary' className='registerButton' onClick={()=>setSelectedMainPage('register')}>
+      <Button variant='secondary' className='logInButton' onClick={()=>setSelectedMainPage('register')}>
         <h3>Log In</h3>
       </Button>
-      
+
     </div>
   )
 }

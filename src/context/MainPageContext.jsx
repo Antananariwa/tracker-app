@@ -5,7 +5,7 @@ const MainPageContext = createContext();
 
 
 export const MainPageProvider = ({ children }) => {
-  const [selectedMainPage, setSelectedMainPage] = useState('stocks');
+  const [selectedMainPage, setSelectedMainPage] = useState('crypto');
   
   const value = {
     selectedMainPage,

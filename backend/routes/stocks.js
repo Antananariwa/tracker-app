@@ -16,7 +16,6 @@ function isCacheStale(fetchedAt) {
   return age > CACHE_TTL_MS
 }
 
-
 function extractLatestPrice(rawData) {
   const timeSeries = rawData['Weekly Time Series']
   if (!timeSeries) return null
@@ -25,7 +24,6 @@ function extractLatestPrice(rawData) {
   const latestBar = timeSeries[latestDate]
   return parseFloat(latestBar['4. close'])
 }
-
 
 router.get('/:symbol', async (req, res) => {
   const symbol = req.params.symbol.toUpperCase()
@@ -49,6 +47,7 @@ router.get('/:symbol', async (req, res) => {
         price: cached.price,
         source: 'cache',
         fetched_at: cached.fetched_at,
+        raw_data: cached.raw_data,
       })
     }
 
@@ -110,12 +109,12 @@ router.get('/:symbol', async (req, res) => {
       throw upsertError
     }
 
-
     return res.json({
       symbol,
       price,
       source: 'api',
       fetched_at: new Date().toISOString(),
+      raw_data: rawData,
     })
 
   } catch (error) {

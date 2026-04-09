@@ -8,14 +8,13 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_KEY
 )
 
-const CACHE_TTL_MS = 24 * 60 * 60 * 1000 // 24 hours in milliseconds
+const CACHE_TTL_MS = 7 * 24 * 60 * 60 * 1000 // 7 days hours in milliseconds
 
 function isCacheStale(fetchedAt) {
   if (!fetchedAt) return true
   const age = Date.now() - new Date(fetchedAt).getTime()
   return age > CACHE_TTL_MS
 }
-
 
 function extractLatestPrice(rawData) {
   const timeSeries = rawData['Weekly Time Series']
@@ -25,7 +24,6 @@ function extractLatestPrice(rawData) {
   const latestBar = timeSeries[latestDate]
   return parseFloat(latestBar['4. close'])
 }
-
 
 router.get('/:symbol', async (req, res) => {
   const symbol = req.params.symbol.toUpperCase()
@@ -49,6 +47,7 @@ router.get('/:symbol', async (req, res) => {
         price: cached.price,
         source: 'cache',
         fetched_at: cached.fetched_at,
+        raw_data: cached.raw_data,
       })
     }
 
@@ -110,12 +109,12 @@ router.get('/:symbol', async (req, res) => {
       throw upsertError
     }
 
-
     return res.json({
       symbol,
       price,
       source: 'api',
       fetched_at: new Date().toISOString(),
+      raw_data: rawData,
     })
 
   } catch (error) {

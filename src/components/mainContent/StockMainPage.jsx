@@ -9,7 +9,7 @@ import { extractStockOverview, extractLatestStockPrice, extractChartPriceByDate,
 import useMockAlphaVantage from '../../hooks/useMockAlphaVantage.js';
 import MetaDataDisplay from './displays/MetaDataDisplay.jsx';
 import StockSearchBar from './StockSearchBar.jsx';
-import useMockPersonalDB from '../../hooks/useMockPersonalDB.js'
+import useBackendStock from '../../hooks/useBackendStock.js';
 
 const StockMainPage = () => {
   const [ selectedStock, setSelectedStock ] = useState('')
@@ -20,7 +20,7 @@ const StockMainPage = () => {
   
   // use this line instead after testing - const {data, loading, error} = useAlphaVantage(selectedFunction, selectedStock, null, selectedOutputSize)
   // const {data, loading, error} = useMockAlphaVantage(selectedFunction, selectedStock, null, selectedOutputSize)
-  const {data, loading, error} = useMockPersonalDB(selectedFunction, selectedStock)
+  const {data, loading, error} = useBackendStock(selectedStock)
 
   const metaData = data ? extractStockOverview(data) : null
   const latestPriceData = data ? extractLatestStockPrice(data) : null

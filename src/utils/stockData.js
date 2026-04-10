@@ -98,3 +98,16 @@ export const adjustDataByTime = (data, timeFrame) => {
 
   return [];
 };
+
+
+export const preparePortfolioAssets = (assets) => {
+  return assets.map(asset => ({
+    symbol: asset.symbol,
+    name: asset.name,
+    quantity: asset.quantity,
+    avgBuyPrice: asset.avg_buy_price,
+    costBasis: asset.quantity * asset.avg_buy_price,
+    status: asset.status,
+    acquiredAt: asset.acquired_at,
+  }))
+}

@@ -4,11 +4,20 @@ import MainContentBox from './MainContentBox';
 import { preparePortfolioAssets } from '../../utils/stockData.js'
 
 const PortfolioStocksPage = () => {
-  const data = [];
-  const assets = preparePortfolioAssets(data);
+  const { data, loading, error } = []; {/* Supabase fetch function later on */}
+  const assets = data ? preparePortfolioAssets(data) : []
+  let content;
 
-  return (
-    <div>
+  if (loading) {
+    content = (
+      <MainContentBox>"Please wait while we fetch the data..."</MainContentBox>
+    )
+  } else if (error) {
+    content = (
+      <MainContentBox>{`An error occurred: ${error}`}</MainContentBox>
+    )
+  } else {
+    content = (
       <MainContentBox>
         <table>
           <thead>
@@ -37,7 +46,12 @@ const PortfolioStocksPage = () => {
           </tbody>
         </table>
       </MainContentBox>
-      
+    )
+  }
+
+  return (
+    <div>
+      {content}
     </div>
   )
 }

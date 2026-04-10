@@ -106,7 +106,7 @@ export const preparePortfolioAssets = (assets) => {
     name: asset.name,
     quantity: asset.quantity,
     avgBuyPrice: asset.avg_buy_price,
-    costBasis: asset.quantity * asset.avg_buy_price,
+    purchaseCost: asset.quantity * asset.avg_buy_price,
     status: asset.status,
     acquiredAt: asset.acquired_at,
   }))

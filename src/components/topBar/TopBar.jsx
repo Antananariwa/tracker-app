@@ -31,7 +31,7 @@ const TopBar = () => {
       <div className='centerGroup'></div>
 
       <div className='rightGroup'>
-        <Button variant='secondary' className='demo-account-btn-topbar'>
+        <Button variant='secondary' className='demo-account-btn-topbar' onClick={()=>handleDemoLogin()}>
           Demo Account
         </Button>
         <Button variant='secondary' className='login-btn-topbar' onClick={()=>setSelectedMainPage('login')}>

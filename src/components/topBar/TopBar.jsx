@@ -2,9 +2,22 @@ import React from 'react';
 import './TopBar.css';
 import Button from '../ui/Button.jsx';
 import { useMainPage } from '../../context/MainPageContext';
+import { supabase } from '../../lib/supabase'
 
 const TopBar = () => {
   const {setSelectedMainPage} = useMainPage();
+
+  const handleDemoLogin = async () => {
+    const { error } = await supabase.auth.signInWithPassword({
+      email: 'demo@yourapp.com',
+      password: 'demo1234'
+    })
+    if (error) {
+      console.error('Login failed:', error.message)
+      return
+    }
+    setSelectedMainPage('portfolioStocks')
+  }
   
   return (
     <div className = "topBarDiv">

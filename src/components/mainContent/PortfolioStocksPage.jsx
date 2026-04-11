@@ -2,10 +2,11 @@ import React from 'react';
 import './PortfolioStocksPage.css';
 import MainContentBox from './MainContentBox';
 import { preparePortfolioAssets } from '../../utils/stockData.js'
+import usePortfolio from '../../hooks/usePortfolio.js'
 
 const PortfolioStocksPage = () => {
-  const { data, loading, error } = []; {/* Supabase fetch function later on */}
-  const assets = data ? preparePortfolioAssets(data) : []
+  const { data, loading, error } = usePortfolio();
+  const assets = data ? preparePortfolioAssets(data) : [];
   let content;
 
   if (loading) {

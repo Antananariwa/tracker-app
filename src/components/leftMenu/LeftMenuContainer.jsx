@@ -13,7 +13,7 @@ const LeftMenuContainer = ({title = "", onPageChange }) => {
       <LeftMenuBox 
         groupName="Portfolio" 
         optionName={["Stocks", "Option2", "Option3", "Option4"]} 
-        onOptionClick={onPageChange}
+        onOptionClick={()=>setSelectedMainPage('portfolioStocks')}
       />
       <LeftMenuBox 
         groupName="Browse" 

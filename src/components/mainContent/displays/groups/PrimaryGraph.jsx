@@ -6,16 +6,18 @@ import LatestPriceDisplay from '../LatestPriceDisplay';
 import TimeFrameOptions from '../../TimeFrameOptions.jsx';
 
 
-const PrimaryGraph = ({latestPriceTitle, loading, error, latestPriceData, chartDataTimeFrame, setSelectedTimeFrame, setSelectedOutputSize}) => {
+const PrimaryGraph = ({latestPriceTitle, loading, error, latestPriceData, chartDataTimeFrame, setSelectedTimeFrame, setSelectedOutputSize, selectedTimeFrame}) => {
   return (
     <div className='PrimaryGraph-div'>
       <ApiDataBox title = {latestPriceTitle} loading = {loading} error = {error}>
         <LatestPriceDisplay latestPriceData={latestPriceData} />
       </ApiDataBox> 
       <DemoGraph chartData = {chartDataTimeFrame}/>
-      <TimeFrameOptions onOptionClick={(time, OutputSize) => {
-        setSelectedTimeFrame(time);
-        setSelectedOutputSize(OutputSize || null);
+      <TimeFrameOptions
+        selectedTimeFrame={selectedTimeFrame}
+        onOptionClick={(time, OutputSize) => {
+          setSelectedTimeFrame(time);
+          setSelectedOutputSize(OutputSize || null);
       }}/>
     </div>
   )

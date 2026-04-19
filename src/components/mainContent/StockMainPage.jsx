@@ -29,6 +29,7 @@ const StockMainPage = () => {
   const chartData = data ? extractChartPriceByDateWeekly(data) : []
   const chartDataTimeFrame = chartData ? adjustDataByTime(chartData, selectedTimeFrame) : []
   
+
   return (
     <div className="StockMainPage-Div">
       <MainContentBox>
@@ -41,6 +42,7 @@ const StockMainPage = () => {
           loading = {loading}
           error = {error}
           chartDataTimeFrame = {chartDataTimeFrame}
+          selectedTimeFrame={selectedTimeFrame}
           setSelectedTimeFrame = {setSelectedTimeFrame}
           setSelectedOutputSize = {setSelectedOutputSize}
         />

@@ -13,8 +13,8 @@ export const extractLatestStockPrice = (data) => {
   if (!data || !data['Weekly Time Series']) return null;
   
   const timeSeries = data['Weekly Time Series'];
-  const dates = Object.keys(timeSeries);
-  const lastDate = dates[0];
+  const dates = Object.keys(timeSeries).sort((a, b) => b.localeCompare(a));
+  const latestDate = dates[0];
 
   return {
     date: lastDate,

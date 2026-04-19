@@ -20,7 +20,8 @@ function extractLatestPrice(rawData) {
   const timeSeries = rawData['Weekly Time Series']
   if (!timeSeries) return null
 
-  const latestDate = Object.keys(timeSeries)[0]
+  const dates = Object.keys(timeSeries).sort((a, b) => b.localeCompare(a))
+  const latestDate = dates[0]
   const latestBar = timeSeries[latestDate]
   return parseFloat(latestBar['4. close'])
 }

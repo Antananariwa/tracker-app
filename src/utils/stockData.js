@@ -13,7 +13,7 @@ export const extractLatestStockPrice = (data) => {
   if (!data || !data['Weekly Time Series']) return null;
   
   const timeSeries = data['Weekly Time Series'];
-  const dates = Object.keys(timeSeries);
+  const dates = Object.keys(timeSeries).sort((a, b) => b.localeCompare(a));
   const lastDate = dates[0];
 
   return {
@@ -48,8 +48,7 @@ export const extractChartPriceByDateWeekly = (data) => {
   if (!data || !data['Weekly Time Series']) return [];
 
   const timeSeries = data['Weekly Time Series'];
-  const timeSeriesArray = Object.entries(timeSeries)
-  const timeSeriesArrayReversed = timeSeriesArray.toReversed()
+  const timeSeriesArrayReversed = Object.entries(timeSeries).sort((a, b) => a[0].localeCompare(b[0]));
   
   const preparedData = timeSeriesArrayReversed.map(([date, values]) => ({
     date: date, 

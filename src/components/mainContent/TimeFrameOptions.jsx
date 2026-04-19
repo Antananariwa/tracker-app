@@ -3,14 +3,14 @@ import './TimeFrameOptions.css';
 import Button from '../ui/Button.jsx'
 
 
-const TimeFrameOptions = ({onOptionClick}) => {
+const TimeFrameOptions = ({onOptionClick, selectedTimeFrame}) => {
   const timeRange = ["1M", "3M", "1Y", "3Y", "5Y", "10Y", "20Y"]
   return (
     <div className="TimeFrameOptions-Div">
       {timeRange.map((time) => (
         <Button
           variant={'secondary'}
-          className={'timeButton'}
+          className={time === selectedTimeFrame ? 'timeButton selectedButton' : 'timeButton'}
           key={time}
           onClick={() => {
             if (time === "1M" || time === "3M") {

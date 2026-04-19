@@ -8,3 +8,11 @@
   padding: 2px 4px 2px;
   margin: 0 3px 0;
 }
+
+.selectedButton {
+  color: 5px solid#525050;
+  border-style: solid;
+  border-width: 3px;
+  border-color: #cabcbc;
+  border-radius: 3px;
+}

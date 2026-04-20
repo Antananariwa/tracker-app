@@ -19,7 +19,6 @@ const StockMainPage = () => {
 
   
   // use this line instead after testing - const {data, loading, error} = useAlphaVantage(selectedFunction, selectedStock, null, selectedOutputSize)
-  // const {data, loading, error} = useMockAlphaVantage(selectedFunction, selectedStock, null, selectedOutputSize)
   const {data, loading, error} = useBackendStock(selectedStock)
 
   const metaData = data ? extractStockOverview(data) : null

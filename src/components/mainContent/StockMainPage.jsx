@@ -4,9 +4,7 @@ import PrimaryGraph from './displays/groups/PrimaryGraph'
 import MainContentBox from './MainContentBox'
 import ApiDataBox from './displays/ApiDataBox.jsx';
 import LatestPriceDisplay from './displays/LatestPriceDisplay';
-import useAlphaVantage from '../../hooks/useAlphaVantage.js';
 import { extractStockOverview, extractLatestStockPrice, adjustDataByTime, extractChartPriceByDateWeekly } from '../../utils/stockData';
-import useMockAlphaVantage from '../../hooks/useMockAlphaVantage.js';
 import MetaDataDisplay from './displays/MetaDataDisplay.jsx';
 import StockSearchBar from './StockSearchBar.jsx';
 import useBackendStock from '../../hooks/useBackendStock.js';
@@ -16,7 +14,7 @@ const StockMainPage = () => {
   const [ selectedFunction, setSelectedFunction ] = useState('TIME_SERIES_DAILY')
   const [ selectedTimeFrame, setSelectedTimeFrame ] = useState('3M')
   const [ selectedOutputSize, setSelectedOutputSize ] = useState()
-  
+
   const {data, loading, error} = useBackendStock(selectedStock)
   const metaData = data ? extractStockOverview(data) : null
   const latestPriceData = data ? extractLatestStockPrice(data) : null

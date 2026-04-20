@@ -5,7 +5,7 @@ import MainContentBox from './MainContentBox'
 import ApiDataBox from './displays/ApiDataBox.jsx';
 import LatestPriceDisplay from './displays/LatestPriceDisplay';
 import useAlphaVantage from '../../hooks/useAlphaVantage.js';
-import { extractStockOverview, extractLatestStockPrice, extractChartPriceByDate, adjustDataByTime, extractChartPriceByDateWeekly } from '../../utils/stockData';
+import { extractStockOverview, extractLatestStockPrice, adjustDataByTime, extractChartPriceByDateWeekly } from '../../utils/stockData';
 import useMockAlphaVantage from '../../hooks/useMockAlphaVantage.js';
 import MetaDataDisplay from './displays/MetaDataDisplay.jsx';
 import StockSearchBar from './StockSearchBar.jsx';
@@ -25,7 +25,6 @@ const StockMainPage = () => {
   const metaData = data ? extractStockOverview(data) : null
   const latestPriceData = data ? extractLatestStockPrice(data) : null
   const latestPriceTitle = latestPriceData && metaData ? metaData.symbol + "          $" + latestPriceData.close : "Current Price"
-  // const chartData = data ? extractChartPriceByDate(data) : []
   const chartData = data ? extractChartPriceByDateWeekly(data) : []
   const chartDataTimeFrame = chartData ? adjustDataByTime(chartData, selectedTimeFrame) : []
   

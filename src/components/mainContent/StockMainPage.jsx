@@ -16,11 +16,8 @@ const StockMainPage = () => {
   const [ selectedFunction, setSelectedFunction ] = useState('TIME_SERIES_DAILY')
   const [ selectedTimeFrame, setSelectedTimeFrame ] = useState('3M')
   const [ selectedOutputSize, setSelectedOutputSize ] = useState()
-
   
-  // use this line instead after testing - const {data, loading, error} = useAlphaVantage(selectedFunction, selectedStock, null, selectedOutputSize)
   const {data, loading, error} = useBackendStock(selectedStock)
-
   const metaData = data ? extractStockOverview(data) : null
   const latestPriceData = data ? extractLatestStockPrice(data) : null
   const latestPriceTitle = latestPriceData && metaData ? metaData.symbol + "          $" + latestPriceData.close : "Current Price"

@@ -3,15 +3,6 @@ import './StockSearchBar.css';
 import stock_list from '../../data/stocks/stockList.json'
 
 
-const STOCK_LIST = [
-  { symbol: 'IBM', name: 'International Business Machines' },
-  { symbol: 'AAPL', name: 'Apple Inc.' },
-  { symbol: 'GOOGL', name: 'Alphabet Inc.' },
-  { symbol: 'MSFT', name: 'Microsoft Corporation' },
-  { symbol: 'TSLA', name: 'Tesla Inc.' }
-];
-
-
 const StockSearchBar = ({ onStockSelect }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [showDropdown, setShowDropdown] = useState(false);

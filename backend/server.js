@@ -6,6 +6,7 @@ const rateLimit = require('express-rate-limit')
 dotenv.config()
 
 const stocksRouter = require('./routes/stocks')
+const symbolsRouter = require('./routes/symbols')
 
 const app = express()
 const PORT = process.env.PORT || 3001
@@ -26,6 +27,7 @@ app.use(limiter)
 
 
 app.use('/api/stocks', stocksRouter)
+app.use('/api/symbols', symbolsRouter)
 
 app.get('/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() })

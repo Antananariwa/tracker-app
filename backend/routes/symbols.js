@@ -1,5 +1,6 @@
 const express = require('express')
 const { createClient } = require('@supabase/supabase-js')
+const { parse } = require('csv-parse/sync')
 
 const router = express.Router()
 
@@ -56,10 +57,43 @@ router.get('/stocks', async (req, res) => {
     const avResponse = await fetch(avUrl)
     const csvText = await avResponse.text()
 
-    console.log('CSV length:', csvText.length)
-    console.log('First 300 chars:', csvText.slice(0, 300))
+    const rawRows = parse(csvText, {
+      columns: true,
+      skip_empty_lines: true,
+      trim: true,
+    })
 
-    return res.json({ source: 'debug', message: 'Fetched but not yet parsed or stored.' })
+const cleanedRows = rawRows.map(row => ({
+  symbol: row.symbol,
+  name: row.name,
+  exchange: row.exchange || null,
+  asset_type: row.assetType || null,
+  ipo_date: row.ipoDate && row.ipoDate !== 'null' ? row.ipoDate : null,
+  delisting_date: row.delistingDate && row.delistingDate !== 'null' ? row.delistingDate : null,
+  status: row.status || null,
+  fetched_at: new Date().toISOString(),
+}))
+
+const { error: upsertError } = await supabase
+  .from('alphavantage_listings')
+  .upsert(cleanedRows, { onConflict: 'symbol' })
+
+if (upsertError) {
+  console.error('Supabase upsert error:', upsertError.message)
+  throw upsertError
+}
+
+console.log(`[CATALOG REFRESH] Upserted ${cleanedRows.length} rows`)
+
+const responseRows = cleanedRows.map(row => ({
+  symbol: row.symbol,
+  name: row.name,
+  exchange: row.exchange,
+  asset_type: row.asset_type,
+  status: row.status,
+}))
+
+return res.json({ source: 'api', count: responseRows.length, data: responseRows })
 
   } catch (error) {
     console.error('Unhandled error:', error.message)

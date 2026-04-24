@@ -22,7 +22,9 @@ const StockSearchBar = ({ onStockSelect }) => {
     setShowDropdown(false);
   };
 
-  return (
+  if (error) {
+  return <div className="stock-search-bar-div">Error loading stock list.</div>
+  } else return (
     <div className="stock-search-bar-div">
       <input 
         type="text"

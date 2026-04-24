@@ -29,6 +29,7 @@ const StockSearchBar = ({ onStockSelect }) => {
       <input 
         type="text"
         placeholder={loading ? 'Loading stock list...' : 'Type stock name...'}
+        disabled={loading}
         value={searchTerm}
         onChange={handleInputChange}
       />

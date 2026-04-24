@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 
-const useCatalog = (category) => {
+const useSymbolCatalog = (category) => {
   const [data, setData] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -32,4 +32,4 @@ const useCatalog = (category) => {
   return { data, loading, error }
 }
 
-export default useCatalog
+export default useSymbolCatalog

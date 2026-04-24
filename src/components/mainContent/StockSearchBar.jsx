@@ -24,7 +24,9 @@ const StockSearchBar = ({ onStockSelect }) => {
 
   if (error) {
   return <div className="stock-search-bar-div">Error loading stock list.</div>
-  } else return (
+  } 
+  
+  return (
     <div className="stock-search-bar-div">
       <input 
         type="text"

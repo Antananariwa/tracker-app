@@ -1,22 +1,16 @@
 import { useState } from 'react';
 import './StockSearchBar.css';
-import stock_list from '../../data/stocks/stockList.json'
-
-
-const STOCK_LIST = [
-  { symbol: 'IBM', name: 'International Business Machines' },
-  { symbol: 'AAPL', name: 'Apple Inc.' },
-  { symbol: 'GOOGL', name: 'Alphabet Inc.' },
-  { symbol: 'MSFT', name: 'Microsoft Corporation' },
-  { symbol: 'TSLA', name: 'Tesla Inc.' }
-];
+import useSymbolCatalog from '../../hooks/useSymbolCatalog.js'
 
 
 const StockSearchBar = ({ onStockSelect }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [showDropdown, setShowDropdown] = useState(false);
+  const { data, loading, error } = useSymbolCatalog('stocks');
   
-  const filteredStocks = stock_list.filter((company) => company.symbol.toLowerCase().includes(searchTerm.toLowerCase()) || company.name.toLowerCase().includes(searchTerm.toLowerCase()) )
+  const filteredStocks = data
+  ? data.filter((company) => company.symbol.toLowerCase().includes(searchTerm.toLowerCase()) || company.name.toLowerCase().includes(searchTerm.toLowerCase()) )
+  : []
 
   const handleInputChange = (e) => {
     setSearchTerm(e.target.value);
@@ -28,11 +22,16 @@ const StockSearchBar = ({ onStockSelect }) => {
     setShowDropdown(false);
   };
 
+  if (error) {
+  return <div className="stock-search-bar-div">Error loading stock list.</div>
+  } 
+  
   return (
     <div className="stock-search-bar-div">
       <input 
         type="text"
-        placeholder="Type stock name..."
+        placeholder={loading ? 'Loading stock list...' : 'Type stock name...'}
+        disabled={loading}
         value={searchTerm}
         onChange={handleInputChange}
       />

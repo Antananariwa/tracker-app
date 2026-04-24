@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 
-const useAlphaVantageCatalog = (category) => {
+const useCatalog = (category) => {
   const [data, setData] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -32,4 +32,4 @@ const useAlphaVantageCatalog = (category) => {
   return { data, loading, error }
 }
 
-export default useSymbolCatalog
+export default useCatalog

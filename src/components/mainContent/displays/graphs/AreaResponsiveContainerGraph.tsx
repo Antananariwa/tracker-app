@@ -1,7 +1,10 @@
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
+type ExampleProps = {
+  chartData: Looking for data shape
+}
 
-const Example = ({chartData}) => {
+const Example = ({chartData}: ExampleProps) => {
   return (
       <div style={{ width: '100%', height: 300 }}>
         <ResponsiveContainer>
@@ -19,7 +22,6 @@ const Example = ({chartData}) => {
             <YAxis />
             <Tooltip />
             <Area type="monotone" dataKey="close" stroke="#8884d8" fill="#8884d8" />
-            {/* <Area dataKey="pv" fillOpacity={0.1} /> */}
           </AreaChart>
         </ResponsiveContainer>
       </div>

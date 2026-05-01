@@ -21,9 +21,9 @@ type StockOverview = {
   symbol: string
   lastRefreshed: string
   timeZone: string
-} | null
+}
 
-export const extractStockOverview = (data: AlphaVantageWeeklyResponse): StockOverview => {
+export const extractStockOverview = (data: AlphaVantageWeeklyResponse): StockOverview | null => {
   if (!data || !data['Meta Data']) return null;
   
   return {

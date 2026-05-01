@@ -1,11 +1,36 @@
-export const extractStockOverview = (data) => {
+type AlphaVantageWeeklyResponse = {
+  'Meta Data': {
+    '1. Information': string
+    '2. Symbol': string
+    '3. Last Refreshed': string
+    '4. Time Zone': string
+  }
+  'Weekly Time Series': {
+    [date: string]: {
+      '1. open': string
+      '2. high': string
+      '3. low': string
+      '4. close': string
+      '5. volume': string
+    }
+  }
+}
+
+type StockOverview = {
+  information: string
+  symbol: string
+  lastRefreshed: string
+  timeZone: string
+} | null
+
+export const extractStockOverview = (data: AlphaVantageWeeklyResponse): StockOverview => {
   if (!data || !data['Meta Data']) return null;
   
   return {
     information: data['Meta Data']['1. Information'],
     symbol: data['Meta Data']['2. Symbol'],
     lastRefreshed: data['Meta Data']['3. Last Refreshed'],
-    timeZone: data['Meta Data']['5. Time Zone'],
+    timeZone: data['Meta Data']['4. Time Zone'],
   };
 };
 

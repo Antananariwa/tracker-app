@@ -1,4 +1,4 @@
-type AlphaVantageWeeklyResponse = {
+export type AlphaVantageWeeklyResponse = {
   'Meta Data': {
     '1. Information': string
     '2. Symbol': string
@@ -16,7 +16,7 @@ type AlphaVantageWeeklyResponse = {
   }
 }
 
-type StockOverview = {
+export type StockOverview = {
   information: string
   symbol: string
   lastRefreshed: string

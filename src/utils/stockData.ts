@@ -25,10 +25,10 @@ export type StockOverview = {
 
 export type LatestStockPrice = {
   date: string
-  open: string
-  high: string
-  low: string
-  close: string
+  open: number
+  high: number
+  low: number
+  close: number
 }
 
 export const extractStockOverview = (data: AlphaVantageWeeklyResponse): StockOverview | null => {

@@ -69,7 +69,6 @@ export const extractLatestStockPrice = (data: AlphaVantageWeeklyResponse): Lates
 };
 
 export const extractChartPriceByDateWeekly = (data: AlphaVantageWeeklyResponse): ChartPriceByDateWeekly => {
-
   if (!data || !data['Weekly Time Series']) return [];
 
   const timeSeries = data['Weekly Time Series'];
@@ -82,7 +81,6 @@ export const extractChartPriceByDateWeekly = (data: AlphaVantageWeeklyResponse):
   }))
 
   return preparedData;
-
 };
 
 

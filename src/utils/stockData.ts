@@ -1,32 +1,74 @@
-export const extractStockOverview = (data) => {
+export type AlphaVantageWeeklyResponse = {
+  'Meta Data': {
+    '1. Information': string
+    '2. Symbol': string
+    '3. Last Refreshed': string
+    '4. Time Zone': string
+  }
+  'Weekly Time Series': {
+    [date: string]: {
+      '1. open': string
+      '2. high': string
+      '3. low': string
+      '4. close': string
+      '5. volume': string
+    }
+  }
+}
+
+export type StockOverview = {
+  information: string
+  symbol: string
+  lastRefreshed: string
+  timeZone: string
+}
+
+export type LatestStockPrice = {
+  date: string
+  open: number
+  high: number
+  low: number
+  close: number
+}
+
+export type ChartPriceByDateWeekly = {
+  date: string
+  close: number
+  volume: number
+}[]
+
+
+
+export const extractStockOverview = (data: AlphaVantageWeeklyResponse): StockOverview | null => {
   if (!data || !data['Meta Data']) return null;
   
   return {
     information: data['Meta Data']['1. Information'],
     symbol: data['Meta Data']['2. Symbol'],
     lastRefreshed: data['Meta Data']['3. Last Refreshed'],
-    timeZone: data['Meta Data']['5. Time Zone'],
+    timeZone: data['Meta Data']['4. Time Zone'],
   };
 };
 
-export const extractLatestStockPrice = (data) => {
+export const extractLatestStockPrice = (data: AlphaVantageWeeklyResponse): LatestStockPrice | null => {
   if (!data || !data['Weekly Time Series']) return null;
   
   const timeSeries = data['Weekly Time Series'];
   const dates = Object.keys(timeSeries).sort((a, b) => b.localeCompare(a));
   const lastDate = dates[0];
+  if (!lastDate) return null;
+  const latest = timeSeries[lastDate];
 
   return {
     date: lastDate,
-    open: data['Weekly Time Series'][lastDate]['1. open'],
-    high: data['Weekly Time Series'][lastDate]['2. high'],
-    low: data['Weekly Time Series'][lastDate]['3. low'],
-    close: data['Weekly Time Series'][lastDate]['4. close']
+    open: parseFloat(latest['1. open']),
+    high: parseFloat(latest['2. high']),
+    low: parseFloat(latest['3. low']),
+    close: parseFloat(latest['4. close'])
   };
 };
 
-export const extractChartPriceByDateWeekly = (data) => {
-
+export const extractChartPriceByDateWeekly = (data: AlphaVantageWeeklyResponse): ChartPriceByDateWeekly => {
   if (!data || !data['Weekly Time Series']) return [];
 
   const timeSeries = data['Weekly Time Series'];
@@ -39,7 +81,6 @@ export const extractChartPriceByDateWeekly = (data) => {
   }))
 
   return preparedData;
-
 };
 
 

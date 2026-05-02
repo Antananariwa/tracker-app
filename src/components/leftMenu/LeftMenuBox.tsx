@@ -1,8 +1,17 @@
-import React from 'react';
 import './LeftMenuBox.css';
-import Button from '../ui/Button.jsx'
+import Button from '../ui/Button'
 
-const LeftMenuBox = ({ optionName = [], groupName = '', onOptionClick}) => (
+type LeftMenuBoxProps = {
+  optionName?: string[]
+  groupName?: string
+  onOptionClick?: (option: string) => void
+}
+
+const LeftMenuBox = ({ 
+  optionName = [], 
+  groupName = '', 
+  onOptionClick
+}: LeftMenuBoxProps) => (
   <div className="LeftMenuBoxDiv">
     {groupName && (
       <details>
@@ -13,7 +22,7 @@ const LeftMenuBox = ({ optionName = [], groupName = '', onOptionClick}) => (
               variant={'secondary'}
               className={'optionButtons'}
               key={option} 
-              onClick={() => onOptionClick(option)}
+              onClick={() => onOptionClick?.(option)}
             >
               {option}
             </Button>

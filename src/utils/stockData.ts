@@ -23,6 +23,14 @@ export type StockOverview = {
   timeZone: string
 }
 
+export type LatestStockPrice = {
+  date: string
+  open: string
+  high: string
+  low: string
+  close: string
+}
+
 export const extractStockOverview = (data: AlphaVantageWeeklyResponse): StockOverview | null => {
   if (!data || !data['Meta Data']) return null;
   
@@ -34,19 +42,21 @@ export const extractStockOverview = (data: AlphaVantageWeeklyResponse): StockOve
   };
 };
 
-export const extractLatestStockPrice = (data) => {
+export const extractLatestStockPrice = (data: AlphaVantageWeeklyResponse): LatestStockPrice | null => {
   if (!data || !data['Weekly Time Series']) return null;
   
   const timeSeries = data['Weekly Time Series'];
   const dates = Object.keys(timeSeries).sort((a, b) => b.localeCompare(a));
   const lastDate = dates[0];
+  if (!lastDate) return null;
+  const latest = timeSeries[lastDate];
 
   return {
     date: lastDate,
-    open: data['Weekly Time Series'][lastDate]['1. open'],
-    high: data['Weekly Time Series'][lastDate]['2. high'],
-    low: data['Weekly Time Series'][lastDate]['3. low'],
-    close: data['Weekly Time Series'][lastDate]['4. close']
+    open: latest['1. open'],
+    high: latest['2. high'],
+    low: latest['3. low'],
+    close: latest['4. close']
   };
 };
 

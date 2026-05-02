@@ -31,6 +31,14 @@ export type LatestStockPrice = {
   close: number
 }
 
+export type ChartPriceByDateWeekly = {
+  date: string
+  close: number
+  volume: number
+}[]
+
+
+
 export const extractStockOverview = (data: AlphaVantageWeeklyResponse): StockOverview | null => {
   if (!data || !data['Meta Data']) return null;
   
@@ -53,14 +61,14 @@ export const extractLatestStockPrice = (data: AlphaVantageWeeklyResponse): Lates
 
   return {
     date: lastDate,
-    open: latest['1. open'],
-    high: latest['2. high'],
-    low: latest['3. low'],
-    close: latest['4. close']
+    open: parseFloat(latest['1. open']),
+    high: parseFloat(latest['2. high']),
+    low: parseFloat(latest['3. low']),
+    close: parseFloat(latest['4. close'])
   };
 };
 
-export const extractChartPriceByDateWeekly = (data) => {
+export const extractChartPriceByDateWeekly = (data: AlphaVantageWeeklyResponse): ChartPriceByDateWeekly => {
 
   if (!data || !data['Weekly Time Series']) return [];
 

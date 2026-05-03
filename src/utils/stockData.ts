@@ -92,7 +92,7 @@ export const adjustDataByTime = (data: ChartPriceByDateWeekly, timeFrame: GraphT
   const currDate = data[data.length - 1]["date"]; // possible ts conflict
   const compare = currDate.split('-');
 
-  let year = Number(compare[0]);
+  let year = Number(compare[0]); // invastigate for conflict
   let month = Number(compare[1]);
   let totalMonths = year * 12 + (month - 1);
 
@@ -114,6 +114,7 @@ export const adjustDataByTime = (data: ChartPriceByDateWeekly, timeFrame: GraphT
 
   const final = `${newYear}-${newMonth.toString().padStart(2, '0')}-${compare[2]}`;
 
+  // also investigate
   for (let i = 0; i < data.length; i++) {
     if (data[i].date >= final) {
       return data.slice(i);

@@ -39,6 +39,30 @@ export type ChartPriceByDateWeekly = {
 
 export type GraphTimeFrame = "1M" | "3M" | "6M" | "1Y" | "3Y" | "5Y" | "10Y" | "20Y" 
 
+export type Asset = {
+  id: string
+  user_id: string
+  symbol: string
+  name: string
+  category: 'stock' | 'crypto' | 'real_estate' | 'custom'
+  quantity: number
+  avg_buy_price: number
+  status: 'hold' | 'to_sell' | 'watching'
+  acquired_at: string
+  created_at: string
+}
+
+export type PortfolioAsset = {
+  symbol: string
+  name: string
+  quantity: number
+  avgBuyPrice: number
+  purchaseCost: number
+  status: 'hold' | 'to_sell' | 'watching'
+  acquiredAt: string
+}
+
+
 
 
 export const extractStockOverview = (data: AlphaVantageWeeklyResponse): StockOverview | null => {
@@ -125,7 +149,7 @@ export const adjustDataByTime = (data: ChartPriceByDateWeekly, timeFrame: GraphT
 };
 
 
-export const preparePortfolioAssets = (assets) => {
+export const preparePortfolioAssets = (assets: Asset[]): PortfolioAsset => {
   return assets.map(asset => ({
     symbol: asset.symbol,
     name: asset.name,

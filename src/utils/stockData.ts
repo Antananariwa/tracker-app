@@ -149,7 +149,7 @@ export const adjustDataByTime = (data: ChartPriceByDateWeekly, timeFrame: GraphT
 };
 
 
-export const preparePortfolioAssets = (assets: Asset[]): PortfolioAsset => {
+export const preparePortfolioAssets = (assets: Asset[]): PortfolioAsset[] => {
   return assets.map(asset => ({
     symbol: asset.symbol,
     name: asset.name,

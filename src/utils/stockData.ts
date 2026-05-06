@@ -39,17 +39,17 @@ export type ChartPriceByDateWeekly = {
 
 export type GraphTimeFrame = "1M" | "3M" | "6M" | "1Y" | "3Y" | "5Y" | "10Y" | "20Y" 
 
-export type Asset = {
+export type SupabaseAssetsTable = {
   id: string
   user_id: string
   symbol: string
   name: string
-  category: 'stock' | 'crypto' | 'real_estate' | 'custom'
+  category: 'stock'
   quantity: number
   avg_buy_price: number
   status: 'hold' | 'to_sell' | 'watching'
-  acquired_at: string
   created_at: string
+  acquired_at: string
 }
 
 export type PortfolioAsset = {
@@ -61,8 +61,6 @@ export type PortfolioAsset = {
   status: 'hold' | 'to_sell' | 'watching'
   acquiredAt: string
 }
-
-
 
 
 export const extractStockOverview = (data: AlphaVantageWeeklyResponse): StockOverview | null => {
@@ -103,7 +101,7 @@ export const extractChartPriceByDateWeekly = (data: AlphaVantageWeeklyResponse):
   const preparedData = timeSeriesArrayReversed.map(([date, values]) => ({
     date: date, 
     close: parseFloat(values['4. close']),
-    volume: parseInt(values['5. volume'])
+    volume: parseInt(values['5. volume'], 10)
   }))
 
   return preparedData;
@@ -148,7 +146,7 @@ export const adjustDataByTime = (data: ChartPriceByDateWeekly, timeFrame: GraphT
 };
 
 
-export const preparePortfolioAssets = (assets: Asset[]): PortfolioAsset[] => {
+export const preparePortfolioAssets = (assets: SupabaseAssetsTable[]): PortfolioAsset[] => {
   return assets.map(asset => ({
     symbol: asset.symbol,
     name: asset.name,

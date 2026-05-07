@@ -1,7 +1,8 @@
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import type { ChartPriceByDateWeekly } from '../../../../utils/stockData'
 
 type ExampleProps = {
-  chartData: Looking for data shape
+  chartData: ChartPriceByDateWeekly
 }
 
 const Example = ({chartData}: ExampleProps) => {

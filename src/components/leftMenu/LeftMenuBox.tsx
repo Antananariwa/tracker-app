@@ -4,7 +4,7 @@ import Button from '../ui/Button'
 type LeftMenuBoxProps = {
   optionName?: string[]
   groupName?: string
-  onOptionClick?: (option: string) => void
+  onOptionClick?: (clickedOption: string) => void
 }
 
 const LeftMenuBox = ({ 

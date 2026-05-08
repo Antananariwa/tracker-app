@@ -34,11 +34,12 @@ const StockMainPage = () => {
           latestPriceTitle = {latestPriceTitle}
           loading = {loading}
           error = {error}
+          latestPriceData={latestPriceData}
           chartDataTimeFrame = {chartDataTimeFrame}
-          selectedTimeFrame={selectedTimeFrame}
           setSelectedTimeFrame = {setSelectedTimeFrame}
           setSelectedOutputSize = {setSelectedOutputSize}
-        />
+          selectedTimeFrame={selectedTimeFrame}
+/>
       </MainContentBox>
 
       <MainContentBox>

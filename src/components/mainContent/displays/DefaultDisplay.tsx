@@ -3,10 +3,9 @@ import React from 'react'
 type DefaultDisplayProps = {
   title?: string
   children: React.ReactNode
-  useMainContentBox?: boolean
 }
 
-const DefaultDisplay = ({ title, children, useMainContentBox = false}: DefaultDisplayProps) => {
+const DefaultDisplay = ({ title, children }: DefaultDisplayProps) => {
   return (
       <>
         {title && <h2>{title}</h2>}

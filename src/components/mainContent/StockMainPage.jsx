@@ -13,7 +13,6 @@ const StockMainPage = () => {
   const [ selectedStock, setSelectedStock ] = useState('')
   const [ selectedFunction, setSelectedFunction ] = useState('TIME_SERIES_DAILY')
   const [ selectedTimeFrame, setSelectedTimeFrame ] = useState('3M')
-  const [ selectedOutputSize, setSelectedOutputSize ] = useState()
 
   const {data, loading, error} = useBackendStock(selectedStock)
   const metaData = data ? extractStockOverview(data) : null
@@ -36,9 +35,8 @@ const StockMainPage = () => {
           error = {error}
           latestPriceData={latestPriceData}
           chartDataTimeFrame = {chartDataTimeFrame}
-          selectedTimeFrame={selectedTimeFrame}
           setSelectedTimeFrame = {setSelectedTimeFrame}
-          setSelectedOutputSize = {setSelectedOutputSize}
+          selectedTimeFrame={selectedTimeFrame}
         />
       </MainContentBox>
 

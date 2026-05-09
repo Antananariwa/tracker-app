@@ -3,7 +3,7 @@ import ApiDataBox from '../ApiDataBox';
 import DemoGraph from '../graphs/AreaResponsiveContainerGraph';
 import LatestPriceDisplay from '../LatestPriceDisplay';
 import TimeFrameOptions from '../../TimeFrameOptions';
-import type { LatestStockPrice, ChartPriceByDateWeekly } from '../../../../utils/stockData'
+import type { LatestStockPrice, ChartPriceByDateWeekly, GraphTimeFrame } from '../../../../utils/stockData'
 
 type PrimaryGraphProps = {
   latestPriceTitle: string
@@ -11,9 +11,11 @@ type PrimaryGraphProps = {
   error: Error | null
   latestPriceData: LatestStockPrice | null
   chartDataTimeFrame: ChartPriceByDateWeekly
+  setSelectedTimeFrame: (value: GraphTimeFrame) => void
+  selectedTimeFrame: GraphTimeFrame
 }
 
-const PrimaryGraph = ({latestPriceTitle, loading, error, latestPriceData, chartDataTimeFrame, setSelectedTimeFrame, setSelectedOutputSize, selectedTimeFrame}: PrimaryGraphProps) => {
+const PrimaryGraph = ({latestPriceTitle, loading, error, latestPriceData, chartDataTimeFrame, setSelectedTimeFrame, selectedTimeFrame}: PrimaryGraphProps) => {
   return (
     <div className='PrimaryGraph-div'>
       <ApiDataBox title = {latestPriceTitle} loading = {loading} error = {error}>
@@ -22,9 +24,8 @@ const PrimaryGraph = ({latestPriceTitle, loading, error, latestPriceData, chartD
       <DemoGraph chartData = {chartDataTimeFrame}/>
       <TimeFrameOptions
         selectedTimeFrame={selectedTimeFrame}
-        onOptionClick={(time, OutputSize) => {
+        onOptionClick={(time) => {
           setSelectedTimeFrame(time);
-          setSelectedOutputSize(OutputSize || null);
       }}/>
     </div>
   )

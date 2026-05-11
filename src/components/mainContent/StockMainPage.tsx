@@ -17,7 +17,7 @@ const StockMainPage = () => {
   const latestPriceData = data ? extractLatestStockPrice(data) : null
   const latestPriceTitle = latestPriceData && metaData ? metaData.symbol + "          $" + latestPriceData.close : "Current Price"
   const chartData = data ? extractChartPriceByDateWeekly(data) : []
-  const chartDataTimeFrame = adjustDataByTime(chartData, selectedTimeFrame) : []
+  const chartDataTimeFrame = adjustDataByTime(chartData, selectedTimeFrame)
   
 
   return (

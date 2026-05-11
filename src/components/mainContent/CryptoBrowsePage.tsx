@@ -1,4 +1,3 @@
-import React from 'react'
 import './CryptoBrowsePage.css'
 import MainContentBox from './MainContentBox.jsx'
 import useCryptoApiHook from '../../../scripts/fetchCryptoData.js'

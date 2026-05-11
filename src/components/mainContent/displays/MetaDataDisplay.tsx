@@ -1,7 +1,10 @@
-import React from 'react'
+import type { StockOverview } from '../../../utils/stockData'
 
+type MetaDataDisplayProps = {
+  metaData: StockOverview | null
+}
 
-const MetaDataDisplay = ({ metaData }) => {
+const MetaDataDisplay = ({ metaData }: MetaDataDisplayProps) => {
   if (!metaData) return <div>No meta data available</div>
 
   return (

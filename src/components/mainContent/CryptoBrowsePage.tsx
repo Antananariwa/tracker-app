@@ -1,7 +1,8 @@
 import React from 'react'
 import './CryptoBrowsePage.css'
-import MainContentBox from './MainContentBox'
+import MainContentBox from './MainContentBox.jsx'
 import useCryptoApiHook from '../../../scripts/fetchCryptoData.js'
+
 
 const CryptoBrowsePage = () => {
   const { data, loading, error } = useCryptoApiHook('bitcoin');

@@ -1,9 +1,12 @@
 import { useState } from 'react';
 import './StockSearchBar.css';
-import useSymbolCatalog from '../../hooks/useSymbolCatalog.js'
+import useSymbolCatalog from '../../hooks/useSymbolCatalog'
 
+type StockSearchBarProps = {
+  onStockSelect: (symbol: string) => void
+}
 
-const StockSearchBar = ({ onStockSelect }) => {
+const StockSearchBar = ({ onStockSelect }: StockSearchBarProps) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [showDropdown, setShowDropdown] = useState(false);
   const { data, loading, error } = useSymbolCatalog('stocks');
@@ -12,12 +15,12 @@ const StockSearchBar = ({ onStockSelect }) => {
   ? data.filter((company) => company.symbol.toLowerCase().includes(searchTerm.toLowerCase()) || company.name.toLowerCase().includes(searchTerm.toLowerCase()) )
   : []
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
     setShowDropdown(true);
   };
 
-  const handleStockClick = (symbol) => {
+  const handleStockClick = (symbol: string) => {
     onStockSelect(symbol)
     setShowDropdown(false);
   };

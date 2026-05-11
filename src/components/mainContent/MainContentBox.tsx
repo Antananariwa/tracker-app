@@ -1,10 +1,11 @@
 import React from 'react'
 import './MainContentBox.css'
 
+type MainContentBoxProps = {
+  children: React.ReactNode
+}
 
-
-
-const MainContentBox = ({ children }) => {
+const MainContentBox = ({ children }: MainContentBoxProps) => {
   return (
     <div className="MainContentBoxDiv">
       {children}

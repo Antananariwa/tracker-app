@@ -1,6 +1,5 @@
-import React from 'react';
 import './TopBar.css';
-import Button from '../ui/Button.jsx';
+import Button from '../ui/Button';
 import { useMainPage } from '../../context/MainPageContext';
 import { supabase } from '../../lib/supabase'
 

@@ -1,10 +1,18 @@
 import { createContext, useState, useContext } from 'react';
 
+type MainPageContextType = {
+  selectedMainPage: string
+  setSelectedMainPage: (page: string) => void
+}
 
-const MainPageContext = createContext();
+type MainPageContextProps = {
+  children: React.ReactNode
+}
+
+const MainPageContext = createContext<MainPageContextType | null>(null);
 
 
-export const MainPageProvider = ({ children }) => {
+export const MainPageProvider = ({ children }: MainPageContextProps) => {
   const [selectedMainPage, setSelectedMainPage] = useState('crypto');
   
   const value = {

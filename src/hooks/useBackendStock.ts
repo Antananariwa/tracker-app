@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
 
-const useBackendStock = (symbol) => {
+
+
+const useBackendStock = (symbol: string) => {
   const [data, setData] = useState(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)

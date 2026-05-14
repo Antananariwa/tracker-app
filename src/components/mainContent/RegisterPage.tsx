@@ -1,7 +1,6 @@
-import React from 'react'
 import './RegisterPage.css'
 import MainContentBox from './MainContentBox'
-import Button from '../ui/Button.jsx'
+import Button from '../ui/Button'
 
 const RegisterPage = () => {
   return (

@@ -1,32 +1,98 @@
-export const extractStockOverview = (data) => {
+export type AlphaVantageWeeklyResponse = {
+  'Meta Data': {
+    '1. Information': string
+    '2. Symbol': string
+    '3. Last Refreshed': string
+    '4. Time Zone': string
+  }
+  'Weekly Time Series': {
+    [date: string]: {
+      '1. open': string
+      '2. high': string
+      '3. low': string
+      '4. close': string
+      '5. volume': string
+    }
+  }
+}
+
+export type StockOverview = {
+  information: string
+  symbol: string
+  lastRefreshed: string
+  timeZone: string
+}
+
+export type LatestStockPrice = {
+  date: string
+  open: number
+  high: number
+  low: number
+  close: number
+}
+
+export type ChartPriceByDateWeekly = {
+  date: string
+  close: number
+  volume: number
+}[]
+
+export type GraphTimeFrame = "1M" | "3M" | "6M" | "1Y" | "3Y" | "5Y" | "10Y" | "20Y" 
+
+export type SupabaseAssetsTable = {
+  id: string
+  user_id: string
+  symbol: string
+  name: string
+  category: 'stock'
+  quantity: number
+  avg_buy_price: number
+  status: 'hold' | 'to_sell' | 'watching'
+  created_at: string
+  acquired_at: string
+}
+
+export type PortfolioAsset = {
+  symbol: string
+  name: string
+  quantity: number
+  avgBuyPrice: number
+  purchaseCost: number
+  status: 'hold' | 'to_sell' | 'watching'
+  acquiredAt: string
+}
+
+
+export const extractStockOverview = (data: AlphaVantageWeeklyResponse): StockOverview | null => {
   if (!data || !data['Meta Data']) return null;
   
   return {
     information: data['Meta Data']['1. Information'],
     symbol: data['Meta Data']['2. Symbol'],
     lastRefreshed: data['Meta Data']['3. Last Refreshed'],
-    timeZone: data['Meta Data']['5. Time Zone'],
+    timeZone: data['Meta Data']['4. Time Zone'],
   };
 };
 
-export const extractLatestStockPrice = (data) => {
+export const extractLatestStockPrice = (data: AlphaVantageWeeklyResponse): LatestStockPrice | null => {
   if (!data || !data['Weekly Time Series']) return null;
   
   const timeSeries = data['Weekly Time Series'];
   const dates = Object.keys(timeSeries).sort((a, b) => b.localeCompare(a));
   const lastDate = dates[0];
+  if (!lastDate) return null;
+  const latest = timeSeries[lastDate];
 
   return {
     date: lastDate,
-    open: data['Weekly Time Series'][lastDate]['1. open'],
-    high: data['Weekly Time Series'][lastDate]['2. high'],
-    low: data['Weekly Time Series'][lastDate]['3. low'],
-    close: data['Weekly Time Series'][lastDate]['4. close']
+    open: parseFloat(latest['1. open']),
+    high: parseFloat(latest['2. high']),
+    low: parseFloat(latest['3. low']),
+    close: parseFloat(latest['4. close'])
   };
 };
 
-export const extractChartPriceByDateWeekly = (data) => {
-
+export const extractChartPriceByDateWeekly = (data: AlphaVantageWeeklyResponse): ChartPriceByDateWeekly => {
   if (!data || !data['Weekly Time Series']) return [];
 
   const timeSeries = data['Weekly Time Series'];
@@ -35,15 +101,14 @@ export const extractChartPriceByDateWeekly = (data) => {
   const preparedData = timeSeriesArrayReversed.map(([date, values]) => ({
     date: date, 
     close: parseFloat(values['4. close']),
-    volume: parseInt(values['5. volume'])
+    volume: parseInt(values['5. volume'], 10)
   }))
 
   return preparedData;
-
 };
 
 
-export const adjustDataByTime = (data, timeFrame) => {
+export const adjustDataByTime = (data: ChartPriceByDateWeekly, timeFrame: GraphTimeFrame): ChartPriceByDateWeekly => {
   if (!data || data.length === 0) return [];
 
   const currDate = data[data.length - 1]["date"];
@@ -81,7 +146,7 @@ export const adjustDataByTime = (data, timeFrame) => {
 };
 
 
-export const preparePortfolioAssets = (assets) => {
+export const preparePortfolioAssets = (assets: SupabaseAssetsTable[]): PortfolioAsset[] => {
   return assets.map(asset => ({
     symbol: asset.symbol,
     name: asset.name,

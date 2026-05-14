@@ -1,26 +1,23 @@
-import React from 'react'
 import { useState } from 'react';
 import PrimaryGraph from './displays/groups/PrimaryGraph'
 import MainContentBox from './MainContentBox'
-import ApiDataBox from './displays/ApiDataBox.jsx';
+import ApiDataBox from './displays/ApiDataBox';
 import LatestPriceDisplay from './displays/LatestPriceDisplay';
-import { extractStockOverview, extractLatestStockPrice, adjustDataByTime, extractChartPriceByDateWeekly } from '../../utils/stockData';
-import MetaDataDisplay from './displays/MetaDataDisplay.jsx';
-import StockSearchBar from './StockSearchBar.jsx';
-import useBackendStock from '../../hooks/useBackendStock.js';
+import { extractStockOverview, extractLatestStockPrice, adjustDataByTime, extractChartPriceByDateWeekly, type GraphTimeFrame } from '../../utils/stockData';
+import MetaDataDisplay from './displays/MetaDataDisplay';
+import StockSearchBar from './StockSearchBar';
+import useBackendStock from '../../hooks/useBackendStock';
 
 const StockMainPage = () => {
   const [ selectedStock, setSelectedStock ] = useState('')
-  const [ selectedFunction, setSelectedFunction ] = useState('TIME_SERIES_DAILY')
-  const [ selectedTimeFrame, setSelectedTimeFrame ] = useState('3M')
-  const [ selectedOutputSize, setSelectedOutputSize ] = useState()
+  const [ selectedTimeFrame, setSelectedTimeFrame ] = useState<GraphTimeFrame>('3M')
 
   const {data, loading, error} = useBackendStock(selectedStock)
   const metaData = data ? extractStockOverview(data) : null
   const latestPriceData = data ? extractLatestStockPrice(data) : null
   const latestPriceTitle = latestPriceData && metaData ? metaData.symbol + "          $" + latestPriceData.close : "Current Price"
   const chartData = data ? extractChartPriceByDateWeekly(data) : []
-  const chartDataTimeFrame = chartData ? adjustDataByTime(chartData, selectedTimeFrame) : []
+  const chartDataTimeFrame = adjustDataByTime(chartData, selectedTimeFrame)
   
 
   return (
@@ -34,10 +31,10 @@ const StockMainPage = () => {
           latestPriceTitle = {latestPriceTitle}
           loading = {loading}
           error = {error}
+          latestPriceData={latestPriceData}
           chartDataTimeFrame = {chartDataTimeFrame}
-          selectedTimeFrame={selectedTimeFrame}
           setSelectedTimeFrame = {setSelectedTimeFrame}
-          setSelectedOutputSize = {setSelectedOutputSize}
+          selectedTimeFrame={selectedTimeFrame}
         />
       </MainContentBox>
 

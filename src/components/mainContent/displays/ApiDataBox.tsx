@@ -2,7 +2,14 @@ import React from 'react';
 import DefaultDisplay from './DefaultDisplay';
 import './ApiDataBox.css';
 
-const ApiDataBox = ({title, loading, error, children}) => {
+type ApiDataBoxProps = {
+  title: string
+  loading: boolean
+  error: Error | null
+  children: React.ReactNode
+}
+
+const ApiDataBox = ({title, loading, error, children}: ApiDataBoxProps) => {
   let content;
   if (loading) {
     content =  (

@@ -1,9 +1,23 @@
 import { useState, useEffect } from 'react'
 
-const useSymbolCatalog = (category) => {
-  const [data, setData] = useState(null)
+export type StockSymbol = {
+  symbol: string
+  name: string
+  exchange: string
+  asset_type: string
+  status: string
+}
+
+type UseSymbolCatalogResult = {
+  data: StockSymbol[] | null
+  loading: boolean
+  error: Error | null
+}
+
+const useSymbolCatalog = (category: 'stocks'): UseSymbolCatalogResult => {
+  const [data, setData] = useState<StockSymbol[] | null>(null)
   const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
+  const [error, setError] = useState<Error | null>(null)
 
   useEffect(() => {
     setLoading(true)

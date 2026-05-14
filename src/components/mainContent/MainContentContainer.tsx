@@ -1,13 +1,10 @@
-import React from 'react';
 import './MainContentContainer.css';
-import MainContentBox from './MainContentBox.jsx';
-import { useMainPage } from '../../context/MainPageContext.jsx';
-import PrimaryGraph from './displays/groups/PrimaryGraph.jsx';
-import StockMainPage from './StockMainPage.jsx';
-import LoginPage from './LoginPage.jsx'
-import RegisterPage from './RegisterPage.jsx';
-import CryptoBrowsePage from './CryptoBrowsePage.jsx';
-import PortfolioStocksPage from './PortfolioStocksPage.jsx'
+import { useMainPage } from '../../context/MainPageContext';
+import StockMainPage from './StockMainPage';
+import LoginPage from './LoginPage'
+import RegisterPage from './RegisterPage';
+import CryptoBrowsePage from './CryptoBrowsePage';
+import PortfolioStocksPage from './PortfolioStocksPage'
 
 
 const MainContentContainer = () => {
@@ -21,8 +18,6 @@ const { selectedMainPage } = useMainPage();
         {/* Browse group */}
         {selectedMainPage === 'stocks' && <StockMainPage />}
         {selectedMainPage === 'crypto' && <CryptoBrowsePage />}
-        {selectedMainPage === 'commodities' && <CommoditiesMainPage />}
-        {selectedMainPage === 'realEstate' && <RealEstateMainPage />}
 
         {/* Account group */}
         {selectedMainPage === 'login' && <LoginPage/>}

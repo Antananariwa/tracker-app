@@ -1,10 +1,17 @@
 import { useState, useEffect } from 'react'
 import { supabase } from '../lib/supabase'
+import type { SupabaseAssetsTable } from '../utils/stockData'
 
-const usePortfolio = () => {
-  const [data, setData] = useState(null)
+export type UsePortfolioResult = {
+  data: SupabaseAssetsTable[] | null
+  loading: boolean
+  error: Error | null
+}
+
+const usePortfolio = (): UsePortfolioResult => {
+  const [data, setData] = useState<SupabaseAssetsTable[] | null>(null)
   const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
+  const [error, setError] = useState<Error | null>(null)
 
   useEffect(() => {
     setLoading(true)
@@ -13,7 +20,7 @@ const usePortfolio = () => {
     supabase
       .from('assets')
       .select('*')
-      .then(({ data, error }) => {
+      .then(({ data, error }: { data: SupabaseAssetsTable[] | null; error: Error | null }) => {
         if (error) {
           setError(error)
           console.error('Supabase eror:', error.message)

@@ -1,8 +1,7 @@
-import React from 'react';
 import './PortfolioStocksPage.css';
 import MainContentBox from './MainContentBox';
-import { preparePortfolioAssets } from '../../utils/stockData.js'
-import usePortfolio from '../../hooks/usePortfolio.js'
+import { preparePortfolioAssets } from '../../utils/stockData'
+import usePortfolio from '../../hooks/usePortfolio'
 
 const PortfolioStocksPage = () => {
   const { data, loading, error } = usePortfolio();

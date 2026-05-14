@@ -1,7 +1,6 @@
-import React from 'react';
 import './LoginPage.css'
 import MainContentBox from './MainContentBox';
-import Button from '../ui/Button.jsx'
+import Button from '../ui/Button'
 import { useMainPage } from '../../context/MainPageContext';
 
 const LoginPage = () => {

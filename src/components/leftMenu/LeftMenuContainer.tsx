@@ -1,9 +1,14 @@
-import React from 'react'
 import './LeftMenuContainer.css'
-import LeftMenuBox from './LeftMenuBox.jsx'
+import LeftMenuBox from './LeftMenuBox'
 import { useMainPage } from '../../context/MainPageContext';
 
-const LeftMenuContainer = ({title = "", onPageChange }) => {
+type LeftMenuContainerProps = {
+  title?: string
+}
+
+const LeftMenuContainer = ({
+  title = ""
+  }: LeftMenuContainerProps) => {
   const {setSelectedMainPage} = useMainPage();
   
   return (

@@ -15,6 +15,6 @@
     "noUnusedParameters": true,
     "noUncheckedIndexedAccess": true
   },
-  "include": ["server.ts", "routes/**/*.ts"],
+  "include": ["server.ts", "routes/**/*.ts", "env.d.ts"],
   "exclude": ["node_modules", "dist"]
 }

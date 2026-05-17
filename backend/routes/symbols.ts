@@ -30,8 +30,7 @@ router.get('/stocks', async (_req, res) => {
       throw probeError
     }
 
-    const latestFetchedAt = probe.length > 0 ? probe[0].fetched_at : null
-
+    const latestFetchedAt = probe[0]?.fetched_at ?? null
     if (!isCatalogStale(latestFetchedAt)) {
       console.log('[CATALOG HIT]')
 

@@ -1,5 +1,16 @@
-const express = require('express')
-const { createClient } = require('@supabase/supabase-js')
+import express, { Request, Response} from 'express'
+import { createClient } from '@supabase/supabase-js'
+
+type AlphaVantageWeeklyResponse = {
+  'Weekly Time Series'?: {
+    [date: string]: {
+      '4. close': string
+    }
+  }
+  'Error Message'?: string
+  'Information'?: string
+  'Note'?: string
+}
 
 const router = express.Router()
 
@@ -10,23 +21,25 @@ const supabase = createClient(
 
 const CACHE_TTL_MS = 7 * 24 * 60 * 60 * 1000 // 7 days hours in milliseconds
 
-function isCacheStale(fetchedAt) {
+function isCacheStale(fetchedAt: string) {
   if (!fetchedAt) return true
   const age = Date.now() - new Date(fetchedAt).getTime()
   return age > CACHE_TTL_MS
 }
 
-function extractLatestPrice(rawData) {
+function extractLatestPrice(rawData: AlphaVantageWeeklyResponse) {
   const timeSeries = rawData['Weekly Time Series']
   if (!timeSeries) return null
 
   const dates = Object.keys(timeSeries).sort((a, b) => b.localeCompare(a))
   const latestDate = dates[0]
+  if (!latestDate) return null
   const latestBar = timeSeries[latestDate]
+  if (!latestBar) return null
   return parseFloat(latestBar['4. close'])
 }
 
-router.get('/:symbol', async (req, res) => {
+router.get('/:symbol', async (req: Request<{ symbol: string }>, res: Response) => {
   const symbol = req.params.symbol.toUpperCase()
 
   try {
@@ -61,7 +74,7 @@ router.get('/:symbol', async (req, res) => {
       `&apikey=${process.env.ALPHA_VANTAGE_KEY}`
 
     const avResponse = await fetch(avUrl)
-    const rawData = await avResponse.json()
+    const rawData = await avResponse.json() as AlphaVantageWeeklyResponse
 
     if (rawData['Error Message']) {
       return res.status(404).json({
@@ -118,10 +131,11 @@ router.get('/:symbol', async (req, res) => {
       raw_data: rawData,
     })
 
-  } catch (error) {
-    console.error(`Unhandled error for ${symbol}:`, error.message)
-    res.status(500).json({ error: 'Internal server error.' })
-  }
+} catch (error) {
+  const message = error instanceof Error ? error.message : 'Unknown error'
+  console.error(`Unhandled error for ${symbol}:`, message)
+  res.status(500).json({ error: 'Internal server error.' })
+}
 })
 
-module.exports = router
+export default router

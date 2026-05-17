@@ -1,6 +1,16 @@
-const express = require('express')
-const { createClient } = require('@supabase/supabase-js')
-const { parse } = require('csv-parse/sync')
+import express from 'express'
+import { createClient } from '@supabase/supabase-js'
+import { parse } from 'csv-parse/sync'
+
+type AlphaVantageListingRow = {
+  symbol: string
+  name: string
+  exchange: string
+  assetType: string
+  ipoDate: string
+  delistingDate: string
+  status: string
+}
 
 const router = express.Router()
 
@@ -11,13 +21,13 @@ const supabase = createClient(
 
 const CATALOG_TTL_MS = 30 * 24 * 60 * 60 * 1000 // 30 days in milliseconds
 
-function isCatalogStale(fetchedAt) {
+function isCatalogStale(fetchedAt: string | null) {
   if (!fetchedAt) return true
   const age = Date.now() - new Date(fetchedAt).getTime()
   return age > CATALOG_TTL_MS
 }
 
-router.get('/stocks', async (req, res) => {
+router.get('/stocks', async (_req, res) => {
   try {
     const { data: probe, error: probeError } = await supabase
       .from('alphavantage_listings')
@@ -30,8 +40,7 @@ router.get('/stocks', async (req, res) => {
       throw probeError
     }
 
-    const latestFetchedAt = probe.length > 0 ? probe[0].fetched_at : null
-
+    const latestFetchedAt = probe[0]?.fetched_at ?? null
     if (!isCatalogStale(latestFetchedAt)) {
       console.log('[CATALOG HIT]')
 
@@ -61,7 +70,7 @@ router.get('/stocks', async (req, res) => {
       columns: true,
       skip_empty_lines: true,
       trim: true,
-    })
+    }) as AlphaVantageListingRow[]
 
 const cleanedRows = rawRows.map(row => ({
   symbol: row.symbol,
@@ -96,9 +105,10 @@ const responseRows = cleanedRows.map(row => ({
 return res.json({ source: 'api', count: responseRows.length, data: responseRows })
 
   } catch (error) {
-    console.error('Unhandled error:', error.message)
+    const message = error instanceof Error ? error.message : 'Unknown error'
+    console.error('Unhandled error:', message)
     res.status(500).json({ error: 'Internal server error.' })
   }
 })
 
-module.exports = router
+export default router

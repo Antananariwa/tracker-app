@@ -1,12 +1,9 @@
-const express = require('express')
-const cors = require('cors')
-const dotenv = require('dotenv')
-const rateLimit = require('express-rate-limit')
-
-dotenv.config()
-
-const stocksRouter = require('./routes/stocks')
-const symbolsRouter = require('./routes/symbols')
+import 'dotenv/config'
+import express, { Request, Response } from 'express'
+import cors from 'cors'
+import rateLimit from 'express-rate-limit'
+import stocksRouter from './routes/stocks'
+import symbolsRouter from './routes/symbols'
 
 const app = express()
 const PORT = process.env.PORT || 3001
@@ -29,7 +26,7 @@ app.use(limiter)
 app.use('/api/stocks', stocksRouter)
 app.use('/api/symbols', symbolsRouter)
 
-app.get('/health', (req, res) => {
+app.get('/health', (_req: Request, res: Response) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() })
 })
 

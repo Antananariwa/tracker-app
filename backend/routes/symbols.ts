@@ -1,6 +1,6 @@
-const express = require('express')
-const { createClient } = require('@supabase/supabase-js')
-const { parse } = require('csv-parse/sync')
+import express from 'express'
+import { createClient } from '@supabase/supabase-js'
+import { parse } from 'csv-parse/sync'
 
 const router = express.Router()
 
@@ -11,13 +11,13 @@ const supabase = createClient(
 
 const CATALOG_TTL_MS = 30 * 24 * 60 * 60 * 1000 // 30 days in milliseconds
 
-function isCatalogStale(fetchedAt) {
+function isCatalogStale(fetchedAt: string) {
   if (!fetchedAt) return true
   const age = Date.now() - new Date(fetchedAt).getTime()
   return age > CATALOG_TTL_MS
 }
 
-router.get('/stocks', async (req, res) => {
+router.get('/stocks', async (_req, res) => {
   try {
     const { data: probe, error: probeError } = await supabase
       .from('alphavantage_listings')

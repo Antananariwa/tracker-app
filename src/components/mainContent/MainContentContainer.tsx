@@ -3,7 +3,6 @@ import { useMainPage } from '../../context/MainPageContext';
 import StockMainPage from './StockMainPage';
 import LoginPage from './LoginPage'
 import RegisterPage from './RegisterPage';
-import CryptoBrowsePage from './CryptoBrowsePage';
 import PortfolioStocksPage from './PortfolioStocksPage'
 
 

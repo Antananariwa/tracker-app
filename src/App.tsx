@@ -10,9 +10,8 @@ import { BrowserRouter } from 'react-router-dom';
 function App() {
 
   return (
-
-    <MainPageProvider>
-      <BrowserRouter>
+    <BrowserRouter>
+      <MainPageProvider>
         <div className="bodyWrapper">
             <TopBar/>
 
@@ -24,8 +23,8 @@ function App() {
           </div>
 
         </div>
-      </BrowserRouter>
-    </MainPageProvider>
+      </MainPageProvider>
+    </BrowserRouter>
   )
 }
 

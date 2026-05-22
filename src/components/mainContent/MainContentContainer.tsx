@@ -17,7 +17,6 @@ const { selectedMainPage } = useMainPage();
 
         {/* Browse group */}
         {selectedMainPage === 'stocks' && <StockMainPage />}
-        {selectedMainPage === 'crypto' && <CryptoBrowsePage />}
 
         {/* Account group */}
         {selectedMainPage === 'login' && <LoginPage/>}

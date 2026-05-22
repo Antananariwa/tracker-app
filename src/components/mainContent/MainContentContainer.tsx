@@ -11,17 +11,17 @@ const MainContentContainer = () => {
 const { selectedMainPage } = useMainPage();
 
   return (
-    <div className="MainContentConainerDiv">
-        {/* Portfolio group */}
-        {selectedMainPage === 'portfolioStocks' && <PortfolioStocksPage />}
+    <Routes>
+      {/* Portfolio group */}
+      <Route path="/portfolio/stocks" element={<PortfolioStocksPage />} />
 
-        {/* Browse group */}
-        {selectedMainPage === 'stocks' && <StockMainPage />}
+      {/* Browse group */}
+      <Route path="/browse/stocks" element={<StockMainPage />} />
 
-        {/* Account group */}
-        {selectedMainPage === 'login' && <LoginPage/>}
-        {selectedMainPage === 'register' && <RegisterPage/>}
-    </div>
+      {/* Account group */}
+      <Route path="/account/login" element={<LoginPage />} />
+      <Route path="/account/login" element={<RegisterPage />} />
+    </Routes>
   )
 }
 

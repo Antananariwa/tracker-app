@@ -1,5 +1,4 @@
 import './MainContentContainer.css';
-import { useMainPage } from '../../context/MainPageContext';
 import StockMainPage from './StockMainPage';
 import LoginPage from './LoginPage'
 import RegisterPage from './RegisterPage';
@@ -8,7 +7,6 @@ import { Routes, Route } from 'react-router-dom'
 
 
 const MainContentContainer = () => {
-const { selectedMainPage } = useMainPage();
 
   return (
     <Routes>

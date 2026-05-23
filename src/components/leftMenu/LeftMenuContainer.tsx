@@ -1,6 +1,5 @@
 import './LeftMenuContainer.css'
 import LeftMenuBox from './LeftMenuBox'
-import { useMainPage } from '../../context/MainPageContext';
 import { useNavigate } from 'react-router-dom';
 
 type LeftMenuContainerProps = {
@@ -10,7 +9,6 @@ type LeftMenuContainerProps = {
 const LeftMenuContainer = ({
   title = ""
   }: LeftMenuContainerProps) => {
-  const {setSelectedMainPage} = useMainPage();
   const navigate = useNavigate();
   
   return (
@@ -25,7 +23,6 @@ const LeftMenuContainer = ({
       <LeftMenuBox 
         groupName="Browse" 
         optionName={["Stocks", "Commodities", "Crypto"]}
-        onOptionClick={()=>setSelectedMainPage('stocks')}
         />
       <LeftMenuBox groupName="Account" optionName={["Option13", "Option14", "Option15", "Option16"]}/>
       <LeftMenuBox groupName="Settings" optionName={["Option17", "Option18", "Option19",]}/>

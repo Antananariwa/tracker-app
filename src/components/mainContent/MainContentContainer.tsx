@@ -20,7 +20,7 @@ const { selectedMainPage } = useMainPage();
 
       {/* Account group */}
       <Route path="/account/login" element={<LoginPage />} />
-      <Route path="/account/login" element={<RegisterPage />} />
+      <Route path="/account/register" element={<RegisterPage />} />
     </Routes>
   )
 }

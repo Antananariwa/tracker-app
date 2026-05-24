@@ -1,10 +1,10 @@
 import './LoginPage.css'
 import MainContentBox from './MainContentBox';
 import Button from '../ui/Button'
-import { useMainPage } from '../../context/MainPageContext';
+import { useNavigate } from 'react-router-dom';
 
 const LoginPage = () => {
-  const {setSelectedMainPage} = useMainPage();
+  const navigate = useNavigate();
   
   return (
     <div className='loginPageWrapper'>
@@ -20,7 +20,7 @@ const LoginPage = () => {
           </Button>
 
       </MainContentBox>
-      <Button variant='secondary' className='logInButton' onClick={()=>setSelectedMainPage('')}>
+      <Button variant='secondary' className='logInButton' onClick={()=>navigate('')}>
         <h3>Log In</h3>
       </Button>
 

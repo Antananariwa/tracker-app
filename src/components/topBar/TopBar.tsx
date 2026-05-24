@@ -1,10 +1,10 @@
 import './TopBar.css';
 import Button from '../ui/Button';
-import { useMainPage } from '../../context/MainPageContext';
+import { useNavigate } from 'react-router-dom';
 import { supabase } from '../../lib/supabase'
 
 const TopBar = () => {
-  const {setSelectedMainPage} = useMainPage();
+  const navigate = useNavigate();
 
   const handleDemoLogin = async () => {
     const { error } = await supabase.auth.signInWithPassword({
@@ -15,7 +15,7 @@ const TopBar = () => {
       console.error('Login failed:', error.message)
       return
     }
-    setSelectedMainPage('portfolioStocks')
+    navigate('/portfolio/stocks')
   }
   
   return (
@@ -33,10 +33,10 @@ const TopBar = () => {
         <Button variant='secondary' className='demo-account-btn-topbar' onClick={()=>handleDemoLogin()}>
           Demo Account
         </Button>
-        <Button variant='secondary' className='login-btn-topbar' onClick={()=>setSelectedMainPage('login')}>
+        <Button variant='secondary' className='login-btn-topbar' onClick={()=>navigate('/account/login')}>
           Log In
         </Button>
-        <Button variant='secondary' className='login-btn-topbar' onClick={()=>setSelectedMainPage('register')}>
+        <Button variant='secondary' className='login-btn-topbar' onClick={()=>navigate('/account/register')}>
           Register
         </Button>
         <Button variant='secondary'>

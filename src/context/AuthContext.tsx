@@ -1,8 +1,17 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from "react"
 
+type AuthContextValue = {
+  Auth:
+  setAuth:
+}
+
 const AuthContext = createContext<AuthContextValue> | null>(null);
 
-export const AuthContextProvider = ({ children }) => {
+type ThemeProviderProps = {
+  children: ReactNode
+}
+
+export const AuthContextProvider = ({ children }: ThemeProviderProps) => {
   const [Auth, setAuth] = useState()
 
   return (

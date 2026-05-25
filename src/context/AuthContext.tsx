@@ -1,4 +1,17 @@
-import { createContext } from "react";
+import { createContext, useEffect } from "react"
 
-const Authcontext = createContext();
+const AuthContext = createcontext();
 
+const AuthContextProvider = () => {
+  useEffect(()=>{
+    setAuthContext = supabase.auth.getSession()
+  }),[]
+
+  return (
+    <div>
+      
+    </div>
+  )
+}
+
+export default AuthContext

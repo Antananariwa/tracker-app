@@ -20,3 +20,7 @@ export const AuthContextProvider = ({ children }: ThemeProviderProps) => {
     </AuthContext.Provider>
   )
 }
+
+export const useAuth = () => {
+  return setAuth(supabase.auth.getSession())
+}

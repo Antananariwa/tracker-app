@@ -26,6 +26,7 @@ export const AuthContextProvider = ({ children }: ThemeProviderProps) => {
 }
 
 export const useAuth = () => {
-  const currentState = supabase.auth.getSession()
-  return currentState
+  const contextValue = useContext(AuthContext)
+  if (!contextValue) throw new Error('useAuth must be used inside AuthContextProvider')
+  return contextValue
 }

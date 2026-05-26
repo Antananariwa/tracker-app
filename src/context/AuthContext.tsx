@@ -12,7 +12,11 @@ type ThemeProviderProps = {
 }
 
 export const AuthContextProvider = ({ children }: ThemeProviderProps) => {
-  const [Auth, setAuth] = useState()
+  const [session, useSession] = useState()
+
+  useEffect(()=> {
+
+  }, [])
 
   return (
     <AuthContext.Provider value={{ Auth, setAuth }}>
@@ -22,5 +26,6 @@ export const AuthContextProvider = ({ children }: ThemeProviderProps) => {
 }
 
 export const useAuth = () => {
-  return setAuth(supabase.auth.getSession())
+  const currentState = supabase.auth.getSession()
+  return currentState
 }

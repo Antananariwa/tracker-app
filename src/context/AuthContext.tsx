@@ -1,4 +1,6 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from "react"
+import type { Session } from "@supabase/supabase-js"
+import { supabase } from "../lib/supabase";
 
 type AuthContextValue = {
   Auth:
@@ -7,11 +9,13 @@ type AuthContextValue = {
 
 const AuthContext = createContext<AuthContextValue> | null>(null);
 
-type ThemeProviderProps = {
+type AuthContextProviderProps = {
+  session: Session | null
+  loading: boolean
   children: ReactNode
 }
 
-export const AuthContextProvider = ({ children }: ThemeProviderProps) => {
+export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   const [session, useSession] = useState()
 
   useEffect(()=> {

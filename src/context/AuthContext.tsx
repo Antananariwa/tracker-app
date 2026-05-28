@@ -18,7 +18,10 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   const [loading, setLoading] = useState(true)
 
   useEffect(()=> {
+    const { data, error }: { data: AuthContextValue['session']; error: any } = await supabase.auth.getSession()
+    setSession(data)
 
+    
   }, [])
 
   return (
@@ -29,7 +32,7 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
 }
 
 export const useAuth = () => {
-  const contextValue = useContext(AuthContext)
-  if (!contextValue) throw new Error('useAuth must be used inside AuthContextProvider')
-  return contextValue
+  const context = useContext(AuthContext)
+  if (!context) throw new Error('useAuth must be used inside AuthContextProvider')
+  return context
 }

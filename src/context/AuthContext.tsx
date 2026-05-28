@@ -18,9 +18,15 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   const [loading, setLoading] = useState(true)
 
   useEffect(()=> {
-    const { data, error }: { data: AuthContextValue['session']; error: any } = await supabase.auth.getSession()
+    const { data, error } = await supabase.auth.getSession()
     setSession(data)
 
+    const { data } = supabase.auth.onAuthStateChange( session ) => {
+
+      setSession(session)
+    })
+
+    return () => subscription.unsubscribe()
     
   }, [])
 

@@ -4,24 +4,27 @@ import LeftMenuContainer from './components/leftMenu/LeftMenuContainer'
 import MainContentContainer from './components/mainContent/MainContentContainer'
 import TopBar from './components/topBar/TopBar';
 import { BrowserRouter } from 'react-router-dom';
+import { AuthContextProvider } from './context/AuthContext';
 
 
 function App() {
 
   return (
-    <BrowserRouter>
-        <div className="bodyWrapper">
-            <TopBar/>
+    <AuthContextProvider>
+      <BrowserRouter>
+          <div className="bodyWrapper">
+              <TopBar/>
 
-            <LeftMenuContainer title="Left Container"/>
+              <LeftMenuContainer title="Left Container"/>
 
-          <div className="contentDiv">
-            <Header title="Investments Calculator" subtitle="Table with individual assets"/>
-            <MainContentContainer/>
+            <div className="contentDiv">
+              <Header title="Investments Calculator" subtitle="Table with individual assets"/>
+              <MainContentContainer/>
+            </div>
+
           </div>
-
-        </div>
-    </BrowserRouter>
+      </BrowserRouter>
+    </AuthContextProvider>
   )
 }
 

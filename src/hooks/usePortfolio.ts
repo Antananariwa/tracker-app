@@ -34,8 +34,6 @@ const usePortfolio = (): UsePortfolioResult => {
         } else {
           setData(data)
         }
-      })
-      .finally(() => {
         setLoading(false)
       })
 

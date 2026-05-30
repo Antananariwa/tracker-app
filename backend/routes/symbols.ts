@@ -30,7 +30,7 @@ function isCatalogStale(fetchedAt: string | null) {
 router.get('/stocks', async (_req, res) => {
   try {
     const { data: probe, error: probeError } = await supabase
-      .from('alphavantage_listings')
+      .from('stock_alphavantage_listings')
       .select('fetched_at')
       .order('fetched_at', { ascending: false })
       .limit(1)
@@ -45,7 +45,7 @@ router.get('/stocks', async (_req, res) => {
       console.log('[CATALOG HIT]')
 
       const { data: rows, error: readError } = await supabase
-        .from('alphavantage_listings')
+        .from('stock_alphavantage_listings')
         .select('symbol, name, exchange, asset_type, status')
 
       if (readError) {

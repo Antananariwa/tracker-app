@@ -44,7 +44,7 @@ router.get('/:symbol', async (req: Request<{ symbol: string }>, res: Response) =
 
   try {
     const { data: cached, error: cacheError } = await supabase
-      .from('price_cache')
+      .from('stock_price_cache')
       .select('*')
       .eq('symbol', symbol)
       .single()
@@ -106,7 +106,7 @@ router.get('/:symbol', async (req: Request<{ symbol: string }>, res: Response) =
     }
 
     const { error: upsertError } = await supabase
-      .from('price_cache')
+      .from('stock_price_cache')
       .upsert(
         {
           symbol,

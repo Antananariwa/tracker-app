@@ -84,7 +84,7 @@ const cleanedRows = rawRows.map(row => ({
 }))
 
 const { error: upsertError } = await supabase
-  .from('alphavantage_listings')
+  .from('stock_alphavantage_listings')
   .upsert(cleanedRows, { onConflict: 'symbol' })
 
 if (upsertError) {

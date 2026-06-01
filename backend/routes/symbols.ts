@@ -20,7 +20,7 @@ const supabase = createClient(
 )
 
 const STOCK_CATALOG_TTL_MS = 30 * 24 * 60 * 60 * 1000 // 30 days in milliseconds
-const CRYPTO_CATALOG_TTS_MS = 3 * 60 * 1000 // 3 min in milliseconds
+const CRYPTO_CATALOG_TTL_MS = 3 * 60 * 1000 // 3 min in milliseconds
 
 function isCatalogStale(fetchedAt: string | null, catalog_TTL) {
   if (!fetchedAt) return true
@@ -113,7 +113,7 @@ return res.json({ source: 'api', count: responseRows.length, data: responseRows 
 })
 
 
-router.get('/stocks', async (_req, res) => {
+router.get('/crypto', async (_req, res) => {
   try {
     const { data: probe, error: probeError } = await supabase
       .from('stock_alphavantage_listings')
@@ -127,12 +127,12 @@ router.get('/stocks', async (_req, res) => {
     }
 
     const latestFetchedAt = probe[0]?.fetched_at ?? null
-    if (!isCatalogStale(latestFetchedAt, STOCK_CATALOG_TTL_MS)) {
+    if (!isCatalogStale(latestFetchedAt, CRYPTO_CATALOG_TTL_MS)) {
       console.log('[CATALOG HIT]')
 
       const { data: rows, error: readError } = await supabase
-        .from('stock_alphavantage_listings')
-        .select('symbol, name, exchange, asset_type, status')
+        .from('crypto_coingecko_listings')
+        .select('coin_id, symbol, name')
 
       if (readError) {
         console.error('Supabase read error:', readError.message)
@@ -147,7 +147,7 @@ router.get('/stocks', async (_req, res) => {
     const avUrl =
       `https://www.alphavantage.co/query` +
       `?function=LISTING_STATUS` +
-      `&apikey=${process.env.ALPHA_VANTAGE_KEY}`
+      `&apikey=${process.env.COINGECKO_API_KEY}`
 
     const avResponse = await fetch(avUrl)
     const csvText = await avResponse.text()
@@ -159,18 +159,14 @@ router.get('/stocks', async (_req, res) => {
     }) as AlphaVantageListingRow[]
 
 const cleanedRows = rawRows.map(row => ({
+  coin_id: row.coin_id,
   symbol: row.symbol,
   name: row.name,
-  exchange: row.exchange || null,
-  asset_type: row.assetType || null,
-  ipo_date: row.ipoDate && row.ipoDate !== 'null' ? row.ipoDate : null,
-  delisting_date: row.delistingDate && row.delistingDate !== 'null' ? row.delistingDate : null,
-  status: row.status || null,
   fetched_at: new Date().toISOString(),
 }))
 
 const { error: upsertError } = await supabase
-  .from('stock_alphavantage_listings')
+  .from('crypto_coingecko_listings')
   .upsert(cleanedRows, { onConflict: 'symbol' })
 
 if (upsertError) {
@@ -181,11 +177,9 @@ if (upsertError) {
 console.log(`[CATALOG REFRESH] Upserted ${cleanedRows.length} rows`)
 
 const responseRows = cleanedRows.map(row => ({
+  coin_id: row.coin_id,
   symbol: row.symbol,
   name: row.name,
-  exchange: row.exchange,
-  asset_type: row.asset_type,
-  status: row.status,
 }))
 
 return res.json({ source: 'api', count: responseRows.length, data: responseRows })

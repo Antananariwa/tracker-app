@@ -12,6 +12,12 @@ type AlphaVantageListingRow = {
   status: string
 }
 
+type CoinGeckoListingRow = {
+  id: string
+  symbol: string
+  name: string
+}
+
 const router = express.Router()
 
 const supabase = createClient(
@@ -20,9 +26,9 @@ const supabase = createClient(
 )
 
 const STOCK_CATALOG_TTL_MS = 30 * 24 * 60 * 60 * 1000 // 30 days in milliseconds
-const CRYPTO_CATALOG_TTL_MS = 3 * 60 * 1000 // 3 min in milliseconds
+const CRYPTO_CATALOG_TTL_MS = 1 * 24 * 60 * 60 * 1000 // 1 day in milliseconds
 
-function isCatalogStale(fetchedAt: string | null, catalog_TTL) {
+function isCatalogStale(fetchedAt: string | null, catalog_TTL: number) {
   if (!fetchedAt) return true
   const age = Date.now() - new Date(fetchedAt).getTime()
   return age > catalog_TTL
@@ -116,7 +122,7 @@ return res.json({ source: 'api', count: responseRows.length, data: responseRows 
 router.get('/crypto', async (_req, res) => {
   try {
     const { data: probe, error: probeError } = await supabase
-      .from('stock_alphavantage_listings')
+      .from('crypto_coingecko_listings')
       .select('fetched_at')
       .order('fetched_at', { ascending: false })
       .limit(1)
@@ -144,22 +150,13 @@ router.get('/crypto', async (_req, res) => {
 
     console.log('[CATALOG REFRESH]')
 
-    const avUrl =
-      `https://www.alphavantage.co/query` +
-      `?function=LISTING_STATUS` +
-      `&apikey=${process.env.COINGECKO_API_KEY}`
+    const cgUrl = `https://api.coingecko.com/api/v3/coins/list`
 
-    const avResponse = await fetch(avUrl)
-    const csvText = await avResponse.text()
-
-    const rawRows = parse(csvText, {
-      columns: true,
-      skip_empty_lines: true,
-      trim: true,
-    }) as AlphaVantageListingRow[]
+    const cgResponse = await fetch(cgUrl)
+    const rawRows = await cgResponse.json() as CoinGeckoListingRow[]
 
 const cleanedRows = rawRows.map(row => ({
-  coin_id: row.coin_id,
+  coin_id: row.id,
   symbol: row.symbol,
   name: row.name,
   fetched_at: new Date().toISOString(),
@@ -167,7 +164,7 @@ const cleanedRows = rawRows.map(row => ({
 
 const { error: upsertError } = await supabase
   .from('crypto_coingecko_listings')
-  .upsert(cleanedRows, { onConflict: 'symbol' })
+  .upsert(cleanedRows, { onConflict: 'coin_id' })
 
 if (upsertError) {
   console.error('Supabase upsert error:', upsertError.message)

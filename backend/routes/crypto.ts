@@ -19,7 +19,7 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_KEY
 )
 
-const CACHE_TTL_MS = 7 * 24 * 60 * 60 * 1000 // 7 days hours in milliseconds
+const CACHE_TTL_MS = 3 * 60 * 1000 // 7 days hours in milliseconds
 
 function isCacheStale(fetchedAt: string) {
   if (!fetchedAt) return true
@@ -44,7 +44,7 @@ router.get('/:symbol', async (req: Request<{ symbol: string }>, res: Response) =
 
   try {
     const { data: cached, error: cacheError } = await supabase
-      .from('stock_price_cache')
+      .from('crypto_price_cache')
       .select('*')
       .eq('symbol', symbol)
       .single()

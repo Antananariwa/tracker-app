@@ -1,15 +1,10 @@
 import express, { Request, Response} from 'express'
 import { createClient } from '@supabase/supabase-js'
 
-type AlphaVantageWeeklyResponse = {
-  'Weekly Time Series'?: {
-    [date: string]: {
-      '4. close': string
-    }
-  }
-  'Error Message'?: string
-  'Information'?: string
-  'Note'?: string
+type CoinGeckoResponse = {
+  "prices":        [number, number][],
+  "market_caps":   [number, number][],
+  "total_volumes": [number, number][]
 }
 
 const router = express.Router()
@@ -39,14 +34,14 @@ function extractLatestPrice(rawData: AlphaVantageWeeklyResponse) {
   return parseFloat(latestBar['4. close'])
 }
 
-router.get('/:symbol', async (req: Request<{ symbol: string }>, res: Response) => {
-  const symbol = req.params.symbol.toUpperCase()
+router.get('/:symbol', async (req: Request<{ coin_id: string }>, res: Response) => {
+  const coin_id = req.params.coin_id.toUpperCase()
 
   try {
     const { data: cached, error: cacheError } = await supabase
       .from('crypto_price_cache')
       .select('*')
-      .eq('symbol', symbol)
+      .eq('coin_id', coin_id)
       .single()
 
     if (cacheError && cacheError.code !== 'PGRST116') {
@@ -55,9 +50,10 @@ router.get('/:symbol', async (req: Request<{ symbol: string }>, res: Response) =
     }
 
     if (cached && !isCacheStale(cached.fetched_at)) {
-      console.log(`[CACHE HIT] ${symbol}`)
+      console.log(`[CACHE HIT] ${coin_id}`)
       return res.json({
         symbol,
+        coin_id,
         price: cached.price,
         source: 'cache',
         fetched_at: cached.fetched_at,
@@ -67,32 +63,32 @@ router.get('/:symbol', async (req: Request<{ symbol: string }>, res: Response) =
 
     console.log(`[API FETCH] ${symbol}`)
 
-    const avUrl =
-      `https://www.alphavantage.co/query` +
-      `?function=TIME_SERIES_WEEKLY` +
-      `&symbol=${symbol}` +
-      `&apikey=${process.env.ALPHA_VANTAGE_KEY}`
+    const cgUrl =
+      `https://api.coingecko.com/api/v3/coins` +
+      `/${coin_id}` +
+      `/market_chart?vs_currency=usd&days=365` +
+      `&x_cg_demo_api_key=${process.env.COINGECKO_API_KEY}`
 
-    const avResponse = await fetch(avUrl)
-    const rawData = await avResponse.json() as AlphaVantageWeeklyResponse
+    const cgResponse = await fetch(cgUrl)
+    const rawData = await cgResponse.json() as CoinGeckoResponse
 
     if (rawData['Error Message']) {
       return res.status(404).json({
-        error: `Symbol "${symbol}" was not found on AlphaVantage.`,
+        error: `Symbol "${symbol}" was not found on CoinGecko.`,
       })
     }
 
     if (rawData['Information']) {
-      console.error('AlphaVantage daily limit reached.')
+      console.error('CoinGecko daily limit reached.')
       return res.status(429).json({
-        error: 'AlphaVantage daily API limit reached. Try again tomorrow.',
+        error: 'CoinGecko daily API limit reached. Try again tomorrow.',
       })
     }
 
     if (rawData['Note']) {
-      console.error('AlphaVantage rate limit hit.')
+      console.error('CoinGecko rate limit hit.')
       return res.status(429).json({
-        error: 'AlphaVantage rate limit hit. Wait 60 seconds and try again.',
+        error: 'CoinGecko rate limit hit. Wait 60 seconds and try again.',
       })
     }
 

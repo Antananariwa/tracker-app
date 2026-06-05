@@ -22,14 +22,13 @@ function isCacheStale(fetchedAt: string) {
   return age > CACHE_TTL_MS
 }
 
-function extractLatestPrice(rawData: AlphaVantageWeeklyResponse) {
-  const timeSeries = rawData['Weekly Time Series']
-  if (!timeSeries) return null
+function extractLatestPrice(rawData: CoinGeckoResponse) {
+  if (!rawData) return null
 
-  const dates = Object.keys(timeSeries).sort((a, b) => b.localeCompare(a))
+  const dates = Object.keys(rawData['prices'][0]).sort((a, b) => b.localeCompare(a))
   const latestDate = dates[0]
   if (!latestDate) return null
-  const latestBar = timeSeries[latestDate]
+  const latestBar = rawData['prices'][latestDate]
   if (!latestBar) return null
   return parseFloat(latestBar['4. close'])
 }

@@ -23,14 +23,8 @@ function isCacheStale(fetchedAt: string) {
 }
 
 function extractLatestPrice(rawData: CoinGeckoResponse) {
-  if (!rawData) return null
-
-  const dates = Object.keys(rawData['prices'][0]).sort((a, b) => b.localeCompare(a))
-  const latestDate = dates[0]
-  if (!latestDate) return null
-  const latestBar = rawData['prices'][latestDate]
-  if (!latestBar) return null
-  return parseFloat(latestBar['4. close'])
+  const prices = rawData['prices']
+  return prices[prices.length - 1]?.[1] ?? null
 }
 
 router.get('/:symbol', async (req: Request<{ coin_id: string }>, res: Response) => {

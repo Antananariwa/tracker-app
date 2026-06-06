@@ -5,9 +5,6 @@ type CoinGeckoResponse = {
   "prices":        [number, number][],
   "market_caps":   [number, number][],
   "total_volumes": [number, number][],
-  'Error Message'?: string,
-  'Information'?: string,
-  'Note'?: string
 }
 
 const router = express.Router()
@@ -30,8 +27,8 @@ function extractLatestPrice(rawData: CoinGeckoResponse) {
   return prices[prices.length - 1]?.[1] ?? null
 }
 
-router.get('/:symbol', async (req: Request<{ coin_id: string }>, res: Response) => {
-  const coin_id = req.params.coin_id.toUpperCase()
+router.get('/:coin_id', async (req: Request<{ coin_id: string }>, res: Response) => {
+  const coin_id = req.params.coin_id
 
   try {
     const { data: cached, error: cacheError } = await supabase
@@ -65,27 +62,12 @@ router.get('/:symbol', async (req: Request<{ coin_id: string }>, res: Response) 
       `&x_cg_demo_api_key=${process.env.COINGECKO_API_KEY}`
 
     const cgResponse = await fetch(cgUrl)
+    if (!cgResponse.ok) {
+      if (cgResponse.status === 404) return res.status(404).json({ error: `Coin "${coin_id}" not found.` })
+      if (cgResponse.status === 429) return res.status(429).json({ error: 'CoinGecko rate limit hit. Try again shortly.' })
+      return res.status(502).json({ error: 'CoinGecko request failed.' })
+    }
     const rawData = await cgResponse.json() as CoinGeckoResponse
-
-    if (rawData['Error Message']) {
-      return res.status(404).json({
-        error: `Symbol "${coin_id}" was not found on CoinGecko.`,
-      })
-    }
-
-    if (rawData['Information']) {
-      console.error('CoinGecko daily limit reached.')
-      return res.status(429).json({
-        error: 'CoinGecko daily API limit reached. Try again tomorrow.',
-      })
-    }
-
-    if (rawData['Note']) {
-      console.error('CoinGecko rate limit hit.')
-      return res.status(429).json({
-        error: 'CoinGecko rate limit hit. Wait 60 seconds and try again.',
-      })
-    }
 
     const latestPrice = extractLatestPrice(rawData)
 
@@ -100,8 +82,8 @@ router.get('/:symbol', async (req: Request<{ coin_id: string }>, res: Response) 
       .from('crypto_price_cache')
       .upsert(
         {
-          coin_id,
-          latestPrice,
+          coin_id: coin_id,
+          price: latestPrice,
           fetched_at: new Date().toISOString(),
           raw_data: rawData,
         },
@@ -114,7 +96,8 @@ router.get('/:symbol', async (req: Request<{ coin_id: string }>, res: Response) 
     }
 
     return res.json({
-      latestPrice,
+      coin_id,
+      price: latestPrice,
       source: 'api',
       fetched_at: new Date().toISOString(),
       raw_data: rawData,

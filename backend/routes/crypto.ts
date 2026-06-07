@@ -63,6 +63,15 @@ router.get('/:coin_id', async (req: Request<{ coin_id: string }>, res: Response)
 
     const cgResponse = await fetch(cgUrl)
     if (!cgResponse.ok) {
+      if (cached) {
+        return res.json({
+          coin_id,
+          price: cached.price,
+          source: 'stale-cache',
+          fetched_at: cached.fetched_at,
+          raw_data: cached.raw_data,
+        })
+      }
       if (cgResponse.status === 404) return res.status(404).json({ error: `Coin "${coin_id}" not found.` })
       if (cgResponse.status === 429) return res.status(429).json({ error: 'CoinGecko rate limit hit. Try again shortly.' })
       return res.status(502).json({ error: 'CoinGecko request failed.' })

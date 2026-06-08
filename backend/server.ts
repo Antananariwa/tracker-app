@@ -4,6 +4,7 @@ import cors from 'cors'
 import rateLimit from 'express-rate-limit'
 import stocksRouter from './routes/stocks'
 import symbolsRouter from './routes/symbols'
+import cryptoRouter from './routes/crypto'
 
 const app = express()
 const PORT = process.env.PORT || 3001
@@ -16,7 +17,7 @@ app.use(express.json())
 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: 20,
+  max: 100,
   standardHeaders: true,
   legacyHeaders: false,
 })
@@ -25,6 +26,7 @@ app.use(limiter)
 
 app.use('/api/stocks', stocksRouter)
 app.use('/api/symbols', symbolsRouter)
+app.use('/api/crypto', cryptoRouter)
 
 app.get('/health', (_req: Request, res: Response) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() })

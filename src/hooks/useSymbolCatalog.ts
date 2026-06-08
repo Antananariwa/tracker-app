@@ -8,14 +8,20 @@ export type StockSymbol = {
   status: string
 }
 
+export type CryptoSymbol = {
+  coin_id: string
+  symbol: string
+  name: string
+}
+
 type UseSymbolCatalogResult = {
-  data: StockSymbol[] | null
+  data: StockSymbol[] | CryptoSymbol[] | null
   loading: boolean
   error: Error | null
 }
 
-const useSymbolCatalog = (category: 'stocks'): UseSymbolCatalogResult => {
-  const [data, setData] = useState<StockSymbol[] | null>(null)
+const useSymbolCatalog = (category: 'stocks' | 'crypto'): UseSymbolCatalogResult => {
+  const [data, setData] = useState<StockSymbol[] | CryptoSymbol[] | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<Error | null>(null)
 

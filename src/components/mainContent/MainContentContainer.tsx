@@ -4,6 +4,7 @@ import LoginPage from './LoginPage'
 import RegisterPage from './RegisterPage';
 import PortfolioStocksPage from './PortfolioStocksPage'
 import { Routes, Route } from 'react-router-dom'
+import CryptoBrowsePage from './displays/browse/CryptoBrowsePage';
 
 
 const MainContentContainer = () => {
@@ -15,6 +16,7 @@ const MainContentContainer = () => {
 
       {/* Browse group */}
       <Route path="/browse/stocks" element={<StockMainPage />} />
+      <Route path="/browse/crypto" element={<CryptoBrowsePage />} />
 
       {/* Account group */}
       <Route path="/account/login" element={<LoginPage />} />

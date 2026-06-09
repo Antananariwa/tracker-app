@@ -5,7 +5,7 @@ import ApiDataBox from './displays/ApiDataBox';
 import LatestPriceDisplay from './displays/LatestPriceDisplay';
 import { extractStockOverview, extractLatestStockPrice, adjustDataByTime, extractChartPriceByDateWeekly, type GraphTimeFrame } from '../../utils/stockData';
 import MetaDataDisplay from './displays/MetaDataDisplay';
-import StockSearchBar from './StockSearchBar';
+import StockSearchBar from './searchBars/StockSearchBar';
 import useBackendStock from '../../hooks/useBackendStock';
 
 const StockMainPage = () => {

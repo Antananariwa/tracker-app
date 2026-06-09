@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import './StockSearchBar.css';
-import useSymbolCatalog, { type StockSymbol } from '../../hooks/useSymbolCatalog'
+import useSymbolCatalog, { type StockSymbol } from '../../../hooks/useSymbolCatalog'
 
 type StockSearchBarProps = {
   onStockSelect: (symbol: string) => void

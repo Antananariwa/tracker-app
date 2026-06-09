@@ -1,4 +1,5 @@
 import MainContentBox from "../../MainContentBox"
+import PrimaryGraph from "../groups/PrimaryGraph"
 
 
 const CryptoBrowsePage = () => {
@@ -11,6 +12,15 @@ const CryptoBrowsePage = () => {
       <MainContentBox>
         <PrimaryGraph />
       </MainContentBox>
+
+      <MainContentBox>
+        <Example coin info component />
+      </MainContentBox>
+
+      <MainContentBox>
+        <Example coin info component />
+      </MainContentBox>
+
     </div>
   )
 }

@@ -22,7 +22,7 @@ const LeftMenuContainer = ({
       />
       <LeftMenuBox 
         groupName="Browse" 
-        optionName={["Stocks", "Commodities", "Crypto"]}
+        optionName={["Stocks", "Crypto"]}
         />
       <LeftMenuBox groupName="Account" optionName={["Option13", "Option14", "Option15", "Option16"]}/>
       <LeftMenuBox groupName="Settings" optionName={["Option17", "Option18", "Option19",]}/>

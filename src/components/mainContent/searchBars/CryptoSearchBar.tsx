@@ -1,20 +1,20 @@
 import { useState } from 'react';
-import './StockSearchBar.css';
-import useSymbolCatalog, { type StockSymbol } from '../../../hooks/useSymbolCatalog'
+import './CryptoSearchBar.css';
+import useSymbolCatalog, { type CryptoSymbol } from '../../../hooks/useSymbolCatalog'
 
-type StockSearchBarProps = {
-  onStockSelect: (symbol: string) => void
+type CryptoSearchBarProps = {
+  onCryptoSelect: (symbol: string) => void
 }
 
-const StockSearchBar = ({ onStockSelect }: StockSearchBarProps) => {
+const CryptoSearchBar = ({ onCryptoSelect }: CryptoSearchBarProps) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [showDropdown, setShowDropdown] = useState(false);
-  const { data, loading, error } = useSymbolCatalog('stocks');
-  const stocks = data as StockSymbol[] | null
+  const { data, loading, error } = useSymbolCatalog('crypto');
+  const crypto = data as CryptoSymbol[] | null
 
   
-  const filteredStocks = stocks
-  ? stocks.filter((company) => company.symbol.toLowerCase().includes(searchTerm.toLowerCase()) || company.name.toLowerCase().includes(searchTerm.toLowerCase()) )
+  const filteredCrypto = crypto
+  ? crypto.filter((coin) => coin.symbol.toLowerCase().includes(searchTerm.toLowerCase()) || coin.name.toLowerCase().includes(searchTerm.toLowerCase()))
   : []
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -22,34 +22,34 @@ const StockSearchBar = ({ onStockSelect }: StockSearchBarProps) => {
     setShowDropdown(true);
   };
 
-  const handleStockClick = (symbol: string) => {
-    onStockSelect(symbol)
+  const handleCryptoClick = (symbol: string) => {
+    onCryptoSelect(symbol)
     setShowDropdown(false);
   };
 
   if (error) {
-  return <div className="stock-search-bar-div">Error loading stock list.</div>
+  return <div className="crypto-search-bar-div">Error loading crypto list.</div>
   } 
   
   return (
-    <div className="stock-search-bar-div">
+    <div className="crypto-search-bar-div">
       <input 
         type="text"
-        placeholder={loading ? 'Loading stock list...' : 'Type stock name...'}
+        placeholder={loading ? 'Loading crypto list...' : 'Type crypto name...'}
         disabled={loading}
         value={searchTerm}
         onChange={handleInputChange}
       />
       
-      {showDropdown && searchTerm.length > 0 && filteredStocks.length > 0 && (
+      {showDropdown && searchTerm.length > 0 && filteredCrypto.length > 0 && (
         <div className="dropdown">
-          {filteredStocks.map(stock => (
+          {filteredCrypto.map(crypto => (
             <div 
-              key={stock.symbol}
-              onClick={() => handleStockClick(stock.symbol)}
+              key={crypto.coin_id}
+              onClick={() => handleCryptoClick(crypto.coin_id)}
               className="dropdown-item"
             >
-              {stock.symbol} - {stock.name}
+              {crypto.symbol} - {crypto.name}
             </div>
           ))}
         </div>
@@ -58,4 +58,4 @@ const StockSearchBar = ({ onStockSelect }: StockSearchBarProps) => {
   );
 };
 
-export default StockSearchBar;
+export default CryptoSearchBar;

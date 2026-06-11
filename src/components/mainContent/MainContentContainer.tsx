@@ -1,5 +1,5 @@
 import './MainContentContainer.css';
-import StockMainPage from './StockMainPage';
+import StockMainPage from './browse/StockBrowsePage';
 import LoginPage from './LoginPage'
 import RegisterPage from './RegisterPage';
 import PortfolioStocksPage from './PortfolioStocksPage'

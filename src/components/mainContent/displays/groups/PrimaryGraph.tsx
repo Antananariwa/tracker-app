@@ -15,13 +15,13 @@ type PrimaryGraphProps = {
   selectedTimeFrame: GraphTimeFrame
 }
 
-const PrimaryGraph = ({latestPriceTitle, loading, error, latestPriceData, chartDataTimeFrame, setSelectedTimeFrame, selectedTimeFrame}: PrimaryGraphProps) => {
+const PrimaryGraph = ({latestPriceTitle, loading, error, latestPriceData, chartDataTimeFrame, setSelectedTimeFrame, selectedTimeFrame, XAxisDataKey, areaDataKey}: PrimaryGraphProps) => {
   return (
     <div className='PrimaryGraph-div'>
       <ApiDataBox title = {latestPriceTitle} loading = {loading} error = {error}>
         <LatestPriceDisplay latestPriceData={latestPriceData} />
       </ApiDataBox> 
-      <DemoGraph chartData = {chartDataTimeFrame}/>
+      <DemoGraph chartData = {chartDataTimeFrame} XAxisDataKey = {} areaDataKey = {}/>
       <TimeFrameOptions
         selectedTimeFrame={selectedTimeFrame}
         onOptionClick={(time) => {

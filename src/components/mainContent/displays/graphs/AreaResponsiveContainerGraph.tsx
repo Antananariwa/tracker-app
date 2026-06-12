@@ -1,7 +1,7 @@
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 
-type ExampleProps = {
+export type ExampleProps = {
   chartData: { [key: string]: string | number }[]
   XAxisDataKey: string
   areaDataKey: string 

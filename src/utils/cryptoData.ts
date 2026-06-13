@@ -9,8 +9,11 @@ export type LatestCryptoPrice = {
   price: number
 }
 
-export type GraphTimeFrame = "1M" | "3M" | "6M" | "1Y" | "3Y" | "5Y" | "10Y" | "20Y" 
-
+export type CoinChartData = {
+  date: number
+  price: number 
+  volume: number
+}
 
 
 export const extractLatestCryptoPrice = (data: CoinGeckoResponse): LatestCryptoPrice | null => {
@@ -29,3 +32,20 @@ export const extractLatestCryptoPrice = (data: CoinGeckoResponse): LatestCryptoP
     price: latestPrice,
   };
 };
+
+
+export const extractCoinChartData = (data: CoinGeckoResponse): CoinChartData[] => {
+  if (!data || !data['prices'] || !data['total_volumes']) return [];
+
+  const prices = data['prices']
+
+  const volumes = data['total_volumes']
+
+  const exitData = prices.map(([datePoint, pricePoint], index) => ({
+    date: datePoint,
+    price: pricePoint,
+    volume: volumes[index]?.[1] ?? 0
+  }))
+
+  return exitData;
+} 

@@ -99,7 +99,7 @@ export const extractChartPriceByDateWeekly = (data: AlphaVantageWeeklyResponse):
   const timeSeriesArrayReversed = Object.entries(timeSeries).sort((a, b) => a[0].localeCompare(b[0]));
   
   const preparedData = timeSeriesArrayReversed.map(([date, values]) => ({
-    date: date, 
+    date: new Date(date).toLocaleDateString('en-GB'), 
     close: parseFloat(values['4. close']),
     volume: parseInt(values['5. volume'], 10)
   }))

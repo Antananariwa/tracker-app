@@ -10,7 +10,7 @@ export type LatestCryptoPrice = {
 }
 
 export type CoinChartData = {
-  date: number
+  date: string
   price: number 
   volume: number
 }
@@ -42,7 +42,7 @@ export const extractCoinChartData = (data: CoinGeckoResponse): CoinChartData[] =
   const volumes = data['total_volumes']
 
   const exitData = prices.map(([datePoint, pricePoint], index) => ({
-    date: datePoint,
+    date: new Date(datePoint).toLocaleDateString('en-GB'),
     price: pricePoint,
     volume: volumes[index]?.[1] ?? 0
   }))

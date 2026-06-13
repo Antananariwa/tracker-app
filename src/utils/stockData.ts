@@ -35,7 +35,7 @@ export type ChartPriceByDateWeekly = {
   date: string
   close: number
   volume: number
-}[]
+}
 
 export type GraphTimeFrame = "1M" | "3M" | "6M" | "1Y" | "3Y" | "5Y" | "10Y" | "20Y" 
 
@@ -92,7 +92,7 @@ export const extractLatestStockPrice = (data: AlphaVantageWeeklyResponse): Lates
   };
 };
 
-export const extractChartPriceByDateWeekly = (data: AlphaVantageWeeklyResponse): ChartPriceByDateWeekly => {
+export const extractChartPriceByDateWeekly = (data: AlphaVantageWeeklyResponse): ChartPriceByDateWeekly[] => {
   if (!data || !data['Weekly Time Series']) return [];
 
   const timeSeries = data['Weekly Time Series'];

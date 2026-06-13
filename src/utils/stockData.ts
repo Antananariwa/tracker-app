@@ -108,7 +108,7 @@ export const extractChartPriceByDateWeekly = (data: AlphaVantageWeeklyResponse):
 };
 
 
-export const adjustDataByTime = (data: ChartPriceByDateWeekly, timeFrame: GraphTimeFrame): ChartPriceByDateWeekly => {
+export const adjustDataByTime = (data: ChartPriceByDateWeekly[], timeFrame: GraphTimeFrame): ChartPriceByDateWeekly[] => {
   if (!data || data.length === 0) return [];
 
   const currDate = data[data.length - 1]["date"];

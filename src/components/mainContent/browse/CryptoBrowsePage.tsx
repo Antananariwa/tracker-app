@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import MainContentBox from "../MainContentBox" 
-import PrimaryGraph from "../displays/groups/PrimaryGraph"
+import DemoGraph from
 import CryptoSearchBar from "../searchBars/CryptoSearchBar"
 import useBackendCrypto from '../../../hooks/useBackendCrypto';
 import { extractLatestCryptoPrice } from '../../../utils/cryptoData';
@@ -12,8 +12,6 @@ const CryptoBrowsePage = () => {
 
   const {data, loading, error} = useBackendCrypto(selectedCrypto)
 
-  const latestPriceData = data ? extractLatestCryptoPrice(data) : null
-  const latestPriceTitle = latestPriceData && metaData ? metaData.symbol + "          $" + latestPriceData.price : "Current Price"
   const chartData = data ? extractChartPriceByDateWeekly(data) : []
   const chartDataTimeFrame = adjustDataByTime(chartData, selectedTimeFrame)
 
@@ -24,15 +22,11 @@ const CryptoBrowsePage = () => {
       </MainContentBox>
 
        <MainContentBox>
-         <PrimaryGraph 
-          latestPriceTitle = {latestPriceTitle}
-          loading = {loading}
-          error = {error}
-          latestPriceData={latestPriceData}
-          chartDataTimeFrame = {chartDataTimeFrame}
-          setSelectedTimeFrame = {setSelectedTimeFrame}
-          selectedTimeFrame={selectedTimeFrame}
-         />
+        <DemoGraph 
+        chartData = {chartDataTimeFrame} 
+        XAxisDataKey = "date" 
+        areaDataKey = "price"
+        />
        </MainContentBox>
     </div>
 

@@ -49,3 +49,19 @@ export const extractCoinChartData = (data: CoinGeckoResponse): CoinChartData[] =
 
   return exitData;
 } 
+
+
+export const adjustDataByTime = (data: CoinChartData[], timeFrame): CoinChartData[] => {
+  if (!data || data.length === 0) return [];
+
+  const lastTs = data[data.length - 1].timestamp
+
+  switch (timeFrame) {
+    case "1M":  totalMonths -= 30;   break;
+    case "3M":  totalMonths -= 90;   break;
+    case "6M":  totalMonths -= 180;   break;
+    case "1Y":  return data;
+    default:    return data;
+  }
+
+}

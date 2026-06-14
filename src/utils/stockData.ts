@@ -130,7 +130,6 @@ export const adjustDataByTime = (data: ChartPriceByDateWeekly[], timeFrame: Grap
     default:    return data;
   }
 
-
   const newYear = Math.floor(totalMonths / 12);
   const newMonth = (totalMonths % 12) + 1;
 

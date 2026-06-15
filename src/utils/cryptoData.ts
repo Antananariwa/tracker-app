@@ -59,11 +59,14 @@ export const adjustDataByTime = (data: CoinChartData[], timeFrame): CoinChartDat
   const lastTs = data[data.length - 1].timestamp
 
   switch (timeFrame) {
-    case "1M":  totalMonths -= 30;   break;
-    case "3M":  totalMonths -= 90;   break;
-    case "6M":  totalMonths -= 180;   break;
+    case "1M":  30;   break;
+    case "3M":  90;   break;
+    case "6M":  180;   break;
     case "1Y":  return data;
     default:    return data;
   }
 
+  const cutoff = lastTs - days * 86400000
+
+  return data.filter(point => point.timestamp >= cutoff)
 }

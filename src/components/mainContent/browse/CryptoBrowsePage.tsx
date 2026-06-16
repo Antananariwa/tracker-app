@@ -3,7 +3,7 @@ import MainContentBox from "../MainContentBox"
 import DemoGraph from
 import CryptoSearchBar from "../searchBars/CryptoSearchBar"
 import useBackendCrypto from '../../../hooks/useBackendCrypto';
-import { extractLatestCryptoPrice } from '../../../utils/cryptoData';
+import { extractCoinChartData } from '../../../utils/cryptoData';
 
 
 const CryptoBrowsePage = () => {
@@ -12,7 +12,7 @@ const CryptoBrowsePage = () => {
 
   const {data, loading, error} = useBackendCrypto(selectedCrypto)
 
-  const chartData = data ? extractChartPriceByDateWeekly(data) : []
+  const chartData = data ? extractCoinChartData(data) : []
   const chartDataTimeFrame = adjustDataByTime(chartData, selectedTimeFrame)
 
   return (

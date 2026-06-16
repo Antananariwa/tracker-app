@@ -16,6 +16,8 @@ export type CoinChartData = {
   timestamp: number
 }
 
+export type GraphTimeFrame = "1M" | "3M" | "6M" | "1Y" 
+
 
 export const extractLatestCryptoPrice = (data: CoinGeckoResponse): LatestCryptoPrice | null => {
   if (!data || !data['prices']) return null;
@@ -53,10 +55,13 @@ export const extractCoinChartData = (data: CoinGeckoResponse): CoinChartData[] =
 } 
 
 
-export const adjustDataByTime = (data: CoinChartData[], timeFrame): CoinChartData[] => {
+export const adjustDataByTime = (data: CoinChartData[], timeFrame: GraphTimeFrame): CoinChartData[] => {
   if (!data || data.length === 0) return [];
 
-  const lastTs = data[data.length - 1].timestamp
+  const latestTimePosition = data[data.length - 1][0]
+  if (!latestTime) return [];
+  const lastTs = latestTimePosition
+  const reversedData = 
 
   switch (timeFrame) {
     case "1M":  30;   break;

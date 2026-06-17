@@ -58,20 +58,20 @@ export const extractCoinChartData = (data: CoinGeckoResponse): CoinChartData[] =
 export const adjustDataByTime = (data: CoinChartData[], timeFrame: GraphTimeFrame): CoinChartData[] => {
   if (!data || data.length === 0) return [];
 
-  const latestTimePosition = data[data.length - 1][0]
-  if (!latestTime) return [];
-  const lastTs = latestTimePosition
-  const reversedData = 
+  const latestTimeStamp = data[data.length - 1].timestamp
+  if (!latestTimeStamp) return [];
+  // const reversedData = data.reverse(); - might be usefull if filetering with manual loop
+  let days = 0;
 
   switch (timeFrame) {
-    case "1M":  30;   break;
-    case "3M":  90;   break;
-    case "6M":  180;   break;
+    case "1M":  days = 30;   break;
+    case "3M":  days = 90;   break;
+    case "6M":  days = 180;   break;
     case "1Y":  return data;
     default:    return data;
-  }
+  };
 
-  const cutoff = lastTs - days * 86400000
+  const cutoff = latestTimeStamp - days * 86400000;
 
-  return data.filter(point => point.timestamp >= cutoff)
+  return data.filter(point => point.timestamp >= cutoff);
 }

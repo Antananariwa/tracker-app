@@ -68,15 +68,5 @@ export const adjustDataByTime = (data: CoinChartData[], timeFrame: GraphTimeFram
     default:    return data;
   };
 
-  const reversedData = data.reverse();
-  let sortedData: CoinChartData[] = [];
-  function filteringData(resultArray: CoinChartData[], inputArray: CoinChartData[], days: number): CoinChartData[] {
-      for (let i = 0; i < days; i++) {
-          resultArray.push(inputArray[i]);
-      }
-      return resultArray;
-  }
-
-
-  return filteringData(sortedData, reversedData, days);
+  return data.slice(-days)
 }

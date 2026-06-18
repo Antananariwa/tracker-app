@@ -47,8 +47,8 @@ export const extractCoinChartData = (data: CoinGeckoResponse): CoinChartData[] =
   const exitData = prices.map(([datePoint, pricePoint], index) => ({
     date: new Date(datePoint).toLocaleDateString('en-GB'),
     price: pricePoint,
-    volume: volumes[index]?.[1] ?? 0
-    timestamp: datePoint
+    volume: volumes[index]?.[1] ?? 0,
+    timestamp: datePoint,
   }))
 
   return exitData;
@@ -58,9 +58,6 @@ export const extractCoinChartData = (data: CoinGeckoResponse): CoinChartData[] =
 export const adjustDataByTime = (data: CoinChartData[], timeFrame: GraphTimeFrame): CoinChartData[] => {
   if (!data || data.length === 0) return [];
 
-  const latestTimeStamp = data[data.length - 1].timestamp
-  if (!latestTimeStamp) return [];
-  // const reversedData = data.reverse(); - might be usefull if filetering with manual loop
   let days = 0;
 
   switch (timeFrame) {
@@ -71,7 +68,15 @@ export const adjustDataByTime = (data: CoinChartData[], timeFrame: GraphTimeFram
     default:    return data;
   };
 
-  const cutoff = latestTimeStamp - days * 86400000;
+  const reversedData = data.reverse();
+  let sortedData: CoinChartData[] = [];
+  function filteringData(resultArray: CoinChartData[], inputArray: CoinChartData[], days: number): CoinChartData[] {
+      for (let i = 0; i < days; i++) {
+          resultArray.push(inputArray[i]);
+      }
+      return resultArray;
+  }
 
-  return data.filter(point => point.timestamp >= cutoff);
+
+  return filteringData(sortedData, reversedData, days);
 }

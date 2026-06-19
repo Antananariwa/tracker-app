@@ -1,14 +1,13 @@
 import './TimeFrameOptions.css';
 import Button from '../ui/Button'
-import type { GraphTimeFrame } from '../../utils/stockData';
 
-type TimeFrameOptionsProps = {
-  onOptionClick: (option: GraphTimeFrame) => void
-  selectedTimeFrame: GraphTimeFrame
+type TimeFrameOptionsProps<T extends string> = {
+  selectedTimeFrame: T
+  timeRange: T[]
+  onOptionClick: (option: T) => void
 }
 
-const TimeFrameOptions = ({onOptionClick, selectedTimeFrame}: TimeFrameOptionsProps) => {
-  const timeRange: GraphTimeFrame[] = ["1M", "3M", "1Y", "3Y", "5Y", "10Y", "20Y"]
+function TimeFrameOptions<T extends string>({onOptionClick, selectedTimeFrame, timeRange}: TimeFrameOptionsProps<T>) {
   return (
     <div className="TimeFrameOptions-Div">
       {timeRange.map((time) => (

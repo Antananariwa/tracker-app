@@ -35,6 +35,8 @@ const StockMainPage = () => {
           chartDataTimeFrame = {chartDataTimeFrame}
           setSelectedTimeFrame = {setSelectedTimeFrame}
           selectedTimeFrame={selectedTimeFrame}
+          XAxisDataKey="date"
+          areaDataKey="ChartPriceByDateWeekly"
         />
       </MainContentBox>
 

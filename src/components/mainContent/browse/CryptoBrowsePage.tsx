@@ -20,6 +20,12 @@ const CryptoBrowsePage = () => {
 
   const timeRange: CryptoGraphTimeFrame[] = ['1M', '3M', '6M', '1Y']
 
+  const latestCryptoPrice = data ? extractLatestCryptoPrice(data) : null
+  const cryptoTitle = latestCryptoPrice
+  ? `${selectedCrypto}    $${latestCryptoPrice.price.toFixed(2)}`
+  : 'Current Price'
+
+
   return (
     <div>
       <MainContentBox>
@@ -27,6 +33,9 @@ const CryptoBrowsePage = () => {
       </MainContentBox>
 
        <MainContentBox>
+        <ApiDataBox title={cryptoTitle} loading={loading} error={error}>
+          <div>As of {latestCryptoPrice ? new Date(latestCryptoPrice.date).toLocaleDateString('en-GB') : ''}</div>
+        </ApiDataBox>
         <DemoGraph 
         chartData = {chartDataTimeFrame} 
         XAxisDataKey = "date" 

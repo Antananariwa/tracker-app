@@ -3,9 +3,10 @@ import MainContentBox from "../MainContentBox"
 import DemoGraph from '../displays/graphs/AreaResponsiveContainerGraph'
 import CryptoSearchBar from "../searchBars/CryptoSearchBar"
 import useBackendCrypto from '../../../hooks/useBackendCrypto';
-import { extractCoinChartData, adjustDataByTime } from '../../../utils/cryptoData';
+import { extractCoinChartData, adjustDataByTime, extractLatestCryptoPrice } from '../../../utils/cryptoData';
 import TimeFrameOptions from '../TimeFrameOptions';
 import type {CryptoGraphTimeFrame} from '../../../utils/cryptoData';
+import ApiDataBox from '../displays/ApiDataBox';
 
 
 const CryptoBrowsePage = () => {

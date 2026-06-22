@@ -136,15 +136,16 @@ router.get('/:coin_id/info', async (req: Request<{ coin_id: string }>, res: Resp
     }
 
     if (cached && !isCacheStale(cached.fetched_at, INFO_TTL_MS)) {
-      console.log(`[CACHE HIT] ${coin_id}`)
-      return res.json({ 
-        coin_id, 
-        source: 'cache', 
-        fetched_at: cached.fetched_at, 
-        raw_data: cached.raw_data })
+      console.log(`[INFO CACHE HIT] ${coin_id}`)
+      return res.json({
+        coin_id,
+        source: 'cache',
+        fetched_at: cached.fetched_at,
+        raw_data: cached.raw_data,
+      })
     }
 
-    console.log(`[API FETCH] ${coin_id}`)
+    console.log(`[INFO API FETCH] ${coin_id}`)
 
     const cgUrl =
       `https://api.coingecko.com/api/v3/coins` +
@@ -156,33 +157,24 @@ router.get('/:coin_id/info', async (req: Request<{ coin_id: string }>, res: Resp
     const cgResponse = await fetch(cgUrl)
     if (!cgResponse.ok) {
       if (cached) {
-        return res.json({ 
+        return res.json({
           coin_id,
           source: 'stale-cache',
           fetched_at: cached.fetched_at,
-          raw_data: cached.raw_data, })
+          raw_data: cached.raw_data,
+        })
       }
       if (cgResponse.status === 404) return res.status(404).json({ error: `Coin "${coin_id}" not found.` })
       if (cgResponse.status === 429) return res.status(429).json({ error: 'CoinGecko rate limit hit. Try again shortly.' })
       return res.status(502).json({ error: 'CoinGecko request failed.' })
     }
-    const rawData = await cgResponse.json() as CoinGeckoResponse
 
-    const latestPrice = extractLatestPrice(rawData)
-
-    if (latestPrice === null || isNaN(latestPrice)) {
-      console.error('Could not extract price from response:', rawData)
-      return res.status(500).json({
-        error: 'Price data was missing or unreadable in the API response.',
-      })
-    }
+    const rawData = await cgResponse.json()
 
     const { error: upsertError } = await supabase
-      .from('crypto_price_cache')
+      .from('crypto_info_cache')
       .upsert(
-        { coin_id, raw_data: 
-          blob, 
-          fetched_at: new Date().toISOString() },
+        { coin_id, raw_data: rawData, fetched_at: new Date().toISOString() },
         { onConflict: 'coin_id' }
       )
 
@@ -193,17 +185,16 @@ router.get('/:coin_id/info', async (req: Request<{ coin_id: string }>, res: Resp
 
     return res.json({
       coin_id,
-      price: latestPrice,
       source: 'api',
       fetched_at: new Date().toISOString(),
       raw_data: rawData,
     })
 
-} catch (error) {
-  const message = error instanceof Error ? error.message : 'Unknown error'
-  console.error(`Unhandled error for ${coin_id}:`, message)
-  res.status(500).json({ error: 'Internal server error.' })
-}
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Unknown error'
+    console.error(`Unhandled error for ${coin_id}:`, message)
+    res.status(500).json({ error: 'Internal server error.' })
+  }
 })
 
 

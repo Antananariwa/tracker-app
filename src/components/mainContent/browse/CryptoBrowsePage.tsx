@@ -7,6 +7,8 @@ import { extractCoinChartData, adjustDataByTime, extractLatestCryptoPrice } from
 import TimeFrameOptions from '../TimeFrameOptions';
 import type {CryptoGraphTimeFrame} from '../../../utils/cryptoData';
 import ApiDataBox from '../displays/ApiDataBox';
+import CoinInfoBox from '../displays/CoinInfoBox'
+import useCoinInfo from '../../../hooks/useCoinInfo'
 
 
 const CryptoBrowsePage = () => {

@@ -28,8 +28,13 @@ const CryptoBrowsePage = () => {
   ? `${selectedCrypto}    $${latestCryptoPrice.price.toFixed(2)}`
   : 'Current Price'
 
-
-  return (
+  let content
+  if (loading) {
+    content = <MainContentBox>Please wait while we fetch the data...</MainContentBox>
+  } else if (error) {
+    content = <MainContentBox>{`An error occurred: ${error.message}`}</MainContentBox>
+  } else {
+    content = (
     <div>
       <MainContentBox>
         <CryptoSearchBar onCryptoSelect = {setSelectedCrypto}/>
@@ -57,6 +62,16 @@ const CryptoBrowsePage = () => {
           <CoinInfoBox info={info} />
         </ApiDataBox>
       </MainContentBox>
+    </div>
+  )
+  }
+
+  return (
+    <div>
+      <MainContentBox>
+        <CryptoSearchBar onCryptoSelect={setSelectedCrypto} />
+      </MainContentBox>
+      {content}
     </div>
   )
 }

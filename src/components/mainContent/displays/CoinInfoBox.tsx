@@ -18,7 +18,7 @@ const CoinInfoBox = ({ info }: CoinInfoBoxProps) => {
       <p>{info.description}</p>
 
       <ul>
-        <li>Current price: ${info.currentPrice.toLocaleString()}</li>
+        {/* <li>Current price: ${info.currentPrice.toLocaleString()}</li> */}
         <li>24h change: {info.priceChange24h.toFixed(2)}%</li>
         <li>Market cap: ${info.marketCap.toLocaleString()}</li>
         <li>24h volume: ${info.totalVolume.toLocaleString()}</li>

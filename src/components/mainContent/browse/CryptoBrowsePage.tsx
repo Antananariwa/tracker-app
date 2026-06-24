@@ -3,7 +3,7 @@ import MainContentBox from "../MainContentBox"
 import DemoGraph from '../displays/graphs/AreaResponsiveContainerGraph'
 import CryptoSearchBar from "../searchBars/CryptoSearchBar"
 import useBackendCrypto from '../../../hooks/useBackendCrypto';
-import { extractCoinChartData, adjustDataByTime, extractLatestCryptoPrice } from '../../../utils/cryptoData';
+import { extractCoinChartData, adjustDataByTime, extractLatestCryptoPrice, extractCoinInfo } from '../../../utils/cryptoData';
 import TimeFrameOptions from '../TimeFrameOptions';
 import type {CryptoGraphTimeFrame} from '../../../utils/cryptoData';
 import ApiDataBox from '../displays/ApiDataBox';
@@ -16,11 +16,12 @@ const CryptoBrowsePage = () => {
   const [selectedTimeFrame, setSelectedTimeFrame] = useState<CryptoGraphTimeFrame>('1Y')
 
   const {data, loading, error} = useBackendCrypto(selectedCrypto)
-
   const chartData = data ? extractCoinChartData(data) : []
   const chartDataTimeFrame = adjustDataByTime(chartData, selectedTimeFrame)
-
   const timeRange: CryptoGraphTimeFrame[] = ['1M', '3M', '6M', '1Y']
+
+  const { data: infoRaw, loading: infoLoading, error: infoError } = useCoinInfo(selectedCrypto)
+  const info = infoRaw ? extractCoinInfo(infoRaw) : null
 
   const latestCryptoPrice = data ? extractLatestCryptoPrice(data) : null
   const cryptoTitle = latestCryptoPrice
@@ -49,18 +50,14 @@ const CryptoBrowsePage = () => {
             setSelectedTimeFrame(time);}}
           timeRange = {timeRange}
           />
-       </MainContentBox>
+      </MainContentBox>
+
+      <MainContentBox>
+        <ApiDataBox title={info?.name ?? 'Coin info'} loading={infoLoading} error={infoError}>
+          <CoinInfoBox info={info} />
+        </ApiDataBox>
+      </MainContentBox>
     </div>
-
-    //   <MainContentBox>
-    //     <Example coin info component />
-    //   </MainContentBox>
-
-    //   <MainContentBox>
-    //     <Example coin info component />
-    //   </MainContentBox>
-
-    // </div>
   )
 }
 

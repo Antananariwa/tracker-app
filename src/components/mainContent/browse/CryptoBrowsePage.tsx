@@ -25,7 +25,7 @@ const CryptoBrowsePage = () => {
 
   const latestCryptoPrice = data ? extractLatestCryptoPrice(data) : null
   const cryptoTitle = latestCryptoPrice
-  ? `${selectedCrypto}    $${latestCryptoPrice.price.toFixed(2)}`
+  ? `${info?.name ?? selectedCrypto}    $${latestCryptoPrice.price.toFixed(2)}`
   : 'Current Price'
 
   let content

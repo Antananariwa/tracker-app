@@ -7,6 +7,13 @@ type CoinInfoBoxProps = {
 const CoinInfoBox = ({ info }: CoinInfoBoxProps) => {
   if (!info) return <div>No coin info available.</div>
 
+  const formatBig = (n: number): string => {
+    if (n >= 1e12) return `$${(n / 1e12).toFixed(2)}T`
+    if (n >= 1e9)  return `$${(n / 1e9).toFixed(2)}B`
+    if (n >= 1e6)  return `$${(n / 1e6).toFixed(2)}M`
+    return `$${n.toLocaleString()}`
+  }
+
   return (
     <div className="CoinInfoBox-div">
       <div className="CoinInfoBox-header">
@@ -20,8 +27,8 @@ const CoinInfoBox = ({ info }: CoinInfoBoxProps) => {
       <ul>
         {/* <li>Current price: ${info.currentPrice.toLocaleString()}</li> */}
         <li>24h change: {info.priceChange24h.toFixed(2)}%</li>
-        <li>Market cap: ${info.marketCap.toLocaleString()}</li>
-        <li>24h volume: ${info.totalVolume.toLocaleString()}</li>
+        <li>Market cap: {formatBig(info.marketCap)}</li>
+        <li>24h volume: {formatBig(info.totalVolume)}</li>
         <li>All-time high: ${info.ath.toLocaleString()}</li>
         <li>Circulating supply: {info.circulatingSupply.toLocaleString()}</li>
         <li>Max supply: {info.maxSupply !== null ? info.maxSupply.toLocaleString() : 'No cap'}</li>

@@ -36,10 +36,6 @@ const CryptoBrowsePage = () => {
   } else {
     content = (
     <div>
-      <MainContentBox>
-        <CryptoSearchBar onCryptoSelect = {setSelectedCrypto}/>
-      </MainContentBox>
-
        <MainContentBox>
         <ApiDataBox title={cryptoTitle} loading={loading} error={error}>
           <div>As of {latestCryptoPrice ? new Date(latestCryptoPrice.date).toLocaleDateString('en-GB') : ''}</div>

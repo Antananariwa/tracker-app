@@ -13,7 +13,6 @@ export type CoinChartData = {
   date: string
   price: number 
   volume: number
-  timestamp: number
 }
 
 export type CryptoGraphTimeFrame = "1M" | "3M" | "6M" | "1Y" 
@@ -92,7 +91,6 @@ export const extractCoinChartData = (data: CoinGeckoResponse): CoinChartData[] =
     date: new Date(datePoint).toLocaleDateString('en-GB'),
     price: pricePoint,
     volume: volumes[index]?.[1] ?? 0,
-    timestamp: datePoint,
   }))
 
   return exitData;

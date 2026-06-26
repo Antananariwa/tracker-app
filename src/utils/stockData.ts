@@ -119,7 +119,7 @@ export const adjustDataByTime = (data: ChartPriceByDateWeekly[], timeFrame: Stoc
     case "6M":  weeks = 26;   break;
     case "1Y":  weeks = 52;   break;
     case "3Y":  weeks = 156;  break;
-    case "5Y":  weeks = 520;  break;
+    case "5Y":  weeks = 260;  break;
     case "10Y": weeks = 520;  break;
     case "20Y": return data;
     default:    return data;

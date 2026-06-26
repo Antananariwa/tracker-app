@@ -19,7 +19,7 @@ type PrimaryGraphProps = {
 }
 
 const PrimaryGraph = ({latestPriceTitle, loading, error, latestPriceData, chartDataTimeFrame, setSelectedTimeFrame, selectedTimeFrame, XAxisDataKey, areaDataKey}: PrimaryGraphProps) => {
-  const timeRange: StockGraphTimeFrame[] = ["1M", "3M", "1Y", "3Y", "5Y", "10Y", "20Y"]
+  const timeRange: StockGraphTimeFrame[] = ["1M", "3M", "6M", "1Y", "3Y", "5Y", "10Y", "20Y"]
   return (
     <div className='PrimaryGraph-div'>
       <ApiDataBox title = {latestPriceTitle} loading = {loading} error = {error}>

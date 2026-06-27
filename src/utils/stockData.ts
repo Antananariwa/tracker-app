@@ -44,7 +44,7 @@ export type SupabaseAssetsTable = {
   user_id: string
   symbol: string
   name: string
-  category: 'stock'
+  category: 'stock' | 'crypto'
   quantity: number
   avg_buy_price: number
   status: 'hold' | 'to_sell' | 'watching'

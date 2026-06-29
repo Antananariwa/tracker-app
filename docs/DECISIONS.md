@@ -242,3 +242,21 @@ correct first move is to find it, not to silence it via
 **Phase 1** Cross-component access to "who is logged in" requires a React-aware mirror of the SDK's auth state. AuthContext holds session and loading via useState. A useEffect in the provider subscribes to `supabase.auth.onAuthStateChange` and updates state on every auth event. Components read via `useAuth()`. The SDK is the source of truth, the context is the React-friendly copy that triggers re-renders. Same pub-sub shape as event emitters elsewhere, but scoped to the SDK in the browser, no network involved for the events themselves.
  
 ---
+ 
+## Graph time-range slicing assumes fixed-interval data points
+**Phase 2** — Slicing the chart to a selected range takes the last N data points rather than parsing dates. This assumes each point represents a fixed interval: one week per point for stocks (AlphaVantage weekly), one day per point for crypto (CoinGecko daily). Under that assumption a range is just a count, so no date arithmetic is needed. It holds only while each API returns evenly spaced points at the expected interval. If an API changes its granularity, the point-to-time mapping breaks and the slicing needs revisiting. Worth monitoring.
+ 
+---
+ 
+## jsonb preserves array order but not object key order
+**Phase 2** — Companion to the Phase 1 key-order entry. CoinGecko chart data is a JSON array of `[timestamp, price]` pairs, and jsonb preserves array element order, so cached crypto data comes back in the order it went in with no sorting. AlphaVantage data is a JSON object keyed by date, and jsonb does not preserve object key order, which is why that data must be sorted explicitly after retrieval. Array-shaped data is safe by structure; object-shaped data is not.
+ 
+---
+ 
+## Allowed values for category and status defined in two places
+**Phase 2** — The legal values for `assets.category` and `assets.status` are defined in two independent places that must stay in sync: a TypeScript union in the frontend types, and a CHECK constraint on the database column. The union controls what the application code accepts; the constraint controls what the database accepts. They enforce the same rule on two separate systems, so adding or removing a value means editing both. Current values: category is stock / crypto / real_estate (custom planned for Phase 4), status is hold / to_sell / watching. The long-term replacement is Supabase CLI generating types from the schema, which would make the schema the single source.
+ 
+---
+ 
+## Cache TTLs live in route code, not in the schema
+**Phase 2** — Each cached data type has its own freshness window, set as a constant in the relevant backend route. They differ because the underlying data changes at different rates: symbol catalogs and coin metadata change rarely, prices change constantly. The value is kept in code on purpose: it is tuned often during development, while the schema docs describe table shape, which is stable. SCHEMA.md therefore does not record any TTL number by design. (Optional entry; cut if the log feels crowded.)

@@ -9,7 +9,7 @@ export type UsePortfolioResult = {
   error: Error | null
 }
 
-const usePortfolio = (): UsePortfolioResult => {
+const usePortfolio = (category: 'stock' | 'crypto'): UsePortfolioResult => {
   const { session } = useAuth()
   const [data, setData] = useState<SupabaseAssetsTable[] | null>(null)
   const [loading, setLoading] = useState(true)
@@ -27,6 +27,7 @@ const usePortfolio = (): UsePortfolioResult => {
     supabase
       .from('assets')
       .select('*')
+      .eq('category', category)
       .then(({ data, error }: { data: SupabaseAssetsTable[] | null; error: Error | null }) => {
         if (error) {
           setError(error)

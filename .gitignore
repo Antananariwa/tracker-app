@@ -32,3 +32,6 @@ dist-ssr
 # Backend
 backend/node_modules
 backend/.env
+
+# General plan of the project
+docs/plan

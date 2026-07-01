@@ -35,16 +35,16 @@ export type ChartPriceByDateWeekly = {
   date: string
   close: number
   volume: number
-}[]
+}
 
-export type GraphTimeFrame = "1M" | "3M" | "6M" | "1Y" | "3Y" | "5Y" | "10Y" | "20Y" 
+export type StockGraphTimeFrame = "1M" | "3M" | "6M" | "1Y" | "3Y" | "5Y" | "10Y" | "20Y" 
 
 export type SupabaseAssetsTable = {
   id: string
   user_id: string
   symbol: string
   name: string
-  category: 'stock'
+  category: 'stock' | 'crypto' | 'real_estate'
   quantity: number
   avg_buy_price: number
   status: 'hold' | 'to_sell' | 'watching'
@@ -92,14 +92,14 @@ export const extractLatestStockPrice = (data: AlphaVantageWeeklyResponse): Lates
   };
 };
 
-export const extractChartPriceByDateWeekly = (data: AlphaVantageWeeklyResponse): ChartPriceByDateWeekly => {
+export const extractChartPriceByDateWeekly = (data: AlphaVantageWeeklyResponse): ChartPriceByDateWeekly[] => {
   if (!data || !data['Weekly Time Series']) return [];
 
   const timeSeries = data['Weekly Time Series'];
   const timeSeriesArrayReversed = Object.entries(timeSeries).sort((a, b) => a[0].localeCompare(b[0]));
   
   const preparedData = timeSeriesArrayReversed.map(([date, values]) => ({
-    date: date, 
+    date: new Date(date).toLocaleDateString('en-GB'), 
     close: parseFloat(values['4. close']),
     volume: parseInt(values['5. volume'], 10)
   }))
@@ -108,41 +108,23 @@ export const extractChartPriceByDateWeekly = (data: AlphaVantageWeeklyResponse):
 };
 
 
-export const adjustDataByTime = (data: ChartPriceByDateWeekly, timeFrame: GraphTimeFrame): ChartPriceByDateWeekly => {
+export const adjustDataByTime = (data: ChartPriceByDateWeekly[], timeFrame: StockGraphTimeFrame): ChartPriceByDateWeekly[] => {
   if (!data || data.length === 0) return [];
 
-  const currDate = data[data.length - 1]["date"];
-  const compare = currDate.split('-');
-
-  let year = Number(compare[0]);
-  let month = Number(compare[1]);
-  let totalMonths = year * 12 + (month - 1);
+  let weeks = 0;
 
   switch (timeFrame) {
-    case "1M":  totalMonths -= 1;   break;
-    case "3M":  totalMonths -= 3;   break;
-    case "6M":  totalMonths -= 6;   break;
-    case "1Y":  totalMonths -= 12;  break;
-    case "3Y":  totalMonths -= 36;  break;
-    case "5Y":  totalMonths -= 60;  break;
-    case "10Y": totalMonths -= 120; break;
+    case "1M":  weeks = 4;    break;
+    case "3M":  weeks = 13;   break;
+    case "6M":  weeks = 26;   break;
+    case "1Y":  weeks = 52;   break;
+    case "3Y":  weeks = 156;  break;
+    case "5Y":  weeks = 260;  break;
+    case "10Y": weeks = 520;  break;
     case "20Y": return data;
     default:    return data;
   }
-
-
-  const newYear = Math.floor(totalMonths / 12);
-  const newMonth = (totalMonths % 12) + 1;
-
-  const final = `${newYear}-${newMonth.toString().padStart(2, '0')}-${compare[2]}`;
-
-  for (let i = 0; i < data.length; i++) {
-    if (data[i].date >= final) {
-      return data.slice(i);
-    }
-  }
-
-  return [];
+  return data.slice(-weeks);
 };
 
 

@@ -1,11 +1,13 @@
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import type { ChartPriceByDateWeekly } from '../../../../utils/stockData'
 
-type ExampleProps = {
-  chartData: ChartPriceByDateWeekly
+
+export type ExampleProps = {
+  chartData: { [key: string]: string | number }[]
+  XAxisDataKey: string
+  areaDataKey: string 
 }
 
-const Example = ({chartData}: ExampleProps) => {
+const Example = ({chartData, XAxisDataKey, areaDataKey}: ExampleProps) => {
   return (
       <div style={{ width: '100%', height: 300 }}>
         <ResponsiveContainer>
@@ -19,10 +21,10 @@ const Example = ({chartData}: ExampleProps) => {
             }}
           >
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="date" />
+            <XAxis dataKey = {XAxisDataKey} />
             <YAxis />
             <Tooltip />
-            <Area type="monotone" dataKey="close" stroke="#8884d8" fill="#8884d8" />
+            <Area type="monotone" dataKey={areaDataKey} stroke="#8884d8" fill="#8884d8" />
           </AreaChart>
         </ResponsiveContainer>
       </div>

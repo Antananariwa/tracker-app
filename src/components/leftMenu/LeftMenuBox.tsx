@@ -1,32 +1,21 @@
 import './LeftMenuBox.css';
-import Button from '../ui/Button'
+import type { ReactNode } from 'react';
 
 type LeftMenuBoxProps = {
-  optionName?: string[]
   groupName?: string
-  onOptionClick?: (clickedOption: string) => void
+  children: ReactNode
 }
 
-const LeftMenuBox = ({ 
-  optionName = [], 
-  groupName = '', 
-  onOptionClick
+const LeftMenuBox = ({
+  groupName = '',
+  children 
 }: LeftMenuBoxProps) => (
   <div className="LeftMenuBoxDiv">
     {groupName && (
       <details>
         <summary>{groupName}</summary>
         <div className="OptionDiv">
-          {optionName.map((option) => (
-            <Button 
-              variant={'secondary'}
-              className={'optionButtons'}
-              key={option} 
-              onClick={() => onOptionClick?.(option)}
-            >
-              {option}
-            </Button>
-          ))}
+          { children }
         </div>
       </details>
     )}

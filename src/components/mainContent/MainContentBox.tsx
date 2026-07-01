@@ -1,8 +1,8 @@
-import React from 'react'
+import type { ReactNode } from 'react';
 import './MainContentBox.css'
 
 type MainContentBoxProps = {
-  children: React.ReactNode
+  children: ReactNode
 }
 
 const MainContentBox = ({ children }: MainContentBoxProps) => {

@@ -1,16 +1,16 @@
 import { useState } from 'react';
-import PrimaryGraph from './displays/groups/PrimaryGraph'
-import MainContentBox from './MainContentBox'
-import ApiDataBox from './displays/ApiDataBox';
-import LatestPriceDisplay from './displays/LatestPriceDisplay';
-import { extractStockOverview, extractLatestStockPrice, adjustDataByTime, extractChartPriceByDateWeekly, type GraphTimeFrame } from '../../utils/stockData';
-import MetaDataDisplay from './displays/MetaDataDisplay';
-import StockSearchBar from './StockSearchBar';
-import useBackendStock from '../../hooks/useBackendStock';
+import PrimaryGraph from '../displays/groups/PrimaryGraph'
+import MainContentBox from '../MainContentBox'
+import ApiDataBox from '../displays/ApiDataBox';
+import LatestPriceDisplay from '../displays/LatestPriceDisplay';
+import { extractStockOverview, extractLatestStockPrice, adjustDataByTime, extractChartPriceByDateWeekly, type StockGraphTimeFrame } from '../../../utils/stockData';
+import MetaDataDisplay from '../displays/MetaDataDisplay';
+import StockSearchBar from '../searchBars/StockSearchBar';
+import useBackendStock from '../../../hooks/useBackendStock';
 
-const StockMainPage = () => {
+const StockBrowsePage = () => {
   const [ selectedStock, setSelectedStock ] = useState('')
-  const [ selectedTimeFrame, setSelectedTimeFrame ] = useState<GraphTimeFrame>('3M')
+  const [ selectedTimeFrame, setSelectedTimeFrame ] = useState<StockGraphTimeFrame>('3M')
 
   const {data, loading, error} = useBackendStock(selectedStock)
   const metaData = data ? extractStockOverview(data) : null
@@ -35,6 +35,8 @@ const StockMainPage = () => {
           chartDataTimeFrame = {chartDataTimeFrame}
           setSelectedTimeFrame = {setSelectedTimeFrame}
           selectedTimeFrame={selectedTimeFrame}
+          XAxisDataKey="date"
+          areaDataKey="close"
         />
       </MainContentBox>
 
@@ -52,4 +54,4 @@ const StockMainPage = () => {
   )
 }
 
-export default StockMainPage
+export default StockBrowsePage

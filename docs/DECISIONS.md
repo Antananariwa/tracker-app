@@ -123,10 +123,3 @@ The legal values for `assets.category` and `assets.status` live in two independe
 
 ### Cache TTLs live in route code, not in the schema
 Each cached data type has its own freshness window, set as a constant in the relevant backend route. They differ because the underlying data changes at different rates: catalogs and coin metadata change rarely, prices constantly. The value is kept in code on purpose — it is tuned often during development, while schema docs describe table shape, which is stable. SCHEMA.md therefore records no TTL number by design.
-
----
-
-## Process
-
-### Step guides abolished in favour of working directly with Claude
-The original plan gave every step its own standalone walkthrough file (`step-1.1-…md`), written as a teach-as-you-build guide. That approach was dropped. Building directly with Claude in the repo replaced the hand-written guides: the reasoning happens in the session, and only the durable outcome is recorded — decisions here, shipped state in PROGRESS. No per-step guide files are written or maintained any more. This supersedes the earlier "one guide file per step" decision.

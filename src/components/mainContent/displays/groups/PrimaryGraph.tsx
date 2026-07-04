@@ -1,21 +1,21 @@
 import './PrimaryGraph.css';
 import ApiDataBox from '../ApiDataBox';
-import DemoGraph from '../graphs/PriceAreaChart';
+import PriceAreaChart from '../graphs/PriceAreaChart';
 import LatestPriceDisplay from '../LatestPriceDisplay';
 import TimeFrameOptions from '../../TimeFrameOptions';
 import type { LatestStockPrice, StockGraphTimeFrame } from '../../../../utils/stockData'
-import type { ExampleProps } from '../graphs/PriceAreaChart'
+import type { PriceAreaChartProps } from '../graphs/PriceAreaChart'
 
 type PrimaryGraphProps = {
   latestPriceTitle: string
   loading: boolean
   error: Error | null
   latestPriceData: LatestStockPrice | null
-  chartDataTimeFrame: ExampleProps['chartData']
+  chartDataTimeFrame: PriceAreaChartProps['chartData']
   setSelectedTimeFrame: (value: StockGraphTimeFrame) => void
   selectedTimeFrame: StockGraphTimeFrame
-  XAxisDataKey: ExampleProps['XAxisDataKey']
-  areaDataKey: ExampleProps['areaDataKey']
+  XAxisDataKey: PriceAreaChartProps['XAxisDataKey']
+  areaDataKey: PriceAreaChartProps['areaDataKey']
 }
 
 const PrimaryGraph = ({latestPriceTitle, loading, error, latestPriceData, chartDataTimeFrame, setSelectedTimeFrame, selectedTimeFrame, XAxisDataKey, areaDataKey}: PrimaryGraphProps) => {
@@ -25,7 +25,7 @@ const PrimaryGraph = ({latestPriceTitle, loading, error, latestPriceData, chartD
       <ApiDataBox title = {latestPriceTitle} loading = {loading} error = {error}>
         <LatestPriceDisplay latestPriceData={latestPriceData} />
       </ApiDataBox> 
-      <DemoGraph 
+      <PriceAreaChart 
       chartData = {chartDataTimeFrame} 
       XAxisDataKey = {XAxisDataKey} 
       areaDataKey = {areaDataKey}/>

@@ -41,12 +41,6 @@ const StockBrowsePage = () => {
       </MainContentBox>
 
       <MainContentBox>
-        <ApiDataBox title = {latestPriceTitle} loading = {loading} error = {error}>
-          <LatestPriceDisplay latestPriceData={latestPriceData} />
-        </ApiDataBox> 
-      </MainContentBox>
-
-      <MainContentBox>
         <MetaDataDisplay metaData = {metaData} />
       </MainContentBox>
 

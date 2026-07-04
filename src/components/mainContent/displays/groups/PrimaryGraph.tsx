@@ -1,10 +1,10 @@
 import './PrimaryGraph.css';
 import ApiDataBox from '../ApiDataBox';
-import DemoGraph from '../graphs/AreaResponsiveContainerGraph';
+import DemoGraph from '../graphs/PriceAreaChart';
 import LatestPriceDisplay from '../LatestPriceDisplay';
 import TimeFrameOptions from '../../TimeFrameOptions';
 import type { LatestStockPrice, StockGraphTimeFrame } from '../../../../utils/stockData'
-import type { ExampleProps } from '../graphs/AreaResponsiveContainerGraph'
+import type { ExampleProps } from '../graphs/PriceAreaChart'
 
 type PrimaryGraphProps = {
   latestPriceTitle: string

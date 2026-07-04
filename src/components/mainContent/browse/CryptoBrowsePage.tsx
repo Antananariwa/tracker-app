@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import MainContentBox from "../MainContentBox" 
-import DemoGraph from '../displays/graphs/AreaResponsiveContainerGraph'
+import DemoGraph from '../displays/graphs/PriceAreaChart'
 import CryptoSearchBar from "../searchBars/CryptoSearchBar"
 import useBackendCrypto from '../../../hooks/useBackendCrypto';
 import { extractCoinChartData, adjustDataByTime, extractLatestCryptoPrice, extractCoinInfo } from '../../../utils/cryptoData';

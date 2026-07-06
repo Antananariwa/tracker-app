@@ -81,7 +81,7 @@ All rows in the listings catalog share one `fetched_at` from the same upsert, so
 `useSymbolCatalog(category)` took a parameter while only `/stocks` existed, because the next phase was already known to add `/crypto` to the same `symbols` route. Rule: parameterise when generality is confirmed by near-term plans, not on speculation. Phase 2 has since shipped `/crypto`, validating the call.
 
 ### URL inconsistency: `/api/stocks/:symbol` vs `/api/symbols/stocks`
-Inverted noun ordering between the price route and the catalog route. Awkward but not fixed now — the rename touches backend, route file, and frontend hook. Revisit in Phase 5 with crypto built; likely target is resource-first (`/api/stocks/catalog`, `/api/stocks/:symbol`). Tracked as open debt in PROGRESS.
+Inverted noun ordering between the price route and the catalog route. Awkward but not fixed now — the rename touches backend, route file, and frontend hook. Revisit in Phase 5 with crypto built; likely target is resource-first (`/api/stocks/catalog`, `/api/stocks/:symbol`).
 
 ### CSV handling for AlphaVantage
 The listings endpoint returns CSV — the only AV endpoint that does. Read with `fetch().text()`, not `.json()`. Parse with `csv-parse/sync` and `columns: true`; hand-parsing breaks on quoted commas. Missing dates arrive as the literal string `"null"` and must be coerced to real `null` before Postgres accepts them in `date` columns.

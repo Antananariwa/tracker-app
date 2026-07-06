@@ -29,7 +29,7 @@ const StockBrowsePage = () => {
       </MainContentBox>
 
   <MainContentBox>
-    <div className='PrimaryGraph-div'>
+    <div >
       <ApiDataBox title={latestPriceTitle} loading={loading} error={error}>
         <LatestPriceDisplay latestPriceData={latestPriceData} />
       </ApiDataBox>

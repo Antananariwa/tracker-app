@@ -1,13 +1,13 @@
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 
-export type ExampleProps = {
+export type PriceAreaChartProps = {
   chartData: { [key: string]: string | number }[]
   XAxisDataKey: string
   areaDataKey: string 
 }
 
-const Example = ({chartData, XAxisDataKey, areaDataKey}: ExampleProps) => {
+const PriceAreaChart = ({chartData, XAxisDataKey, areaDataKey}: PriceAreaChartProps) => {
   return (
       <div style={{ width: '100%', height: 300 }}>
         <ResponsiveContainer>
@@ -31,4 +31,4 @@ const Example = ({chartData, XAxisDataKey, areaDataKey}: ExampleProps) => {
   );
 };
 
-export default Example;
+export default PriceAreaChart;

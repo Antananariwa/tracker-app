@@ -81,7 +81,7 @@ All rows in the listings catalog share one `fetched_at` from the same upsert, so
 `useSymbolCatalog(category)` took a parameter while only `/stocks` existed, because the next phase was already known to add `/crypto` to the same `symbols` route. Rule: parameterise when generality is confirmed by near-term plans, not on speculation. Phase 2 has since shipped `/crypto`, validating the call.
 
 ### URL inconsistency: `/api/stocks/:symbol` vs `/api/symbols/stocks`
-Inverted noun ordering between the price route and the catalog route. Awkward but not fixed now — the rename touches backend, route file, and frontend hook. Revisit in Phase 5 with crypto built; likely target is resource-first (`/api/stocks/catalog`, `/api/stocks/:symbol`). Tracked as open debt in PROGRESS.
+Inverted noun ordering between the price route and the catalog route. Awkward but not fixed now — the rename touches backend, route file, and frontend hook. Revisit in Phase 5 with crypto built; likely target is resource-first (`/api/stocks/catalog`, `/api/stocks/:symbol`).
 
 ### CSV handling for AlphaVantage
 The listings endpoint returns CSV — the only AV endpoint that does. Read with `fetch().text()`, not `.json()`. Parse with `csv-parse/sync` and `columns: true`; hand-parsing breaks on quoted commas. Missing dates arrive as the literal string `"null"` and must be coerced to real `null` before Postgres accepts them in `date` columns.
@@ -89,9 +89,6 @@ The listings endpoint returns CSV — the only AV endpoint that does. Read with 
 ---
 
 ## Phase 1 — TypeScript migration
-
-### Prop drilling on chart data
-`chartData` is threaded `StockBrowsePage → PrimaryGraph → AreaResponsiveContainerGraph` (the last imported under the local alias `DemoGraph`), with `PrimaryGraph` only forwarding it. Tracing the type during the TS conversion meant walking up the chain. Worth lifting to context or a shared hook in a later pass; not done during the migration to avoid mixing refactors. Tracked as open debt in PROGRESS.
 
 ### LeftMenuBox uses a mapping pattern over hardcoded buttons
 `LeftMenuBox` accepts `optionName: string[]` and `onOptionClick: (option: string) => void`, mapping each string to a button. Justified for dynamic options from a data source, overkill for the 3–4 hardcoded labels per menu in current usage. Simplification path: drop both props, accept children, each parent button owns its onClick. Deferred.

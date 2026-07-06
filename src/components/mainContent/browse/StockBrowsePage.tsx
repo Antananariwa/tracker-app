@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import PrimaryGraph from '../displays/groups/PrimaryGraph'
-import MainContentBox from '../MainContentBox'
 import ApiDataBox from '../displays/ApiDataBox';
 import LatestPriceDisplay from '../displays/LatestPriceDisplay';
+import PriceAreaChart from '../displays/graphs/PriceAreaChart';
+import TimeFrameOptions from '../TimeFrameOptions';
+import MainContentBox from '../MainContentBox'
 import { extractStockOverview, extractLatestStockPrice, adjustDataByTime, extractChartPriceByDateWeekly, type StockGraphTimeFrame } from '../../../utils/stockData';
 import MetaDataDisplay from '../displays/MetaDataDisplay';
 import StockSearchBar from '../searchBars/StockSearchBar';
@@ -19,6 +20,7 @@ const StockBrowsePage = () => {
   const chartData = data ? extractChartPriceByDateWeekly(data) : []
   const chartDataTimeFrame = adjustDataByTime(chartData, selectedTimeFrame)
   
+  const timeRange: StockGraphTimeFrame[] = ["1M", "3M", "6M", "1Y", "3Y", "5Y", "10Y", "20Y"]
 
   return (
     <div className="StockMainPage-Div">
@@ -26,25 +28,23 @@ const StockBrowsePage = () => {
         <StockSearchBar onStockSelect = {setSelectedStock}/>
       </MainContentBox>
 
-      <MainContentBox>
-        <PrimaryGraph
-          latestPriceTitle = {latestPriceTitle}
-          loading = {loading}
-          error = {error}
-          latestPriceData={latestPriceData}
-          chartDataTimeFrame = {chartDataTimeFrame}
-          setSelectedTimeFrame = {setSelectedTimeFrame}
-          selectedTimeFrame={selectedTimeFrame}
-          XAxisDataKey="date"
-          areaDataKey="close"
-        />
-      </MainContentBox>
-
-      <MainContentBox>
-        <ApiDataBox title = {latestPriceTitle} loading = {loading} error = {error}>
-          <LatestPriceDisplay latestPriceData={latestPriceData} />
-        </ApiDataBox> 
-      </MainContentBox>
+  <MainContentBox>
+    <div >
+      <ApiDataBox title={latestPriceTitle} loading={loading} error={error}>
+        <LatestPriceDisplay latestPriceData={latestPriceData} />
+      </ApiDataBox>
+      <PriceAreaChart
+        chartData={chartDataTimeFrame}
+        XAxisDataKey="date"
+        areaDataKey="close"
+      />
+      <TimeFrameOptions
+        selectedTimeFrame={selectedTimeFrame}
+        onOptionClick={(time) => setSelectedTimeFrame(time)}
+        timeRange={timeRange}
+      />
+    </div>
+  </MainContentBox>
 
       <MainContentBox>
         <MetaDataDisplay metaData = {metaData} />

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import MainContentBox from "../MainContentBox" 
-import DemoGraph from '../displays/graphs/AreaResponsiveContainerGraph'
+import PriceAreaChart from '../displays/graphs/PriceAreaChart'
 import CryptoSearchBar from "../searchBars/CryptoSearchBar"
 import useBackendCrypto from '../../../hooks/useBackendCrypto';
 import { extractCoinChartData, adjustDataByTime, extractLatestCryptoPrice, extractCoinInfo } from '../../../utils/cryptoData';
@@ -40,7 +40,7 @@ const CryptoBrowsePage = () => {
         <ApiDataBox title={cryptoTitle} loading={loading} error={error}>
           <div>As of {latestCryptoPrice ? new Date(latestCryptoPrice.date).toLocaleDateString('en-GB') : ''}</div>
         </ApiDataBox>
-        <DemoGraph 
+        <PriceAreaChart 
         chartData = {chartDataTimeFrame} 
         XAxisDataKey = "date" 
         areaDataKey = "price"

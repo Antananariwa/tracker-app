@@ -54,8 +54,7 @@ The proxy holds every secret key. The browser never calls an external API direct
         /searchBars/    StockSearchBar, CryptoSearchBar
         /displays/      LatestPriceDisplay, MetaDataDisplay, ApiDataBox,
                         CoinInfoBox, DefaultDisplay
-          /graphs/      AreaResponsiveContainerGraph
-          /groups/      PrimaryGraph
+          /graphs/      PriceAreaChart
   /backend/
     server.ts            ← Express entry
     env.d.ts             ← process.env types

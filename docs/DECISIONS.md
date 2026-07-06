@@ -90,9 +90,6 @@ The listings endpoint returns CSV — the only AV endpoint that does. Read with 
 
 ## Phase 1 — TypeScript migration
 
-### Prop drilling on chart data
-`chartData` is threaded `StockBrowsePage → PrimaryGraph → AreaResponsiveContainerGraph` (the last imported under the local alias `DemoGraph`), with `PrimaryGraph` only forwarding it. Tracing the type during the TS conversion meant walking up the chain. Worth lifting to context or a shared hook in a later pass; not done during the migration to avoid mixing refactors. Tracked as open debt in PROGRESS.
-
 ### LeftMenuBox uses a mapping pattern over hardcoded buttons
 `LeftMenuBox` accepts `optionName: string[]` and `onOptionClick: (option: string) => void`, mapping each string to a button. Justified for dynamic options from a data source, overkill for the 3–4 hardcoded labels per menu in current usage. Simplification path: drop both props, accept children, each parent button owns its onClick. Deferred.
 

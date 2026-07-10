@@ -5,9 +5,8 @@
   width: var(--sidebar-w);
   height: calc(100vh - var(--topbar-h));
   z-index: 100;
-  margin: 0;
   padding: 10px 8px;
-  background-color: var(--surf-1);
+  background-color: var(--surface-1);
   border-right: 1px solid var(--border);
   overflow-y: auto;
 }

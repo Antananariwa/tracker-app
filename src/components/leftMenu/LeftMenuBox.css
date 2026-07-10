@@ -1,25 +1,16 @@
 .LeftMenuBoxDiv {
-  margin: 0 0 10px;
-  padding: 0;
-  background: transparent;
-  border-radius: var(--radius);
-}
-
-details {
-  margin: 0;
-  padding: 0;
+  margin-bottom: 10px;
 }
 
 details summary {
   position: relative;
-  margin: 0;
   padding: 6px 22px 6px 8px;
   cursor: pointer;
   list-style: none;
   border-radius: var(--radius);
   font-size: 11px;
   font-weight: 700;
-  letter-spacing: .08em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--text-3);
   transition: color var(--speed) var(--ease), background var(--speed) var(--ease);
@@ -46,23 +37,18 @@ details[open] summary::before {
   transform: translateY(-50%) rotate(90deg);
 }
 
-
 .OptionDiv {
-  margin: 0;
-  padding: 4px 0 0;
+  padding-top: 4px;
   display: flex;
   flex-direction: column;
-  align-items: stretch;
   gap: 2px;
 }
-
 
 .OptionDiv .optionButtons {
   display: flex;
   align-items: center;
   gap: 8px;
   width: 100%;
-  margin: 0;
   padding: 7px 8px;
   text-align: left;
   background: transparent;
@@ -78,9 +64,23 @@ details[open] summary::before {
   color: var(--text);
 }
 
-
+.OptionDiv .optionButtons::before {
+  content: '';
+  flex-shrink: 0;
+  width: 6px;
+  height: 6px;
+  border-radius: 1.5px;
+  transform: rotate(45deg);
+  background: transparent;
+  transition: background var(--speed) var(--ease);
+}
 
 .OptionDiv .optionButtons:hover::before { background: var(--surface-4); }
 
+.OptionDiv .optionButtons.is-active {
+  background: var(--accent-soft);
+  color: var(--text);
+  font-weight: 600;
+}
 
 .OptionDiv .optionButtons.is-active::before { background: var(--accent); }

@@ -3,35 +3,34 @@
   --sidebar-w: 180px;
   --content-max: 1200px;
 
-  --bg:        #0e0e10;
-  --surf-1: #18181b;
-  --surf-2: #1f1f23;
-  --surf-3: #26262c;
-  --surf-4: #2e2e35;
-  --border:        #313138;
+  --bg: #0e0e10;
+  --surface-1: #18181b;
+  --surface-2: #1f1f23;
+  --surface-3: #26262c;
+  --surface-4: #2e2e35;
+  --border: #313138;
   --border-strong: #3d3d46;
 
-
-  --text:   #efeff1;
+  --text: #efeff1;
   --text-2: #b8b8c1;
   --text-3: #8f8f9a;
-  --accent:        #9147ff;
+
+  --accent: #9147ff;
   --accent-strong: #772ce8;
-  --accent-soft:   rgba(145, 71, 255, .16);
+  --accent-soft: rgba(145, 71, 255, 0.16);
 
-  --positive: #3dd68c;  --pos-soft: rgba(61, 214, 140, .12);
-  --negegative: #ef5350;  --neg-soft: rgba(239, 83, 80, .12);
+  --pos: #3dd68c;
+  --pos-soft: rgba(61, 214, 140, 0.12);
+  --neg: #ef5350;
+  --neg-soft: rgba(239, 83, 80, 0.12);
 
-
-  --grid:      #28282e;
+  --grid: #28282e;
   --axis-line: #3a3a42;
-
 
   --radius: 6px;
   --radius-lg: 8px;
   --speed: 110ms;
   --ease: ease-out;
-
 
   font-family: system-ui, -apple-system, "Segoe UI", Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.45;
@@ -51,13 +50,10 @@
   box-sizing: border-box;
 }
 
-html, body {
-  margin: 0;
-  padding: 0;
+html {
   font-size: 14px;
+  scrollbar-gutter: stable;
 }
-
-html { scrollbar-gutter: stable; }
 
 :focus-visible {
   outline: 2px solid var(--accent);
@@ -65,10 +61,8 @@ html { scrollbar-gutter: stable; }
   border-radius: var(--radius);
 }
 
-
 .up   { color: var(--pos); }
 .down { color: var(--neg); }
-
 
 .delta-pill {
   display: inline-block;
@@ -77,9 +71,9 @@ html { scrollbar-gutter: stable; }
   font-size: 12.5px;
   font-weight: 650;
 }
+
 .delta-pill.up   { background: var(--pos-soft); }
 .delta-pill.down { background: var(--neg-soft); }
-
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

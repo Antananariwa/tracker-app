@@ -1,15 +1,14 @@
 .MainContentBoxDiv {
-  background-color: rgba(46, 46, 54, 0.651);
-  margin: 0 auto 16px;
+  margin-bottom: 16px;
   padding: 16px 20px;
+  background-color: var(--surface-2);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   text-align: left;
 }
 
 .MainContentBoxDiv h2 {
-  margin: 0 0 10px;
-  padding: 0;
+  margin-bottom: 10px;
   font-size: 15px;
   font-weight: 700;
 }

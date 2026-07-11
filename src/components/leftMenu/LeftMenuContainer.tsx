@@ -1,26 +1,25 @@
 import './LeftMenuContainer.css'
 import LeftMenuBox from './LeftMenuBox'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import Button from '../ui/Button';
+
 
 type LeftMenuContainerProps = {
   title?: string
 }
 
 const LeftMenuContainer = ({
-  title = ""
   }: LeftMenuContainerProps) => {
   const navigate = useNavigate();
+  const location = useLocation();
   
   return (
     <div className="LeftMenuContainer">
-      {title && <h2>{title}</h2>}
-
       <LeftMenuBox groupName="Portfolio" >
 
             <Button 
               variant={'secondary'}
-              className={'optionButtons'}
+              className={location.pathname === '/portfolio/stocks' ? 'optionButtons is-active' : 'optionButtons'}
               onClick={()=>navigate('/portfolio/stocks')}
             >
               Stocks
@@ -28,7 +27,7 @@ const LeftMenuContainer = ({
 
             <Button 
               variant={'secondary'}
-              className={'optionButtons'}
+              className={location.pathname === '/portfolio/crypto' ? 'optionButtons is-active' : 'optionButtons'}
               onClick={()=>navigate('/portfolio/crypto')}
             >
               Crypto
@@ -39,7 +38,7 @@ const LeftMenuContainer = ({
       <LeftMenuBox groupName="Browse">
             <Button 
               variant={'secondary'}
-              className={'optionButtons'}
+              className={location.pathname === '/browse/stocks' ? 'optionButtons is-active' : 'optionButtons'}
               onClick={()=>navigate('/browse/stocks')}
             >
               Stocks
@@ -47,7 +46,7 @@ const LeftMenuContainer = ({
 
             <Button 
               variant={'secondary'}
-              className={'optionButtons'}
+              className={location.pathname === '/browse/crypto' ? 'optionButtons is-active' : 'optionButtons'}
               onClick={()=>navigate('/browse/crypto')}
             >
               Crypto
@@ -58,7 +57,7 @@ const LeftMenuContainer = ({
       <LeftMenuBox groupName="Account">
             <Button 
               variant={'secondary'}
-              className={'optionButtons'}
+              className={location.pathname === '/account/option1' ? 'optionButtons is-active' : 'optionButtons'}
               onClick={()=>navigate('/account/option1')}
             >
               Option1
@@ -66,7 +65,7 @@ const LeftMenuContainer = ({
 
             <Button 
               variant={'secondary'}
-              className={'optionButtons'}
+              className={location.pathname === '/account/option2' ? 'optionButtons is-active' : 'optionButtons'}
               onClick={()=>navigate('/account/option2')}
             >
               Option2

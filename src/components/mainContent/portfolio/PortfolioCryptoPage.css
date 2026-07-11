@@ -1,0 +1,35 @@
+.cryptoHoldingsTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13.5px;
+}
+
+.cryptoHoldingsTable thead th {
+  padding: 10px 16px;
+  text-align: left;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  border-bottom: 1px solid var(--border-strong);
+}
+
+.cryptoHoldingsTable tbody td {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+}
+
+.cryptoHoldingsTable tbody tr:last-child td { border-bottom: 0; }
+.cryptoHoldingsTable tbody td:last-child  { border-right: 0; }
+
+
+
+.cryptoHoldingsTable tbody tr { transition: background var(--speed) var(--ease); }
+
+.cryptoHoldingsTable tbody tr:hover { background: var(--surface-3); }
+.cryptoHoldingsTable th.cryptoNum,
+.cryptoHoldingsTable td.cryptoNum { text-align: right; }
+
+.cryptoHoldingsTable td.cryptoNum { font-variant-numeric: tabular-nums; }

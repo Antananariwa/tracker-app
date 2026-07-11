@@ -1,6 +1,7 @@
 import MainContentBox from '../MainContentBox';
 import { preparePortfolioAssets } from '../../../utils/stockData'
 import usePortfolio from '../../../hooks/usePortfolio'
+import './PortfolioCryptoPage.css';
 
 const PortfolioCryptoPage = () => {
   const { data, loading, error } = usePortfolio('crypto');
@@ -18,14 +19,14 @@ const PortfolioCryptoPage = () => {
   } else {
     content = (
       <MainContentBox>
-        <table>
+        <table className="cryptoHoldingsTable">
           <thead>
             <tr>
               <th>Symbol</th>
               <th>Name</th>
-              <th>Quantity</th>
-              <th>avgBuyPrice</th>
-              <th>purchaseCost</th>
+              <th className="cryptoNum">Quantity</th>
+              <th className="cryptoNum">avgBuyPrice</th>
+              <th className="cryptoNum">purchaseCost</th>
               <th>status</th>
               <th>acquiredAt</th>
             </tr>
@@ -35,9 +36,9 @@ const PortfolioCryptoPage = () => {
               <tr key={asset.symbol}>
                 <td>{asset.symbol}</td>
                 <td>{asset.name}</td>
-                <td>{asset.quantity}</td>
-                <td>{asset.avgBuyPrice}</td>
-                <td>{asset.purchaseCost}</td>
+                <td className="cryptoNum">{asset.quantity}</td>
+                <td className="cryptoNum">{asset.avgBuyPrice}</td>
+                <td className="cryptoNum">{asset.purchaseCost}</td>
                 <td>{asset.status}</td>
                 <td>{asset.acquiredAt}</td>
               </tr>

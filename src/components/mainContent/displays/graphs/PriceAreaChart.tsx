@@ -26,6 +26,8 @@ const PriceAreaChart = ({chartData, XAxisDataKey, areaDataKey}: PriceAreaChartPr
               labelStyle={{ color: '#8f8f9a', fontSize: 11 }}
               itemStyle={{ color: '#efeff1', fontWeight: 700 }}
               cursor={{ stroke: '#55555f' }}
+              separator=""
+              formatter={(value) => [`$${Number(value).toFixed(2)}`, '']}
             />
             <Area type="monotone" dataKey={areaDataKey} stroke="#9147ff" strokeWidth={2} fill="url(#priceFill)" />
           </AreaChart>

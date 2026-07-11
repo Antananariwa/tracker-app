@@ -15,7 +15,7 @@ function App() {
           <div className="bodyWrapper">
               <TopBar/>
 
-              <LeftMenuContainer title="Left Container"/>
+              <LeftMenuContainer/>
 
             <div className="contentDiv">
               <Header title="Investments Calculator" subtitle="Table with individual assets"/>

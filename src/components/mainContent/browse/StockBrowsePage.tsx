@@ -8,6 +8,7 @@ import { extractStockOverview, extractLatestStockPrice, adjustDataByTime, extrac
 import MetaDataDisplay from '../displays/MetaDataDisplay';
 import StockSearchBar from '../searchBars/StockSearchBar';
 import useBackendStock from '../../../hooks/useBackendStock';
+import { makeTickFormatter } from '../../../utils/stockData';
 
 const StockBrowsePage = () => {
   const [ selectedStock, setSelectedStock ] = useState('')
@@ -37,6 +38,7 @@ const StockBrowsePage = () => {
         chartData={chartDataTimeFrame}
         XAxisDataKey="date"
         areaDataKey="close"
+        tickFormatter={makeTickFormatter(selectedTimeFrame)}
       />
       <TimeFrameOptions
         selectedTimeFrame={selectedTimeFrame}

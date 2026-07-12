@@ -88,7 +88,7 @@ export const extractCoinChartData = (data: CoinGeckoResponse): CoinChartData[] =
   const volumes = data['total_volumes']
 
   const exitData = prices.map(([datePoint, pricePoint], index) => ({
-    date: new Date(datePoint).toLocaleDateString('en-GB'),
+    date: new Date(datePoint).toISOString().slice(0, 10),
     price: pricePoint,
     volume: volumes[index]?.[1] ?? 0,
   }))

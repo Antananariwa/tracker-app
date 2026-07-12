@@ -9,6 +9,7 @@ import type {CryptoGraphTimeFrame} from '../../../utils/cryptoData';
 import ApiDataBox from '../displays/ApiDataBox';
 import CoinInfoBox from '../displays/CoinInfoBox'
 import useCoinInfo from '../../../hooks/useCoinInfo'
+import { makeTickFormatter } from '../../../utils/stockData';
 
 
 const CryptoBrowsePage = () => {
@@ -44,6 +45,7 @@ const CryptoBrowsePage = () => {
         chartData = {chartDataTimeFrame} 
         XAxisDataKey = "date" 
         areaDataKey = "price"
+        tickFormatter={makeTickFormatter(selectedTimeFrame)}
         />
         <TimeFrameOptions
           selectedTimeFrame={selectedTimeFrame}

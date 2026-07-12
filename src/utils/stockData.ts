@@ -99,7 +99,7 @@ export const extractChartPriceByDateWeekly = (data: AlphaVantageWeeklyResponse):
   const timeSeriesArrayReversed = Object.entries(timeSeries).sort((a, b) => a[0].localeCompare(b[0]));
   
   const preparedData = timeSeriesArrayReversed.map(([date, values]) => ({
-    date: new Date(date).toLocaleDateString('en-GB'), 
+    date: date, 
     close: parseFloat(values['4. close']),
     volume: parseInt(values['5. volume'], 10)
   }))
@@ -139,3 +139,29 @@ export const preparePortfolioAssets = (assets: SupabaseAssetsTable[]): Portfolio
     acquiredAt: asset.acquired_at,
   }))
 }
+
+
+export const makeTickFormatter = function(timeFrame: string) {
+  if (timeFrame === "5Y" || timeFrame === "10Y" || timeFrame === "20Y") {
+    return function(d: string) {
+      var date = new Date(d);
+      return String(date.getFullYear());
+    };
+  } else if (timeFrame === "3Y" || timeFrame === "1Y" || timeFrame === "YTD" || timeFrame === "6M") {
+    return function(d: string) {
+      var date = new Date(d);
+      var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+      var month = months[date.getMonth()];
+      var year = String(date.getFullYear()).slice(-2);
+      return month + " " + year;
+    };
+  } else {
+    return function(d: string) {
+      var date = new Date(d);
+      var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+      var day = date.getDate();
+      var month = months[date.getMonth()];
+      return day + " " + month;
+    };
+  }
+};

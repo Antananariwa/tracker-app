@@ -4,10 +4,11 @@ import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 export type PriceAreaChartProps = {
   chartData: { [key: string]: string | number }[]
   XAxisDataKey: string
-  areaDataKey: string 
+  areaDataKey: string
+  tickFormatter?: (value: string) => string
 }
 
-const PriceAreaChart = ({chartData, XAxisDataKey, areaDataKey}: PriceAreaChartProps) => {
+const PriceAreaChart = ({chartData, XAxisDataKey, areaDataKey, tickFormatter}: PriceAreaChartProps) => {
   return (
       <div style={{ width: '100%', height: 300 }}>
         <ResponsiveContainer>
@@ -19,7 +20,7 @@ const PriceAreaChart = ({chartData, XAxisDataKey, areaDataKey}: PriceAreaChartPr
               </linearGradient>
             </defs>
             <CartesianGrid stroke="#28282e" vertical={false} />
-            <XAxis dataKey = {XAxisDataKey} tick={{ fill: '#8f8f9a', fontSize: 11 }} axisLine={{ stroke: '#3a3a42' }} tickLine={false} />
+            <XAxis dataKey={XAxisDataKey} tick={{ fill: '#8f8f9a', fontSize: 11 }} axisLine={{ stroke: '#3a3a42' }} tickLine={false} tickFormatter={tickFormatter} minTickGap={40} />
             <YAxis tick={{ fill: '#8f8f9a', fontSize: 11 }} axisLine={false} tickLine={false} />
             <Tooltip
               contentStyle={{ background: '#26262c', border: '1px solid #3d3d46', borderRadius: 6 }}
@@ -28,6 +29,7 @@ const PriceAreaChart = ({chartData, XAxisDataKey, areaDataKey}: PriceAreaChartPr
               cursor={{ stroke: '#55555f' }}
               separator=""
               formatter={(value) => [`$${Number(value).toFixed(2)}`, '']}
+              labelFormatter={(d) => new Date(String(d)).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
             />
             <Area type="monotone" dataKey={areaDataKey} stroke="#9147ff" strokeWidth={2} fill="url(#priceFill)" />
           </AreaChart>

@@ -8,7 +8,7 @@ import { extractStockOverview, extractLatestStockPrice, adjustDataByTime, extrac
 import MetaDataDisplay from '../displays/MetaDataDisplay';
 import StockSearchBar from '../searchBars/StockSearchBar';
 import useBackendStock from '../../../hooks/useBackendStock';
-import { makeTickFormatter } from '../../../utils/stockData';
+import { makeTickFormatter } from '../../../utils/chartFormat';
 
 const StockBrowsePage = () => {
   const [ selectedStock, setSelectedStock ] = useState('')

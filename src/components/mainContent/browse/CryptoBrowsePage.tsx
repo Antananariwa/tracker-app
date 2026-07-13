@@ -9,7 +9,7 @@ import type {CryptoGraphTimeFrame} from '../../../utils/cryptoData';
 import ApiDataBox from '../displays/ApiDataBox';
 import CoinInfoBox from '../displays/CoinInfoBox'
 import useCoinInfo from '../../../hooks/useCoinInfo'
-import { makeTickFormatter } from '../../../utils/stockData';
+import { makeTickFormatter } from '../../../utils/chartFormat';
 
 
 const CryptoBrowsePage = () => {

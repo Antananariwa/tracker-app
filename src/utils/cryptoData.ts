@@ -106,6 +106,7 @@ export const adjustDataByTime = (data: CoinChartData[], timeFrame: CryptoGraphTi
     case "1M":  days = 30;   break;
     case "3M":  days = 90;   break;
     case "6M":  days = 180;   break;
+    //case "YTD": date >= January 1: break;
     case "1Y":  return data;
     default:    return data;
   };

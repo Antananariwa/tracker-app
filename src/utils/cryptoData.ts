@@ -15,7 +15,7 @@ export type CoinChartData = {
   volume: number
 }
 
-export type CryptoGraphTimeFrame = "1M" | "3M" | "6M" | "1Y" 
+export type CryptoGraphTimeFrame = "1M" | "3M" | "6M" | "YTD" | "1Y" 
 
 export type CoinGeckoInfoResponse = {
   name: string

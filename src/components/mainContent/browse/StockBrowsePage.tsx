@@ -21,7 +21,7 @@ const StockBrowsePage = () => {
   const chartData = data ? extractChartPriceByDateWeekly(data) : []
   const chartDataTimeFrame = adjustDataByTime(chartData, selectedTimeFrame)
   
-  const timeRange: StockGraphTimeFrame[] = ["1M", "3M", "6M", "1Y", "3Y", "5Y", "10Y", "20Y"]
+  const timeRange: StockGraphTimeFrame[] = ["1M", "3M", "6M", "YTD", "1Y", "3Y", "5Y", "10Y", "20Y"]
 
   return (
     <div className="StockMainPage-Div">

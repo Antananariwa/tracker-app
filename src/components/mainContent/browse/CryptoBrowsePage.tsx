@@ -19,7 +19,7 @@ const CryptoBrowsePage = () => {
   const {data, loading, error} = useBackendCrypto(selectedCrypto)
   const chartData = data ? extractCoinChartData(data) : []
   const chartDataTimeFrame = adjustDataByTime(chartData, selectedTimeFrame)
-  const timeRange: CryptoGraphTimeFrame[] = ['1M', '3M', '6M', '1Y']
+  const timeRange: CryptoGraphTimeFrame[] = ['1M', '3M', '6M', 'YTD','1Y']
 
   const { data: infoRaw, loading: infoLoading, error: infoError } = useCoinInfo(selectedCrypto)
   const info = infoRaw ? extractCoinInfo(infoRaw) : null

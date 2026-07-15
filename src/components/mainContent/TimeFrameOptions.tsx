@@ -12,7 +12,6 @@ function TimeFrameOptions<T extends string>({onOptionClick, selectedTimeFrame, t
     <div className="TimeFrameOptions-Div">
       {timeRange.map((time) => (
         <Button
-          variant='secondary'
           className={time === selectedTimeFrame ? 'timeButton selectedButton' : 'timeButton'}
           key={time}
           onClick={() => onOptionClick(time)}

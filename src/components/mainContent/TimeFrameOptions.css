@@ -1,9 +1,10 @@
 .TimeFrameOptions-Div {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   gap: 2px;
   width: fit-content;
-  margin: 10px auto 0;
+  margin: 0;
   padding: 3px;
   background: var(--surface-1);
   border: 1px solid var(--border);
@@ -23,12 +24,8 @@
   color: var(--text);
 }
 
-.TimeFrameOptions-Div .selectedButton {
-  background: var(--accent);
-  color: #fff;
-}
-
-.TimeFrameOptions-Div .selectedButton:hover {
+.TimeFrameOptions-Div .timeButton.selectedButton,
+.TimeFrameOptions-Div .timeButton.selectedButton:hover {
   background: var(--accent);
   color: #fff;
 }

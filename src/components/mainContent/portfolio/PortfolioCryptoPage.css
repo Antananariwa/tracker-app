@@ -1,3 +1,7 @@
+.cryptoTableScroll {
+  overflow-x: auto;
+}
+
 .cryptoHoldingsTable {
   width: 100%;
   border-collapse: collapse;

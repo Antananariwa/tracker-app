@@ -1,0 +1,4 @@
+.topPanel {
+  display: flex;
+  flex-direction: row;
+}

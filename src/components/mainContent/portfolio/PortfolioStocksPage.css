@@ -1,8 +1,11 @@
+.stockTableScroll {
+  overflow-x: auto;
+}
+
 .stockHoldingsTable {
   width: 100%;
   border-collapse: collapse;
   font-size: 13.5px;
-  overflow-x: auto
 }
 
 .stockHoldingsTable thead th {

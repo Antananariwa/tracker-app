@@ -19,32 +19,34 @@ const PortfolioStocksPage = () => {
   } else {
     content = (
       <MainContentBox>
-        <table className="stockHoldingsTable">
-          <thead>
-            <tr>
-              <th>Symbol</th>
-              <th>Name</th>
-              <th className="stockNum">Quantity</th>
-              <th className="stockNum">Avg Buy Price</th>
-              <th className="stockNum">Purchase Cost</th>
-              <th>status</th>
-              <th>acquiredAt</th>
-            </tr>
-          </thead>
-          <tbody>
-            {assets.map(asset => (
-              <tr key={asset.symbol}>
-                <td>{asset.symbol}</td>
-                <td>{asset.name}</td>
-                <td className="stockNum">{asset.quantity}</td>
-                <td className="stockNum">{asset.avgBuyPrice}</td>
-                <td className="stockNum">{asset.purchaseCost}</td>
-                <td>{asset.status}</td>
-                <td>{asset.acquiredAt}</td>
+        <div className = "stockTableScroll">
+          <table className="stockHoldingsTable">
+            <thead>
+              <tr>
+                <th>Symbol</th>
+                <th>Name</th>
+                <th className="stockNum">Quantity</th>
+                <th className="stockNum">Avg Buy Price</th>
+                <th className="stockNum">Purchase Cost</th>
+                <th>status</th>
+                <th>acquiredAt</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {assets.map(asset => (
+                <tr key={asset.symbol}>
+                  <td>{asset.symbol}</td>
+                  <td>{asset.name}</td>
+                  <td className="stockNum">{asset.quantity}</td>
+                  <td className="stockNum">{asset.avgBuyPrice}</td>
+                  <td className="stockNum">{asset.purchaseCost}</td>
+                  <td>{asset.status}</td>
+                  <td>{asset.acquiredAt}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </MainContentBox>
     )
   }

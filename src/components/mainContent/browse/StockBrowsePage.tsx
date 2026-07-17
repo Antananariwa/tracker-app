@@ -9,6 +9,7 @@ import MetaDataDisplay from '../displays/MetaDataDisplay';
 import StockSearchBar from '../searchBars/StockSearchBar';
 import useBackendStock from '../../../hooks/useBackendStock';
 import { pickDateLabel } from '../../../utils/chartFormat';
+import './StockBrowsePage.css';
 
 const StockBrowsePage = () => {
   const [ selectedStock, setSelectedStock ] = useState('')

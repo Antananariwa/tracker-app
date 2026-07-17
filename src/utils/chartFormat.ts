@@ -1,4 +1,4 @@
-export const makeTickFormatter = function(timeFrame: string) {
+export const pickDateLabel = function(timeFrame: string) {
   if (timeFrame === "5Y" || timeFrame === "10Y" || timeFrame === "20Y") {
     return function(d: string) {
       const date = new Date(d);

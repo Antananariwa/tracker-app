@@ -6,7 +6,7 @@
   width: 100%;
   border-collapse: collapse;
   font-size: 13.5px;
-  overflow-x: auto
+  min-width: 600px;
 }
 
 .cryptoHoldingsTable thead th {

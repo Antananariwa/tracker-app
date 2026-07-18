@@ -30,28 +30,28 @@ const StockBrowsePage = () => {
         <StockSearchBar onStockSelect = {setSelectedStock}/>
       </MainContentBox>
 
-  <MainContentBox>
-    <div >
-      <div className='topPanel'>
-        <ApiDataBox title={latestPriceTitle} loading={loading} error={error}>
-          <LatestPriceDisplay latestPriceData={latestPriceData} />
-        </ApiDataBox>
+      <MainContentBox>
+        <div >
+          <div className='stockTopPanel'>
+            <ApiDataBox title={latestPriceTitle} loading={loading} error={error}>
+              <LatestPriceDisplay latestPriceData={latestPriceData} />
+            </ApiDataBox>
 
-        <TimeFrameOptions
-          selectedTimeFrame={selectedTimeFrame}
-          onOptionClick={(time) => setSelectedTimeFrame(time)}
-          timeRange={timeRange}
-        />
-      </div>
+            <TimeFrameOptions
+              selectedTimeFrame={selectedTimeFrame}
+              onOptionClick={(time) => setSelectedTimeFrame(time)}
+              timeRange={timeRange}
+            />
+          </div>
 
-      <PriceAreaChart
-        chartData={chartDataTimeFrame}
-        XAxisDataKey="date"
-        areaDataKey="close"
-        tickFormatter={pickDateLabel(selectedTimeFrame)}
-      />
-    </div>
-  </MainContentBox>
+          <PriceAreaChart
+            chartData={chartDataTimeFrame}
+            XAxisDataKey="date"
+            areaDataKey="close"
+            tickFormatter={pickDateLabel(selectedTimeFrame)}
+          />
+        </div>
+      </MainContentBox>
 
       <MainContentBox>
         <MetaDataDisplay metaData = {metaData} />

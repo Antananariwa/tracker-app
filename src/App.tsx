@@ -1,5 +1,4 @@
 import './App.css'
-import Header from './components/headerSection/Header'
 import LeftMenuContainer from './components/leftMenu/LeftMenuContainer'
 import MainContentContainer from './components/mainContent/MainContentContainer'
 import TopBar from './components/topBar/TopBar';

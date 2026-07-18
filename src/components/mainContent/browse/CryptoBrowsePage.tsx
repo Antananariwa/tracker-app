@@ -9,7 +9,8 @@ import type {CryptoGraphTimeFrame} from '../../../utils/cryptoData';
 import ApiDataBox from '../displays/ApiDataBox';
 import CoinInfoBox from '../displays/CoinInfoBox'
 import useCoinInfo from '../../../hooks/useCoinInfo'
-import { makeTickFormatter } from '../../../utils/chartFormat';
+import { pickDateLabel } from '../../../utils/chartFormat';
+import './CryptoBrowsePage.css';
 
 
 const CryptoBrowsePage = () => {
@@ -37,22 +38,26 @@ const CryptoBrowsePage = () => {
   } else {
     content = (
     <div>
-       <MainContentBox>
-        <ApiDataBox title={cryptoTitle} loading={loading} error={error}>
-          <div>As of {latestCryptoPrice ? new Date(latestCryptoPrice.date).toLocaleDateString('en-GB') : ''}</div>
-        </ApiDataBox>
+        <MainContentBox>
+          <div className='cryptoTopPanel'>
+            <ApiDataBox title={cryptoTitle} loading={loading} error={error}>
+              <div>As of {latestCryptoPrice ? new Date(latestCryptoPrice.date).toLocaleDateString('en-GB') : ''}</div>
+            </ApiDataBox>
+
+            <TimeFrameOptions
+              selectedTimeFrame={selectedTimeFrame}
+              onOptionClick={(time) => {
+                setSelectedTimeFrame(time);}}
+              timeRange = {timeRange}
+            />
+          </div>
+
         <PriceAreaChart 
-        chartData = {chartDataTimeFrame} 
-        XAxisDataKey = "date" 
-        areaDataKey = "price"
-        tickFormatter={makeTickFormatter(selectedTimeFrame)}
+          chartData = {chartDataTimeFrame} 
+          XAxisDataKey = "date" 
+          areaDataKey = "price"
+          tickFormatter={pickDateLabel(selectedTimeFrame)}
         />
-        <TimeFrameOptions
-          selectedTimeFrame={selectedTimeFrame}
-          onOptionClick={(time) => {
-            setSelectedTimeFrame(time);}}
-          timeRange = {timeRange}
-          />
       </MainContentBox>
 
       <MainContentBox>

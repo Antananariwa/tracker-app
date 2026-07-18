@@ -18,7 +18,6 @@ function App() {
               <LeftMenuContainer/>
 
             <div className="contentDiv">
-              <Header title="Investments Calculator" subtitle="Table with individual assets"/>
               <MainContentContainer/>
             </div>
 

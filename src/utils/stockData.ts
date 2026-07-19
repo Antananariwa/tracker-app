@@ -117,7 +117,13 @@ export const adjustDataByTime = (data: ChartPriceByDateWeekly[], timeFrame: Stoc
     case "1M":  weeks = 4;    break;
     case "3M":  weeks = 13;   break;
     case "6M":  weeks = 26;   break;
-    //case "YTD": date >= January 1: break;
+    case "YTD": {
+      const lastDate = data[data.length - 1].date
+      const jan1 = lastDate.slice(0, 4) + "-01-01"
+      const msPerWeek = 1000 * 60 * 60 * 24 * 7 // transform default millisecondds to week
+      weeks = Math.ceil((new Date(lastDate).getTime() - new Date(jan1).getTime()) / msPerWeek)
+      break
+    }
     case "1Y":  weeks = 52;   break;
     case "3Y":  weeks = 156;  break;
     case "5Y":  weeks = 260;  break;

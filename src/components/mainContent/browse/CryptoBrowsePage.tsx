@@ -11,6 +11,7 @@ import CoinInfoBox from '../displays/CoinInfoBox'
 import useCoinInfo from '../../../hooks/useCoinInfo'
 import { pickDateLabel } from '../../../utils/chartFormat';
 import './CryptoBrowsePage.css';
+import Header from '../../ui/Header';
 
 
 const CryptoBrowsePage = () => {
@@ -38,6 +39,8 @@ const CryptoBrowsePage = () => {
   } else {
     content = (
     <div>
+        <Header title="Search Crypto" subtitle="Discover coins"/>
+
         <MainContentBox>
           <div className='cryptoTopPanel'>
             <ApiDataBox title={cryptoTitle} loading={loading} error={error}>

@@ -10,6 +10,7 @@ import StockSearchBar from '../searchBars/StockSearchBar';
 import useBackendStock from '../../../hooks/useBackendStock';
 import { pickDateLabel } from '../../../utils/chartFormat';
 import './StockBrowsePage.css';
+import Header from '../../ui/Header';
 
 const StockBrowsePage = () => {
   const [ selectedStock, setSelectedStock ] = useState('')
@@ -26,6 +27,8 @@ const StockBrowsePage = () => {
 
   return (
     <div className="StockMainPage-Div">
+      <Header title="Search Stocks" subtitle="Browse Stock Market"/>
+
       <MainContentBox>
         <StockSearchBar onStockSelect = {setSelectedStock}/>
       </MainContentBox>

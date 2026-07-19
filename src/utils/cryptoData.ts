@@ -106,7 +106,13 @@ export const adjustDataByTime = (data: CoinChartData[], timeFrame: CryptoGraphTi
     case "1M":  days = 30;   break;
     case "3M":  days = 90;   break;
     case "6M":  days = 180;   break;
-    //case "YTD": date >= January 1: break;
+    case "YTD": {
+      const lastDate = data[data.length - 1].date
+      const jan1 = lastDate.slice(0, 4) + "-01-01"
+      const msPerDay = 1000 * 60 * 60 * 24 // transform default millisecondds to days
+      days = Math.ceil((new Date(lastDate).getTime() - new Date(jan1).getTime()) / msPerDay)
+      break
+    }
     case "1Y":  return data;
     default:    return data;
   };

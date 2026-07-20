@@ -31,29 +31,27 @@ const CryptoBrowsePage = () => {
   ? `${info?.name ?? selectedCrypto}    $${latestCryptoPrice.price.toFixed(2)}`
   : 'Current Price'
 
-  let content
-  if (loading) {
-    content = <MainContentBox>Please wait while we fetch the data...</MainContentBox>
-  } else if (error) {
-    content = <MainContentBox>{`An error occurred: ${error.message}`}</MainContentBox>
-  } else {
-    content = (
+  return (
     <div>
-        <Header title="Search Crypto" subtitle="Discover coins"/>
+      <Header title="Search Crypto" subtitle="Discover coins"/>
 
-        <MainContentBox>
-          <div className='cryptoTopPanel'>
-            <ApiDataBox title={cryptoTitle} loading={loading} error={error}>
-              <div>As of {latestCryptoPrice ? new Date(latestCryptoPrice.date).toLocaleDateString('en-GB') : ''}</div>
-            </ApiDataBox>
+      <MainContentBox>
+        <CryptoSearchBar onCryptoSelect={setSelectedCrypto} />
+      </MainContentBox>
 
-            <TimeFrameOptions
-              selectedTimeFrame={selectedTimeFrame}
-              onOptionClick={(time) => {
-                setSelectedTimeFrame(time);}}
-              timeRange = {timeRange}
-            />
-          </div>
+      <MainContentBox>
+        <div className='cryptoTopPanel'>
+          <ApiDataBox title={cryptoTitle} loading={loading} error={error}>
+            <div>As of {latestCryptoPrice ? new Date(latestCryptoPrice.date).toLocaleDateString('en-GB') : ''}</div>
+          </ApiDataBox>
+
+          <TimeFrameOptions
+            selectedTimeFrame={selectedTimeFrame}
+            onOptionClick={(time) => {
+              setSelectedTimeFrame(time);}}
+            timeRange = {timeRange}
+          />
+        </div>
 
         <PriceAreaChart 
           chartData = {chartDataTimeFrame} 
@@ -68,16 +66,6 @@ const CryptoBrowsePage = () => {
           <CoinInfoBox info={info} />
         </ApiDataBox>
       </MainContentBox>
-    </div>
-  )
-  }
-
-  return (
-    <div>
-      <MainContentBox>
-        <CryptoSearchBar onCryptoSelect={setSelectedCrypto} />
-      </MainContentBox>
-      {content}
     </div>
   )
 }

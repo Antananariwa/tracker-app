@@ -34,7 +34,6 @@ const StockBrowsePage = () => {
       </MainContentBox>
 
       <MainContentBox>
-        <div >
           <div className='stockTopPanel'>
             <ApiDataBox title={latestPriceTitle} loading={loading} error={error}>
               <LatestPriceDisplay latestPriceData={latestPriceData} />
@@ -53,7 +52,6 @@ const StockBrowsePage = () => {
             areaDataKey="close"
             tickFormatter={pickDateLabel(selectedTimeFrame)}
           />
-        </div>
       </MainContentBox>
 
       <MainContentBox>

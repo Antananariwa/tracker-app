@@ -15,7 +15,7 @@ export type CoinChartData = {
   volume: number
 }
 
-export type CryptoGraphTimeFrame = "1M" | "3M" | "6M" | "1Y" 
+export type CryptoGraphTimeFrame = "1M" | "3M" | "6M" | "YTD" | "1Y" 
 
 export type CoinGeckoInfoResponse = {
   name: string
@@ -88,7 +88,7 @@ export const extractCoinChartData = (data: CoinGeckoResponse): CoinChartData[] =
   const volumes = data['total_volumes']
 
   const exitData = prices.map(([datePoint, pricePoint], index) => ({
-    date: new Date(datePoint).toLocaleDateString('en-GB'),
+    date: new Date(datePoint).toISOString().slice(0, 10),
     price: pricePoint,
     volume: volumes[index]?.[1] ?? 0,
   }))
@@ -106,6 +106,13 @@ export const adjustDataByTime = (data: CoinChartData[], timeFrame: CryptoGraphTi
     case "1M":  days = 30;   break;
     case "3M":  days = 90;   break;
     case "6M":  days = 180;   break;
+    case "YTD": {
+      const lastDate = data[data.length - 1].date
+      const jan1 = lastDate.slice(0, 4) + "-01-01"
+      const msPerDay = 1000 * 60 * 60 * 24 // transform default millisecondds to days
+      days = Math.ceil((new Date(lastDate).getTime() - new Date(jan1).getTime()) / msPerDay)
+      break
+    }
     case "1Y":  return data;
     default:    return data;
   };

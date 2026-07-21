@@ -120,3 +120,8 @@ The legal values for `assets.category` and `assets.status` live in two independe
 
 ### Cache TTLs live in route code, not in the schema
 Each cached data type has its own freshness window, set as a constant in the relevant backend route. They differ because the underlying data changes at different rates: catalogs and coin metadata change rarely, prices constantly. The value is kept in code on purpose — it is tuned often during development, while schema docs describe table shape, which is stable. SCHEMA.md therefore records no TTL number by design.
+
+### Changed handling of loading/error
+Previously Crypto page was handling those itself, causing unexpected problems.
+Now we are rendering the header and search bar unconditionally and letting each `ApiDataBox` show its own loading/error inside the
+box.

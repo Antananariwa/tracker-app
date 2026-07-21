@@ -37,7 +37,7 @@ export type ChartPriceByDateWeekly = {
   volume: number
 }
 
-export type StockGraphTimeFrame = "1M" | "3M" | "6M" | "1Y" | "3Y" | "5Y" | "10Y" | "20Y" 
+export type StockGraphTimeFrame = "1M" | "3M" | "6M" | "YTD" | "1Y" | "3Y" | "5Y" | "10Y" | "20Y" 
 
 export type SupabaseAssetsTable = {
   id: string
@@ -99,7 +99,7 @@ export const extractChartPriceByDateWeekly = (data: AlphaVantageWeeklyResponse):
   const timeSeriesArrayReversed = Object.entries(timeSeries).sort((a, b) => a[0].localeCompare(b[0]));
   
   const preparedData = timeSeriesArrayReversed.map(([date, values]) => ({
-    date: new Date(date).toLocaleDateString('en-GB'), 
+    date: date, 
     close: parseFloat(values['4. close']),
     volume: parseInt(values['5. volume'], 10)
   }))
@@ -117,6 +117,13 @@ export const adjustDataByTime = (data: ChartPriceByDateWeekly[], timeFrame: Stoc
     case "1M":  weeks = 4;    break;
     case "3M":  weeks = 13;   break;
     case "6M":  weeks = 26;   break;
+    case "YTD": {
+      const lastDate = data[data.length - 1].date
+      const jan1 = lastDate.slice(0, 4) + "-01-01"
+      const msPerWeek = 1000 * 60 * 60 * 24 * 7 // transform default millisecondds to week
+      weeks = Math.ceil((new Date(lastDate).getTime() - new Date(jan1).getTime()) / msPerWeek)
+      break
+    }
     case "1Y":  weeks = 52;   break;
     case "3Y":  weeks = 156;  break;
     case "5Y":  weeks = 260;  break;

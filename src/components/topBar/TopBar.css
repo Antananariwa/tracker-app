@@ -1,21 +1,23 @@
-.topBarDiv{
+.topBarDiv {
   position: fixed;
-  display: flex;
-  margin: 0;
-  padding: 0;
-  background-color: #161617;
+  top: 0;
+  left: 0;
   width: 100%;
-  height: 50px;
+  height: var(--topbar-h);
   z-index: 300;
+  display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 0 1px 1px rgba(0,0,0,0.5);
+  padding: 0 12px;
+  background-color: var(--surface-1);
+  border-bottom: 1px solid var(--border);
 }
 
-.leftGroup {
+.leftGroup,
+.rightGroup {
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 8px;
 }
 
 .centerGroup {
@@ -23,32 +25,34 @@
   align-items: center;
 }
 
-.rightGroup {
+.demo-account-btn-topbar {
+  padding: 6px 14px;
+  font-size: 13px;
+  background: var(--accent);
+  color: #fff;
+}
+
+.demo-account-btn-topbar:hover  { background: var(--accent-strong); }
+.demo-account-btn-topbar:active { background: var(--accent-strong); }
+
+.login-btn-topbar {
+  padding: 6px 14px;
+  font-size: 13px;
+}
+
+.topBarDiv .btn:has(svg) {
   display: flex;
   align-items: center;
-  gap: 5px;
-}
-
-.demo-account-btn-topbar{
+  justify-content: center;
   padding: 5px;
-  font-size: 15px;
-  background: rgba(255, 68, 0, 0.61);
 }
 
-.login-btn-topbar{
-  padding: 5px;
-  font-size: 15px;
-}
+.topBarDiv .btn:has(svg):hover { background: var(--surface-3); }
 
+.homeImage,
+.settingsImage,
 .profileImage {
   display: block;
-}
-
-.homeImage {
-  display: block;
-  margin: 2px;
-}
-
-.settingsImage {
-  display: block;
+  width: 22px;
+  height: 22px;
 }

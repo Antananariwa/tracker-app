@@ -1,14 +1,32 @@
 .btn {
-  background: transparent;
   border: none;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: var(--radius);
   cursor: pointer;
+  transition: background var(--speed) var(--ease), color var(--speed) var(--ease);
 }
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.btn-primary {
+  padding: 6px 14px;
+  background: var(--accent);
+  color: #fff;
+}
+
+.btn-primary:hover { background: var(--accent-strong); }
 
 .btn-secondary {
-  background: gray;
-  border-radius: 2px;
+  padding: 6px 12px;
+  background: var(--surface-3);
 }
 
-.btn-secondary:active {
-  background: #555;
-}
+.btn-secondary:hover  { background: var(--surface-4); }
+.btn-secondary:active { background: var(--surface-2); }

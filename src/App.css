@@ -1,15 +1,17 @@
-#root {
-  margin: 0;
-  padding: 0;
-  text-align: center;
-  overflow: hidden;  /* Prevents margin collapsing due to lack of space between bodyWraper and parent component*/
-}
-
 .bodyWrapper {
-  overflow: hidden;
+  display: flow-root;
 }
 
 .contentDiv {
-  margin: 50px 0 0 200px;
-  padding: 0px;
+  margin-top: var(--topbar-h);
+  margin-left: var(--sidebar-w);
+  padding: 24px 40px 64px;
+  min-height: calc(100vh - var(--topbar-h));
+  min-width: 600px;
+}
+
+.contentDiv > * {
+  max-width: var(--content-max);
+  margin-left: auto;
+  margin-right: auto;
 }

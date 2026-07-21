@@ -2,7 +2,7 @@ import './Button.css'
 
 type ButtonProps = {
   children: React.ReactNode
-  variant?: 'secondary'
+  variant?: 'primary' | 'secondary'
   className?: string
   onClick?: () => void
   disabled?: boolean

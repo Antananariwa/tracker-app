@@ -1,18 +1,31 @@
 .TimeFrameOptions-Div {
-  margin: 2px;
-  padding: 2px;
-  text-align: center;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2px;
+  width: fit-content;
+  margin: 0;
+  padding: 3px;
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
 }
 
-.timeButton {
-  padding: 2px 4px 2px;
-  margin: 0 3px 0;
+.TimeFrameOptions-Div .timeButton {
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  color: var(--text-2);
+  background: transparent;
 }
 
-.selectedButton {
-  color: 5px solid#525050;
-  border-style: solid;
-  border-width: 3px;
-  border-color: #cabcbc;
-  border-radius: 3px;
+.TimeFrameOptions-Div .timeButton:hover {
+  background: var(--surface-3);
+  color: var(--text);
+}
+
+.TimeFrameOptions-Div .timeButton.selectedButton,
+.TimeFrameOptions-Div .timeButton.selectedButton:hover {
+  background: var(--accent);
+  color: #fff;
 }

@@ -12,7 +12,7 @@ const LeftMenuBox = ({
 }: LeftMenuBoxProps) => (
   <div className="LeftMenuBoxDiv">
     {groupName && (
-      <details>
+      <details open>
         <summary>{groupName}</summary>
         <div className="OptionDiv">
           { children }

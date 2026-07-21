@@ -15,12 +15,12 @@ const LoginPage = () => {
           <br/>
           <h4>Password</h4>
           <input></input>
-          <Button variant='secondary' className='forgotPasswordButton' >
+          <Button variant='primary' className='forgotPasswordButton' >
             Forgot Password
           </Button>
 
       </MainContentBox>
-      <Button variant='secondary' className='logInButton' onClick={()=>navigate('')}>
+      <Button variant='primary' className='logInButton' onClick={()=>navigate('')}>
         <h3>Log In</h3>
       </Button>
 

@@ -60,6 +60,9 @@ export type PortfolioAsset = {
   purchaseCost: number
   status: 'hold' | 'to_sell' | 'watching'
   acquiredAt: string
+  currentPrice?: number
+  currentValue?: number
+  gainLoss?: number
 }
 
 

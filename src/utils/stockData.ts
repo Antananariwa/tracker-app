@@ -63,6 +63,10 @@ export type PortfolioAsset = {
   currentPrice?: number
   currentValue?: number
   gainLoss?: number
+  gainLossPercent?: number
+  timeframeReturn?: number
+  timeframeReturnPercent?: number
+  fetchedAt?: string
 }
 
 

@@ -5,10 +5,10 @@
 //formatNumbeer
 
 
-export const formatCurrency = (value: number, currencySymbol: ('USD' | 'EUR' | 'GBP')): string => {
+export const formatCurrency = (value: number, currencyCode: ('USD' | 'EUR' | 'GBP')): string => {
   return new Intl.NumberFormat('en-US', {
     style: 'currency',
-    currency: currencySymbol,
+    currency: currencyCode,
   }).format(value)
 }
 

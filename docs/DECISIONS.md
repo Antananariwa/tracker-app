@@ -109,6 +109,7 @@ Cross-component access to "who is logged in" needs a React-aware mirror of the S
 
 ## Phase 2 — Crypto
 
+
 ### Graph time-range slicing assumes fixed-interval data points
 Slicing the chart to a selected range takes the last N points rather than parsing dates. This assumes each point is a fixed interval: one week per point for stocks (AlphaVantage weekly), one day per point for crypto (CoinGecko daily). Under that assumption a range is just a count — no date arithmetic. It holds only while each API returns evenly spaced points at the expected interval; if an API changes granularity, the point-to-time mapping breaks and the slicing needs revisiting. Worth monitoring.
 
@@ -125,3 +126,11 @@ Each cached data type has its own freshness window, set as a constant in the rel
 Previously Crypto page was handling those itself, causing unexpected problems.
 Now we are rendering the header and search bar unconditionally and letting each `ApiDataBox` show its own loading/error inside the
 box.
+
+---
+
+## Phase 2 — Portfolio enrichment
+
+
+### Return failures do not record why
+`AssetReturnData` in `src/utils/stockData.ts` stores each value as `number | null`. `null` says a value is missing but not why. A fetch can fail, a value can be temporarily unavailable, or an asset may simply have no such value. Those are different situations a user may need told apart, and a single `null` cannot express which one happened. How to carry the reason is unresolved and left open. Today every missing value renders the same.

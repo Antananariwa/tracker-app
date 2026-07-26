@@ -134,3 +134,6 @@ box.
 
 ### Return failures do not record why
 `AssetReturnData` in `src/utils/stockData.ts` stores each value as `number | null`. `null` says a value is missing but not why. A fetch can fail, a value can be temporarily unavailable, or an asset may simply have no such value. Those are different situations a user may need told apart, and a single `null` cannot express which one happened. How to carry the reason is unresolved and left open. Today every missing value renders the same.
+
+### Currency handling unresolved
+Asset values are stored as raw numbers, with no currency tracking or conversion. The core feature of this project is a single combined total across all assets, and that total only means anything once every value is in the same currency. Right now nothing records which currency an asset is in, and mixing currencies into one figure has no handling at all. This has to be solved before the combined total can be trusted. The open questions, are where an asset's currency should live and how differing currencies are being combined.

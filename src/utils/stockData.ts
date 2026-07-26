@@ -52,6 +52,16 @@ export type SupabaseAssetsTable = {
   acquired_at: string
 }
 
+export type AssetReturnData = {
+  currentPrice: number
+  currentValue: number
+  gainLoss: number
+  gainLossPercent: number
+  timeframeReturn: number
+  timeframeReturnPercent: number
+  fetchedAt: string
+}
+
 export type PortfolioAsset = {
   symbol: string
   name: string
@@ -60,13 +70,7 @@ export type PortfolioAsset = {
   purchaseCost: number
   status: 'hold' | 'to_sell' | 'watching'
   acquiredAt: string
-  currentPrice?: number
-  currentValue?: number
-  gainLoss?: number
-  gainLossPercent?: number
-  timeframeReturn?: number
-  timeframeReturnPercent?: number
-  fetchedAt?: string
+  returnData?: AssetReturnData
 }
 
 

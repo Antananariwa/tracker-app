@@ -53,13 +53,13 @@ export type SupabaseAssetsTable = {
 }
 
 export type AssetReturnData = {
-  currentPrice: number
-  currentValue: number
-  gainLoss: number
-  gainLossPercent: number
-  timeframeReturn: number
-  timeframeReturnPercent: number
-  fetchedAt: string
+  currentPrice: number | null
+  currentValue: number | null
+  gainLoss: number | null
+  gainLossPercent: number | null
+  timeframeReturn: number | null
+  timeframeReturnPercent: number | null
+  fetchedAt: string | null
 }
 
 export type PortfolioAsset = {

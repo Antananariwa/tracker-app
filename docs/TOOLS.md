@@ -26,7 +26,7 @@
 |------|------------|----------|
 | AlphaVantage | Stock market data API | Stock prices, history, and the symbol catalog. Restrictive free tier, so responses are cached aggressively and demo data is pre-seeded. |
 | CoinGecko | Crypto data API | Coin prices, history, metadata, and catalog. Generous free tier. Coins are identified by id ("bitcoin"), not ticker. |
-| Finnhub | Stock market data API | Live current stock price (quote). Free tier ~60 calls/min, used cache-first. Historical candles are paid, so it is used only for the live quote; AlphaVantage remains the source for weekly history. |
+| Finnhub | Stock market data API | Live current stock price (quote). Free tier calculated per minute, should be enough for personal project. Subject to cache, like other APIs. Historical data is paid, so it is used only for the live quote. AlphaVantage remains the source for historical values. |
 
 ## Database and auth
 

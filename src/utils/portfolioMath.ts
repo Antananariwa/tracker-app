@@ -13,10 +13,10 @@ export const calcGainLossPercent = (currentValue: number, purchaseCost: number):
 
 export const calcTimeframeReturn = (
   currentPrice: number,
-  windowStartPrice: number,
+  selectedStartPrice: number,
   quantity: number,
 ): { nominal: number; percent: number } => {
-  const nominal = (currentPrice - windowStartPrice) * quantity
-  const percent = windowStartPrice === 0 ? 0 : (currentPrice - windowStartPrice) / windowStartPrice
+  const nominal = (currentPrice - selectedStartPrice) * quantity
+  const percent = selectedStartPrice === 0 ? 0 : (currentPrice - selectedStartPrice) / selectedStartPrice
   return { nominal, percent }
 }

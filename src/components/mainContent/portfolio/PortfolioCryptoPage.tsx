@@ -1,6 +1,6 @@
 import MainContentBox from '../MainContentBox';
 import { preparePortfolioAssets } from '../../../utils/stockData'
-import usePortfolio from '../../../hooks/usePortfolio'
+import { usePortfolio } from '../../../hooks/usePortfolio'
 import './PortfolioCryptoPage.css';
 
 const PortfolioCryptoPage = () => {

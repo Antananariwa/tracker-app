@@ -1,7 +1,9 @@
 import MainContentBox from "../MainContentBox";
+import { usePortfolio } from "../../../hooks/usePortfolio";
+import { preparePortfolioAssets } from "../../../utils/stockData";
 
 const PortfolioAssetsPage = () => {
-  const { data, loading, error } = usePortfolio('stock');
+  const { data, loading, error } = usePortfolio('*');
   const assets = data ? preparePortfolioAssets(data) : [];
   let content;
 

@@ -1,11 +1,12 @@
-import './PortfolioStocksPage.css';
+import './PortfolioPage.css';
 import MainContentBox from '../MainContentBox';
 import { preparePortfolioAssets } from '../../../utils/stockData'
-import usePortfolio from '../../../hooks/usePortfolio'
+import { usePortfolio } from '../../../hooks/usePortfolio'
 
 const PortfolioStocksPage = () => {
   const { data, loading, error } = usePortfolio('stock');
   const assets = data ? preparePortfolioAssets(data) : [];
+
   let content;
 
   if (loading) {
@@ -19,15 +20,15 @@ const PortfolioStocksPage = () => {
   } else {
     content = (
       <MainContentBox>
-        <div className = "stockTableScroll">
-          <table className="stockHoldingsTable">
+        <div className = "portfolioTableScroll">
+          <table className="portfolioHoldingsTable">
             <thead>
               <tr>
                 <th>Symbol</th>
                 <th>Name</th>
-                <th className="stockNum">Quantity</th>
-                <th className="stockNum">Avg Buy Price</th>
-                <th className="stockNum">Purchase Cost</th>
+                <th className="portfolioNum">Quantity</th>
+                <th className="portfolioNum">Avg Buy Price</th>
+                <th className="portfolioNum">Purchase Cost</th>
                 <th>status</th>
                 <th>acquiredAt</th>
               </tr>
@@ -37,9 +38,9 @@ const PortfolioStocksPage = () => {
                 <tr key={asset.symbol}>
                   <td>{asset.symbol}</td>
                   <td>{asset.name}</td>
-                  <td className="stockNum">{asset.quantity}</td>
-                  <td className="stockNum">{asset.avgBuyPrice}</td>
-                  <td className="stockNum">{asset.purchaseCost}</td>
+                  <td className="portfolioNum">{asset.quantity}</td>
+                  <td className="portfolioNum">{asset.avgBuyPrice}</td>
+                  <td className="portfolioNum">{asset.purchaseCost}</td>
                   <td>{asset.status}</td>
                   <td>{asset.acquiredAt}</td>
                 </tr>

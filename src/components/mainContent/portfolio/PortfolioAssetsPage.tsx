@@ -1,9 +1,10 @@
+import './PortfolioPage.css'; 
 import MainContentBox from "../MainContentBox";
-import { usePortfolio } from "../../../hooks/usePortfolio";
+import { useFullPortfolio } from "../../../hooks/usePortfolio";
 import { preparePortfolioAssets } from "../../../utils/stockData";
 
 const PortfolioAssetsPage = () => {
-  const { data, loading, error } = usePortfolio('*');
+  const { data, loading, error } = useFullPortfolio();
   const assets = data ? preparePortfolioAssets(data) : [];
   let content;
 
@@ -18,15 +19,15 @@ const PortfolioAssetsPage = () => {
   } else {
     content = (
       <MainContentBox>
-        <div className = "assetTableScroll">
-          <table className="assetHoldingsTable">
+        <div className = "portfolioTableScroll">
+          <table className="portfolioHoldingsTable">
             <thead>
               <tr>
                 <th>Symbol</th>
                 <th>Name</th>
-                <th className="stockNum">Quantity</th>
-                <th className="stockNum">Avg Buy Price</th>
-                <th className="stockNum">Purchase Cost</th>
+                <th className="portfolioNum">Quantity</th>
+                <th className="portfolioNum">Avg Buy Price</th>
+                <th className="portfolioNum">Purchase Cost</th>
                 <th>status</th>
                 <th>acquiredAt</th>
                 <th>Current Price</th>
@@ -40,11 +41,15 @@ const PortfolioAssetsPage = () => {
                 <tr key={asset.symbol}>
                   <td>{asset.symbol}</td>
                   <td>{asset.name}</td>
-                  <td className="stockNum">{asset.quantity}</td>
-                  <td className="stockNum">{asset.avgBuyPrice}</td>
-                  <td className="stockNum">{asset.purchaseCost}</td>
+                  <td className="portfolioNum">{asset.quantity}</td>
+                  <td className="portfolioNum">{asset.avgBuyPrice}</td>
+                  <td className="portfolioNum">{asset.purchaseCost}</td>
                   <td>{asset.status}</td>
                   <td>{asset.acquiredAt}</td>
+                  <td>N/A</td>
+                  <td>N/A</td>
+                  <td>N/A</td>
+                  <td>N/A</td>
                 </tr>
               ))}
             </tbody>

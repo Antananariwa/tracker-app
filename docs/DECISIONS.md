@@ -62,9 +62,6 @@ AlphaVantage returns its time series newest-first. Stored in `jsonb`, the keys c
 ### State-driven UI, not DOM-driven
 Timeframe button active state uses React state (`selectedTimeFrame`) as the source of truth, not the CSS `:focus` pseudo-class. `:focus` tracks which DOM element last received input, not which value the app has selected — clicking elsewhere or tabbing away silently breaks the visual. State-driven conditional classes re-evaluate on every render and stay consistent with the actual app state.
 
-### Verification and cleanup as separate branches
-End-to-end verification and dead-code deletion were split into two branches: one "verified and fixed", one "dead code removed" with no logic changes. Keeps git history readable and lets either be reverted independently without entangling fix work with deletion work. Phase boundaries are the right moment to clean up — leaving legacy paths until the next asset class makes "keep old code around" compound.
-
 ### Symbol catalog as a separate table
 The stock listings table is its own table, not a category inside `price_cache`. Different lifecycles: prices refresh row-at-a-time on a short schedule; the catalog refreshes atomically on a long one. Mixing them forces one pattern on both.
 

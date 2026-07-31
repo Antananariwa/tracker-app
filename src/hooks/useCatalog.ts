@@ -28,7 +28,7 @@ const useSymbolCatalog = (category: 'stocks' | 'crypto'): UseSymbolCatalogResult
   useEffect(() => {
     setLoading(true)
 
-    const url = `${import.meta.env.VITE_API_URL}/api/symbols/${category}`
+    const url = `${import.meta.env.VITE_API_URL}/api/catalog/${category}`
 
     fetch(url)
       .then(response => {

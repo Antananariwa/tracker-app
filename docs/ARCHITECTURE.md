@@ -22,6 +22,7 @@
 ┌──────────────────────┐
 │  EXTERNAL APIs       │
 │    AlphaVantage      │
+│    Finnhub           │
 │    CoinGecko         │
 │    Plaid (planned)   │
 └──────────────────────┘
@@ -40,7 +41,7 @@ The proxy holds every secret key. The browser never calls an external API direct
     /lib/         supabase.ts            ← Supabase client (anon key)
     /context/     AuthContext.tsx        ← session state, useAuth
     /hooks/       useBackendStock, useBackendCrypto, useCoinInfo,
-                  usePortfolio, useSymbolCatalog
+                  usePortfolio, useCatalog
     /utils/       stockData.ts, cryptoData.ts   ← extract/transform helpers
     /components/
       /headerSection/   Header
@@ -58,7 +59,7 @@ The proxy holds every secret key. The browser never calls an external API direct
   /backend/
     server.ts            ← Express entry
     env.d.ts             ← process.env types
-    /routes/             stocks.ts, symbols.ts, crypto.ts
+    /routes/             stocks.ts, catalog.ts, crypto.ts
     .env / .env.example  ← secrets (.env gitignored)
     package.json
   /docs/                 ← committed: README, ARCHITECTURE, SCHEMA, DECISIONS, TOOLS
@@ -74,14 +75,15 @@ React app lives at the repo root (not a `/frontend` subfolder). The backend is a
 
 ```
 GET  /api/stocks/:symbol         stock price + history
-GET  /api/symbols/stocks         stock symbol catalog
+GET  /api/stocks/:symbol/quote   stock live quote
+GET  /api/catalog/stocks         stock symbol catalog
 GET  /api/crypto/:coin_id        crypto price + history
 GET  /api/crypto/:coin_id/info   crypto metadata
-GET  /api/symbols/crypto         crypto symbol catalog
+GET  /api/catalog/crypto         crypto symbol catalog
 GET  /health                     liveness check
 ```
 
-Plaid routes are planned for Phase 6. Route path naming may be reorganised later (see the URL-inconsistency entry in `DECISIONS.md`).
+Plaid routes are planned for Phase 6.
 
 ---
 

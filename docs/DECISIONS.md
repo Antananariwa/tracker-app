@@ -75,10 +75,10 @@ PostgREST caps SELECTs at 1000 rows by default. `.limit(N)` and `.range()` above
 All rows in the listings catalog share one `fetched_at` from the same upsert, so the age of any row reveals the age of the table. The probe uses `.order('fetched_at', desc).limit(1)` rather than an arbitrary first row — conservative toward freshness if the invariant ever breaks. Valid only for atomic-refresh tables; row-at-a-time tables like `price_cache` need per-row checks.
 
 ### Parameterise only when generality is confirmed
-`useSymbolCatalog(category)` took a parameter while only `/stocks` existed, because the next phase was already known to add `/crypto` to the same `symbols` route. Rule: parameterise when generality is confirmed by near-term plans, not on speculation. Phase 2 has since shipped `/crypto`, validating the call.
+`useCatalog(category)` took a parameter while only `/stocks` existed, because the next phase was already known to add `/crypto` to the same `symbols` route. Rule: parameterise when generality is confirmed by near-term plans, not on speculation. Phase 2 has since shipped `/crypto`, validating the call.
 
-### URL inconsistency: `/api/stocks/:symbol` vs `/api/symbols/stocks`
-Inverted noun ordering between the price route and the catalog route. Awkward but not fixed now — the rename touches backend, route file, and frontend hook. Revisit in Phase 5 with crypto built; likely target is resource-first (`/api/stocks/catalog`, `/api/stocks/:symbol`).
+### URL inconsistency resolved: catalog moved to /api/catalog
+The two routes were named in opposite orders. The stock price route put the asset type first (/api/stocks/:symbol), while the catalog route put it last (/api/symbols/stocks), so the two never lined up and it waas bothering me. Fixed by giving the catalog its own name: /api/catalog/stocks and /api/catalog/crypto, served by catalog.ts and read by useCatalog. Price and quote for a single stock still sit under /api/stocks.
 
 ### CSV handling for AlphaVantage
 The listings endpoint returns CSV — the only AV endpoint that does. Read with `fetch().text()`, not `.json()`. Parse with `csv-parse/sync` and `columns: true`; hand-parsing breaks on quoted commas. Missing dates arrive as the literal string `"null"` and must be coerced to real `null` before Postgres accepts them in `date` columns.

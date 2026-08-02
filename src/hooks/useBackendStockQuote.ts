@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react'
-import type FinnhubDataResponse 
+import type { StockQuote } from '../utils/stockData' 
 
-type FinnhubDataResponse = {
-  data: AlphaVantageWeeklyResponse | null
+type UseBackendStockQuoteResult = {
+  data: StockQuote | null
   loading: boolean
   error: Error | null
 }
 
-const useBackendStockQuote = (symbol: string): UseBackendStockResult => {
-  const [data, setData] = useState<AlphaVantageWeeklyResponse | null>(null)
+const useBackendStockQuote = (symbol: string): UseBackendStockQuoteResult => {
+  const [data, setData] = useState<StockQuote | null>(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<Error | null>(null)
 
@@ -27,7 +27,7 @@ const useBackendStockQuote = (symbol: string): UseBackendStockResult => {
         return response.json()
       })
       .then(result => {
-        setData(result.raw_data)
+        setData(result)
       })
       .catch(error => {
         setError(error)

@@ -17,7 +17,7 @@ type AlphaVantageWeeklyResponse = {
   'Note'?: string
 }
 
-type FinnhubDataResponse = {
+type FinnhubQuoteDataResponse = {
   'c': number /** Current price */
   'd': number /** Change */
   'dp': number /** Percent change */
@@ -157,7 +157,7 @@ router.get('/:symbol', async (req: Request<{ symbol: string }>, res: Response) =
 router.get('/:symbol/quote', (req: Request<{ symbol: string }>, res: Response) => {
   const symbol = req.params.symbol.toUpperCase()
 
-  finnhubClient.quote(symbol, (error: Error | null, data: FinnhubDataResponse) => {
+  finnhubClient.quote(symbol, (error: Error | null, data: FinnhubQuoteDataResponse) => {
     if (error) {
       return res.status(500).json({ error: 'Finnhub Quote API Error' })
     }

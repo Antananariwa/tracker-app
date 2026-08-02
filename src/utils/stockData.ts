@@ -16,6 +16,17 @@ export type AlphaVantageWeeklyResponse = {
   }
 }
 
+export type StockQuote = {
+  'current_price': number
+  'change': number
+  'percent_change': number
+  'high_price_of_the_day': number
+  'low_price_of_the_day': number
+  'open_price_of_the_day': number
+  'previous_close_price': number
+  'time': number
+}
+
 export type StockOverview = {
   information: string
   symbol: string

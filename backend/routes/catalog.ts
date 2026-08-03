@@ -79,43 +79,43 @@ router.get('/stocks', async (_req, res) => {
       trim: true,
     }) as AlphaVantageListingRow[]
 
-const cleanedRows = rawRows.map(row => ({
-  symbol: row.symbol,
-  name: row.name,
-  exchange: row.exchange || null,
-  asset_type: row.assetType || null,
-  ipo_date: row.ipoDate && row.ipoDate !== 'null' ? row.ipoDate : null,
-  delisting_date: row.delistingDate && row.delistingDate !== 'null' ? row.delistingDate : null,
-  status: row.status || null,
-  fetched_at: new Date().toISOString(),
-}))
+  const cleanedRows = rawRows.map(row => ({
+    symbol: row.symbol,
+    name: row.name,
+    exchange: row.exchange || null,
+    asset_type: row.assetType || null,
+    ipo_date: row.ipoDate && row.ipoDate !== 'null' ? row.ipoDate : null,
+    delisting_date: row.delistingDate && row.delistingDate !== 'null' ? row.delistingDate : null,
+    status: row.status || null,
+    fetched_at: new Date().toISOString(),
+  }))
 
-const { error: upsertError } = await supabase
-  .from('stock_alphavantage_listings')
-  .upsert(cleanedRows, { onConflict: 'symbol' })
+  const { error: upsertError } = await supabase
+    .from('stock_alphavantage_listings')
+    .upsert(cleanedRows, { onConflict: 'symbol' })
 
-if (upsertError) {
-  console.error('Supabase upsert error:', upsertError.message)
-  throw upsertError
-}
-
-console.log(`[CATALOG REFRESH] Upserted ${cleanedRows.length} rows`)
-
-const responseRows = cleanedRows.map(row => ({
-  symbol: row.symbol,
-  name: row.name,
-  exchange: row.exchange,
-  asset_type: row.asset_type,
-  status: row.status,
-}))
-
-return res.json({ source: 'api', count: responseRows.length, data: responseRows })
-
-  } catch (error) {
-    const message = error instanceof Error ? error.message : 'Unknown error'
-    console.error('Unhandled error:', message)
-    res.status(500).json({ error: 'Internal server error.' })
+  if (upsertError) {
+    console.error('Supabase upsert error:', upsertError.message)
+    throw upsertError
   }
+
+  console.log(`[CATALOG REFRESH] Upserted ${cleanedRows.length} rows`)
+
+  const responseRows = cleanedRows.map(row => ({
+    symbol: row.symbol,
+    name: row.name,
+    exchange: row.exchange,
+    asset_type: row.asset_type,
+    status: row.status,
+  }))
+
+  return res.json({ source: 'api', count: responseRows.length, data: responseRows })
+
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Unknown error'
+      console.error('Unhandled error:', message)
+      res.status(500).json({ error: 'Internal server error.' })
+    }
 })
 
 
@@ -156,36 +156,36 @@ router.get('/crypto', async (_req, res) => {
     const rawRows = await cgResponse.json() as CoinGeckoListingRow[]
 
   const cleanedRows = rawRows.map(row => ({
-  coin_id: row.id,
-  symbol: row.symbol,
-  name: row.name,
-  fetched_at: new Date().toISOString(),
+    coin_id: row.id,
+    symbol: row.symbol,
+    name: row.name,
+    fetched_at: new Date().toISOString(),
   }))
 
   const { error: upsertError } = await supabase
-  .from('crypto_coingecko_listings')
-  .upsert(cleanedRows, { onConflict: 'coin_id' })
+    .from('crypto_coingecko_listings')
+    .upsert(cleanedRows, { onConflict: 'coin_id' })
 
   if (upsertError) {
-  console.error('Supabase upsert error:', upsertError.message)
-  throw upsertError
+    console.error('Supabase upsert error:', upsertError.message)
+    throw upsertError
   }
 
   console.log(`[CATALOG REFRESH] Upserted ${cleanedRows.length} rows`)
 
   const responseRows = cleanedRows.map(row => ({
-  coin_id: row.coin_id,
-  symbol: row.symbol,
-  name: row.name,
+    coin_id: row.coin_id,
+    symbol: row.symbol,
+    name: row.name,
   }))
 
   return res.json({ source: 'api', count: responseRows.length, data: responseRows })
 
-  } catch (error) {
-    const message = error instanceof Error ? error.message : 'Unknown error'
-    console.error('Unhandled error:', message)
-    res.status(500).json({ error: 'Internal server error.' })
-  }
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Unknown error'
+      console.error('Unhandled error:', message)
+      res.status(500).json({ error: 'Internal server error.' })
+    }
 })
 
 

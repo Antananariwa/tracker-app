@@ -179,14 +179,14 @@ router.get('/:symbol/quote', (req: Request<{ symbol: string }>, res: Response) =
     if (cached && !isQuoteCacheStale(cached.fetched_at)) {
       console.log(`[CACHE HIT] ${symbol}`)
       return res.json({
-        current_price: cached.c,
-        change: cached.d,
-        percent_change: cached.dp,
-        high_price_of_the_day: cached.h,
-        low_price_of_the_day: cached.l,
-        open_price_of_the_day: cached.o,
-        previous_close_price: cached.pc,
-        time: cached.t,
+        current_price:  cached.raw_data.c,
+        change: cached.raw_data.d,
+        percent_change: cached.raw_data.dp,
+        high_price_of_the_day: cached.raw_data.h,
+        low_price_of_the_day: cached.raw_data.l,
+        open_price_of_the_day: cached.raw_data.o,
+        previous_close_price: cached.raw_data.pc,
+        time: cached.raw_data.t,
       })
     }
 

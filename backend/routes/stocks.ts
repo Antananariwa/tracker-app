@@ -36,6 +36,7 @@ const supabase = createClient(
 )
 
 const CACHE_TTL_MS = 7 * 24 * 60 * 60 * 1000 // 7 days hours in milliseconds
+const CACHE_STOCK_QUOTE_TTL_MS =  0//
 
 function isCacheStale(fetchedAt: string) {
   if (!fetchedAt) return true
@@ -154,8 +155,40 @@ router.get('/:symbol', async (req: Request<{ symbol: string }>, res: Response) =
 }
 })
 
+function isQuoteCacheStale(fetchedAt: string) {
+  if (!fetchedAt) return true
+  const age = Date.now() - new Date(fetchedAt).getTime()
+  return age > CACHE_STOCK_QUOTE_TTL_MS
+}
+
 router.get('/:symbol/quote', (req: Request<{ symbol: string }>, res: Response) => {
   const symbol = req.params.symbol.toUpperCase()
+
+  try {
+    const { data: cached, error: cacheError } = await supabase
+      .from('stock_quote_cache')
+      .select('*')
+      .eq('symbol', symbol)
+      .single()
+
+    if (cacheError && cacheError.code !== 'PGRST116') {
+      console.error('Supabase cache read error:', cacheError.message)
+      throw cacheError
+    }
+
+    if (cached && !isQuoteCacheStale(cached.fetched_at)) {
+      console.log(`[CACHE HIT] ${symbol}`)
+      return res.json({
+        current_price: cached.c,
+        change: cached.d,
+        percent_change: cached.dp,
+        high_price_of_the_day: cached.h,
+        low_price_of_the_day: cached.l,
+        open_price_of_the_day: cached.o,
+        previous_close_price: cached.pc,
+        time: cached.t,
+      })
+    }
 
   finnhubClient.quote(symbol, (error: Error | null, data: FinnhubQuoteDataResponse) => {
     if (error) {

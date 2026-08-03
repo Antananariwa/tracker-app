@@ -155,31 +155,31 @@ router.get('/crypto', async (_req, res) => {
     const cgResponse = await fetch(cgUrl)
     const rawRows = await cgResponse.json() as CoinGeckoListingRow[]
 
-const cleanedRows = rawRows.map(row => ({
+  const cleanedRows = rawRows.map(row => ({
   coin_id: row.id,
   symbol: row.symbol,
   name: row.name,
   fetched_at: new Date().toISOString(),
-}))
+  }))
 
-const { error: upsertError } = await supabase
+  const { error: upsertError } = await supabase
   .from('crypto_coingecko_listings')
   .upsert(cleanedRows, { onConflict: 'coin_id' })
 
-if (upsertError) {
+  if (upsertError) {
   console.error('Supabase upsert error:', upsertError.message)
   throw upsertError
-}
+  }
 
-console.log(`[CATALOG REFRESH] Upserted ${cleanedRows.length} rows`)
+  console.log(`[CATALOG REFRESH] Upserted ${cleanedRows.length} rows`)
 
-const responseRows = cleanedRows.map(row => ({
+  const responseRows = cleanedRows.map(row => ({
   coin_id: row.coin_id,
   symbol: row.symbol,
   name: row.name,
-}))
+  }))
 
-return res.json({ source: 'api', count: responseRows.length, data: responseRows })
+  return res.json({ source: 'api', count: responseRows.length, data: responseRows })
 
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Unknown error'

@@ -207,6 +207,17 @@ router.get('/:symbol/quote', async (req: Request<{ symbol: string }>, res: Respo
     })
   })
 
+  const finnhubQuotePromise = function(symbol) {
+    return new Promise<FinnhubQuoteDataResponse>((resolve, reject) => {
+      finnhubClient.quote(symbol, (error: Error | null, data: FinnhubQuoteDataResponse) => {
+        if (error) reject(error);
+        else resolve(data);
+      });
+    });
+  };
+
+  const data = await finnhubQuotePromise(symbol)
+
 } catch (error) {
   const message = error instanceof Error ? error.message : 'Unknown error'
   console.error(`Unhandled error for ${symbol}:`, message)

@@ -161,7 +161,7 @@ function isQuoteCacheStale(fetchedAt: string) {
   return age > CACHE_STOCK_QUOTE_TTL_MS
 }
 
-router.get('/:symbol/quote', (req: Request<{ symbol: string }>, res: Response) => {
+router.get('/:symbol/quote', async (req: Request<{ symbol: string }>, res: Response) => {
   const symbol = req.params.symbol.toUpperCase()
 
   try {
@@ -190,7 +190,7 @@ router.get('/:symbol/quote', (req: Request<{ symbol: string }>, res: Response) =
       })
     }
 
-  finnhubClient.quote(symbol, (error: Error | null, data: FinnhubQuoteDataResponse) => {
+  const fhResponse = await finnhubClient.quote(symbol, (error: Error | null, data: FinnhubQuoteDataResponse) => {
     if (error) {
       return res.status(500).json({ error: 'Finnhub Quote API Error' })
     }
@@ -206,6 +206,12 @@ router.get('/:symbol/quote', (req: Request<{ symbol: string }>, res: Response) =
       time: data.t,
     })
   })
+
+} catch (error) {
+  const message = error instanceof Error ? error.message : 'Unknown error'
+  console.error(`Unhandled error for ${symbol}:`, message)
+  res.status(500).json({ error: 'Internal server error.' })
+}
 })
 
 export default router

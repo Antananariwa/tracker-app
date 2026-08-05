@@ -165,6 +165,7 @@ router.get('/:symbol/quote', async (req: Request<{ symbol: string }>, res: Respo
   const symbol = req.params.symbol.toUpperCase()
 
   try {
+    // check Supabase for cache, fetch is possible
     const { data: cached, error: cacheError } = await supabase
       .from('stock_quote_cache')
       .select('*')
@@ -190,6 +191,7 @@ router.get('/:symbol/quote', async (req: Request<{ symbol: string }>, res: Respo
       })
     }
 
+    // fetch directly from Finnhub if cache failed
     const finnhubQuotePromise = function(symbol: string) {
       return new Promise<FinnhubQuoteDataResponse>((resolve, reject) => {
         finnhubClient.quote(symbol, (error: Error | null, data: FinnhubQuoteDataResponse) => {
@@ -212,6 +214,7 @@ router.get('/:symbol/quote', async (req: Request<{ symbol: string }>, res: Respo
       })
     }
 
+    //upload API response to Supabase for cache purpose
     const { error: upsertError } = await supabase
       .from('stock_quote_cache')
       .upsert(

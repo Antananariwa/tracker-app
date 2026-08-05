@@ -75,6 +75,7 @@ export type AssetReturnData = {
 
 export type PortfolioAsset = {
   symbol: string
+  category: string
   name: string
   quantity: number
   avgBuyPrice: number
@@ -171,3 +172,29 @@ export const preparePortfolioAssets = (assets: SupabaseAssetsTable[]): Portfolio
 }
 
 
+
+
+
+export const mergeFullAssetsWithStockQuotes = (quote: usePortfolioStockAssetsPricesResult, assets: SupabaseAssetsTable[]) => {
+  return assets.map(asset => {
+    const symbolPath = quote.data[asset['symbol']]
+    const price = symbolPath.current_price
+    const value = price * asset.quantity
+    const buyCost = asset.quantity * asset.avg_buy_price
+
+    return {
+    symbol: asset.symbol,
+    category: asset.category,
+    name: asset.name,
+    quantity: asset.quantity,
+    avgBuyPrice: asset.avg_buy_price,
+    purchaseCost: buyCost,
+    status: asset.status,
+    acquiredAt: asset.acquired_at,
+    currentPrice: price,
+    currentValue: value,
+    gainLoss: value - buyCost,
+    gainLossPercent: (value - buyCost)/buyCost, 
+    }
+  })
+}

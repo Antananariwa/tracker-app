@@ -2,9 +2,7 @@ import express, { Request, Response} from 'express'
 import { createClient } from '@supabase/supabase-js'
 import finnhub from 'finnhub'
 
-const api_key = finnhub.ApiClient.instance.authentications['api_key'];
-api_key.apiKey = process.env.FINNHUB_KEY
-const finnhubClient = new finnhub.DefaultApi()
+const finnhubClient = new finnhub.DefaultApi(process.env.FINNHUB_KEY)
 
 type AlphaVantageWeeklyResponse = {
   'Weekly Time Series'?: {
@@ -36,7 +34,7 @@ const supabase = createClient(
 )
 
 const CACHE_TTL_MS = 7 * 24 * 60 * 60 * 1000 // 7 days hours in milliseconds
-const CACHE_STOCK_QUOTE_TTL_MS =  0//
+const CACHE_STOCK_QUOTE_TTL_MS =  60 * 60 * 1000 // 1 hour in milliseconds
 
 function isCacheStale(fetchedAt: string) {
   if (!fetchedAt) return true
@@ -161,6 +159,8 @@ function isQuoteCacheStale(fetchedAt: string) {
   return age > CACHE_STOCK_QUOTE_TTL_MS
 }
 
+
+
 router.get('/:symbol/quote', async (req: Request<{ symbol: string }>, res: Response) => {
   const symbol = req.params.symbol.toUpperCase()
 
@@ -190,39 +190,61 @@ router.get('/:symbol/quote', async (req: Request<{ symbol: string }>, res: Respo
       })
     }
 
-  const fhResponse = await finnhubClient.quote(symbol, (error: Error | null, data: FinnhubQuoteDataResponse) => {
-    if (error) {
-      return res.status(500).json({ error: 'Finnhub Quote API Error' })
+    const finnhubQuotePromise = function(symbol: string) {
+      return new Promise<FinnhubQuoteDataResponse>((resolve, reject) => {
+        finnhubClient.quote(symbol, (error: Error | null, data: FinnhubQuoteDataResponse) => {
+          if (error) reject(error);
+          else resolve(data);
+        });
+      });
+    };
+
+    const rawData = await finnhubQuotePromise(symbol)
+
+    console.log(`[API FETCH] ${symbol}`)
+
+    const currentPrice = rawData.c
+
+    if (currentPrice === null || isNaN(currentPrice)) {
+      console.error('Could not extract price from response:', rawData)
+      return res.status(500).json({
+        error: 'Price data was missing or unreadable in the API response.',
+      })
     }
 
-    res.json({
-      current_price: data.c,
-      change: data.d,
-      percent_change: data.dp,
-      high_price_of_the_day: data.h,
-      low_price_of_the_day: data.l,
-      open_price_of_the_day: data.o,
-      previous_close_price: data.pc,
-      time: data.t,
+    const { error: upsertError } = await supabase
+      .from('stock_quote_cache')
+      .upsert(
+        {
+          symbol,
+          current_price: currentPrice,
+          fetched_at: new Date().toISOString(),
+          raw_data: rawData,
+        },
+        { onConflict: 'symbol' }
+      )
+    if (upsertError) {
+      console.error('Supabase upsert error:', upsertError.message)
+      throw upsertError
+    }
+
+    return res.json({
+      current_price:  rawData.c,
+      change: rawData.d,
+      percent_change: rawData.dp,
+      high_price_of_the_day: rawData.h,
+      low_price_of_the_day: rawData.l,
+      open_price_of_the_day: rawData.o,
+      previous_close_price: rawData.pc,
+      time: rawData.t,
     })
-  })
 
-  const finnhubQuotePromise = function(symbol) {
-    return new Promise<FinnhubQuoteDataResponse>((resolve, reject) => {
-      finnhubClient.quote(symbol, (error: Error | null, data: FinnhubQuoteDataResponse) => {
-        if (error) reject(error);
-        else resolve(data);
-      });
-    });
-  };
 
-  const data = await finnhubQuotePromise(symbol)
-
-} catch (error) {
-  const message = error instanceof Error ? error.message : 'Unknown error'
-  console.error(`Unhandled error for ${symbol}:`, message)
-  res.status(500).json({ error: 'Internal server error.' })
-}
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Unknown error'
+    console.error(`Unhandled error for ${symbol}:`, message)
+    res.status(500).json({ error: 'Internal server error.' })
+  }
 })
 
 export default router

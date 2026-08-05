@@ -35,7 +35,8 @@ const usePortfolioStockAssetsPrices = (ownedStocks: string[]): usePortfolioStock
           setData({...allQuotes})
         })
         .catch(error => {
-          setError(error)
+          allQuotes[ownedStocks[i]] = null
+          setData({...allQuotes})
           console.error('Error:', error)
         })
         .finally(() => {

@@ -160,6 +160,7 @@ export const adjustDataByTime = (data: ChartPriceByDateWeekly[], timeFrame: Stoc
 export const preparePortfolioAssets = (assets: SupabaseAssetsTable[]): PortfolioAsset[] => {
   return assets.map(asset => ({
     symbol: asset.symbol,
+    category: asset.category,
     name: asset.name,
     quantity: asset.quantity,
     avgBuyPrice: asset.avg_buy_price,
@@ -168,3 +169,5 @@ export const preparePortfolioAssets = (assets: SupabaseAssetsTable[]): Portfolio
     acquiredAt: asset.acquired_at,
   }))
 }
+
+

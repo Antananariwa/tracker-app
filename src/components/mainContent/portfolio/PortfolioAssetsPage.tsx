@@ -2,10 +2,19 @@ import './PortfolioPage.css';
 import MainContentBox from "../MainContentBox";
 import { useFullPortfolio } from "../../../hooks/usePortfolio";
 import { preparePortfolioAssets } from "../../../utils/stockData";
+import usePortfolioStockAssetsPrices from '../../../hooks/usePortfolioAssetsPrices';
 
 const PortfolioAssetsPage = () => {
   const { data, loading, error } = useFullPortfolio();
   const assets = data ? preparePortfolioAssets(data) : [];
+
+  let assetArray: string[] = [];
+  for (let i = 0; i < assets.length; i++){
+    assetArray.push(assets[i].symbol)
+  }
+
+  const { data: quotePrices, loading: quotePricesLoading, error: quotePricesError } = usePortfolioStockAssetsPrices(assetArray);
+
   let content;
 
   if (loading) {
@@ -34,6 +43,7 @@ const PortfolioAssetsPage = () => {
                 <th>Current Value</th>
                 <th>Gain/Loss</th>
                 <th>Gain/Loss percent</th>
+                <th>Category</th>
               </tr>
             </thead>
             <tbody>
@@ -46,6 +56,7 @@ const PortfolioAssetsPage = () => {
                   <td className="portfolioNum">{asset.purchaseCost}</td>
                   <td>{asset.status}</td>
                   <td>{asset.acquiredAt}</td>
+                  <td>N/A</td>
                   <td>N/A</td>
                   <td>N/A</td>
                   <td>N/A</td>

@@ -85,6 +85,25 @@ export type PortfolioAsset = {
   returnData?: AssetReturnData
 }
 
+export type MergedPortfolioAssets = {
+  symbol: string
+  category: string
+  name: string
+  quantity: number
+  avgBuyPrice: number
+  purchaseCost: number
+  status: 'hold' | 'to_sell' | 'watching'
+  acquiredAt: string
+  currentPrice: number | null
+  currentValue: number | null
+  gainLoss: number | null
+  gainLossRatio: number | null
+}
+
+
+
+
+
 
 export const extractStockOverview = (data: AlphaVantageWeeklyResponse): StockOverview | null => {
   if (!data || !data['Meta Data']) return null;
@@ -175,12 +194,30 @@ export const preparePortfolioAssets = (assets: SupabaseAssetsTable[]): Portfolio
 
 
 
-export const mergeFullAssetsWithStockQuotes = (quote: usePortfolioStockAssetsPricesResult, assets: SupabaseAssetsTable[]) => {
+export const mergeFullAssetsWithStockQuotes = (quote: {[symbol: string]: StockQuote | null;}, assets: SupabaseAssetsTable[]): MergedPortfolioAssets[] => {
   return assets.map(asset => {
-    const symbolPath = quote.data[asset['symbol']]
+    const buyCost = asset.quantity * asset.avg_buy_price
+    const symbolPath = quote[asset['symbol']]
+
+    if (symbolPath == null) {
+      return {
+        symbol: asset.symbol,
+        category: asset.category,
+        name: asset.name,
+        quantity: asset.quantity,
+        avgBuyPrice: asset.avg_buy_price,
+        purchaseCost: buyCost,
+        status: asset.status,
+        acquiredAt: asset.acquired_at,
+        currentPrice: null,
+        currentValue: null,
+        gainLoss: null,
+        gainLossRatio: null,
+      }
+    }
+
     const price = symbolPath.current_price
     const value = price * asset.quantity
-    const buyCost = asset.quantity * asset.avg_buy_price
 
     return {
     symbol: asset.symbol,
@@ -193,8 +230,8 @@ export const mergeFullAssetsWithStockQuotes = (quote: usePortfolioStockAssetsPri
     acquiredAt: asset.acquired_at,
     currentPrice: price,
     currentValue: value,
-    gainLoss: value - buyCost,
-    gainLossPercent: (value - buyCost)/buyCost, 
+    gainLoss: (value ? value - buyCost : null),
+    gainLossRatio: (value ? (value - buyCost)/buyCost : null), 
     }
   })
 }

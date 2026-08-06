@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import type { StockQuote } from "../utils/stockData"
 
-type usePortfolioStockAssetsPricesResult = {
+export type usePortfolioStockAssetsPricesResult = {
   data: { [symbol: string]: StockQuote | null } | null
   loading: boolean
   error: Error | null
@@ -14,7 +14,7 @@ const usePortfolioStockAssetsPrices = (ownedStocks: string[]): usePortfolioStock
 
 
   useEffect(() => {
-    if (!ownedStocks) return
+    if (ownedStocks.length === 0) return
 
     let allQuotes: { [symbol: string]: StockQuote | null }= {};
 
@@ -43,7 +43,7 @@ const usePortfolioStockAssetsPrices = (ownedStocks: string[]): usePortfolioStock
           setLoading(false)
         })
     }
-  }, [ownedStocks])
+  }, [ownedStocks.join(",")])
 
   return {data, loading, error }
 }

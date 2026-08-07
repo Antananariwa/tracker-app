@@ -1,22 +1,22 @@
 import { useEffect, useState } from "react"
 import type { StockQuote } from "../utils/stockData"
 
-export type usePortfolioStockAssetsPricesResult = {
+export type usePortfolioStockQuotesResult = {
   data: { [symbol: string]: StockQuote | null } | null
   loading: boolean
   error: Error | null
 }
 
-const usePortfolioStockAssetsPrices = (ownedStocks: string[]): usePortfolioStockAssetsPricesResult => {
+const usePortfolioStockQuotes = (ownedStocks: string[]): usePortfolioStockQuotesResult => {
   const [data, setData] = useState<{ [symbol: string]: StockQuote | null } | null>(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<Error | null>(null)
 
 
   useEffect(() => {
-    if (ownedStocks.length === 0) return
+    if (ownedStocks.length === 0) return;
 
-    let allQuotes: { [symbol: string]: StockQuote | null }= {};
+    let allQuotes: { [symbol: string]: StockQuote | null } = {};
 
     for (let i = 0; i < ownedStocks.length; i++) {
       const url = `${import.meta.env.VITE_API_URL}/api/stocks/${ownedStocks[i]}/quote`
@@ -31,7 +31,7 @@ const usePortfolioStockAssetsPrices = (ownedStocks: string[]): usePortfolioStock
           return response.json()
         })
         .then(result => {
-          allQuotes[ownedStocks[i]] = result
+          allQuotes[ownedStocks[i]] = result //creates key(symbol): value(result) pair
           setData({...allQuotes})
         })
         .catch(error => {
@@ -48,4 +48,4 @@ const usePortfolioStockAssetsPrices = (ownedStocks: string[]): usePortfolioStock
   return {data, loading, error }
 }
 
-export default usePortfolioStockAssetsPrices
+export default usePortfolioStockQuotes

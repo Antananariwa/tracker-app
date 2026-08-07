@@ -2,7 +2,7 @@ import './PortfolioPage.css';
 import MainContentBox from "../MainContentBox";
 import { useFullPortfolio } from "../../../hooks/usePortfolio";
 import { preparePortfolioAssets, mergeFullAssetsWithStockQuotes } from "../../../utils/stockData";
-import usePortfolioStockAssetsPrices from '../../../hooks/usePortfolioAssetsPrices';
+import usePortfolioStockQuotes from '../../../hooks/usePortfolioStockQuotes';
 import { formatCurrency, formatPercentChange } from '../../../utils/format';
 
 const PortfolioAssetsPage = () => {
@@ -14,7 +14,7 @@ const PortfolioAssetsPage = () => {
     assetArray.push(assets[i].symbol)
   };
 
-  const { data: quotePrices, loading: quotePricesLoading, error: quotePricesError } = usePortfolioStockAssetsPrices(assetArray);
+  const { data: quotePrices, loading: quotePricesLoading, error: quotePricesError } = usePortfolioStockQuotes(assetArray);
 
   const mergedAssets = data && quotePrices ? mergeFullAssetsWithStockQuotes(quotePrices, data) : [];
 

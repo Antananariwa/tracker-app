@@ -1,3 +1,5 @@
+import type { CoinGeckoResponse } from "./cryptoData"
+
 export type AlphaVantageWeeklyResponse = {
   'Meta Data': {
     '1. Information': string
@@ -195,7 +197,9 @@ export const preparePortfolioAssets = (assets: SupabaseAssetsTable[]): Portfolio
 
 
 export const mergeFullAssetsWithStockQuotes = (quote: {[symbol: string]: StockQuote | null;}, assets: SupabaseAssetsTable[]): MergedPortfolioAssets[] => {
-  return assets.map(asset => {
+  const stockAssets = assets.filter(asset => asset.category === 'stock')
+
+  return stockAssets.map(asset => {
     const buyCost = asset.quantity * asset.avg_buy_price
     const symbolPath = quote[asset['symbol']]
 
@@ -235,3 +239,52 @@ export const mergeFullAssetsWithStockQuotes = (quote: {[symbol: string]: StockQu
     }
   })
 }
+
+
+
+export const mergeFullAssetsWithCryptoQuotes = (quote: {[symbol: string]: CoinGeckoResponse | null;}, assets: SupabaseAssetsTable[]): MergedPortfolioAssets[] => {
+  const cryptoAssets = assets.filter(asset => asset.category === 'stock')
+  console.log(cryptoAssets)
+
+  return cryptoAssets.map(asset => {
+    const buyCost = asset.quantity * asset.avg_buy_price
+    const symbolPath = quote[asset['symbol']]
+
+    if (symbolPath == null) {
+      return {
+        symbol: asset.symbol,
+        category: asset.category,
+        name: asset.name,
+        quantity: asset.quantity,
+        avgBuyPrice: asset.avg_buy_price,
+        purchaseCost: buyCost,
+        status: asset.status,
+        acquiredAt: asset.acquired_at,
+        currentPrice: null,
+        currentValue: null,
+        gainLoss: null,
+        gainLossRatio: null,
+      }
+    }
+
+    const price = symbolPath.current_price
+    const value = price * asset.quantity
+
+    return {
+    symbol: asset.symbol,
+    category: asset.category,
+    name: asset.name,
+    quantity: asset.quantity,
+    avgBuyPrice: asset.avg_buy_price,
+    purchaseCost: buyCost,
+    status: asset.status,
+    acquiredAt: asset.acquired_at,
+    currentPrice: price,
+    currentValue: value,
+    gainLoss: (value ? value - buyCost : null),
+    gainLossRatio: (value ? (value - buyCost)/buyCost : null), 
+    }
+  })
+}
+
+export const prepareCryptoQuotes = () => {}

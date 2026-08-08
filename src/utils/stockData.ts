@@ -289,3 +289,13 @@ export const mergeFullAssetsWithCryptoQuotes = (quote: {[symbol: string]: CoinGe
 }
 
 export const prepareCryptoQuotes = () => {}
+
+export const extractCoinIdArray = (portfolioAssets: SupabaseAssetsTable[]): string[] => {
+  let array = [];
+
+  for (let i = 0; i < portfolioAssets.length; i++) {
+    array.push(portfolioAssets[i].coin_id)
+  }
+
+  return array;
+}

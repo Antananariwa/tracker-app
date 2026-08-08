@@ -63,6 +63,7 @@ export type SupabaseAssetsTable = {
   status: 'hold' | 'to_sell' | 'watching'
   created_at: string
   acquired_at: string
+  coin_id: string
 }
 
 export type AssetReturnData = {

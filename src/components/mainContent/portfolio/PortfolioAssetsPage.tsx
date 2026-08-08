@@ -1,7 +1,7 @@
 import './PortfolioPage.css'; 
 import MainContentBox from "../MainContentBox";
 import { useFullPortfolio } from "../../../hooks/usePortfolio";
-import { preparePortfolioAssets, mergeFullAssetsWithStockQuotes } from "../../../utils/stockData";
+import { preparePortfolioAssets, mergeFullAssetsWithStockQuotes, extractCoinIdArray } from "../../../utils/stockData";
 import usePortfolioStockQuotes from '../../../hooks/usePortfolioStockQuotes';
 import { formatCurrency, formatPercentChange } from '../../../utils/format';
 
@@ -9,9 +9,10 @@ const PortfolioAssetsPage = () => {
   const { data, loading, error } = useFullPortfolio();
   const assets = data ? preparePortfolioAssets(data) : [];
 
+
   let assetArray: string[] = [];
   for (let i = 0; i < assets.length; i++){
-    assetArray.push(assets[i].symbol)
+    data ? assetArray.push(data[i].coin_id): null
   };
 
   const { data: quotePrices, loading: quotePricesLoading, error: quotePricesError } = usePortfolioStockQuotes(assetArray);

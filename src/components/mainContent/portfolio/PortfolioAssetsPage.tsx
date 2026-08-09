@@ -1,8 +1,9 @@
 import './PortfolioPage.css'; 
 import MainContentBox from "../MainContentBox";
 import { useFullPortfolio } from "../../../hooks/usePortfolio";
-import { preparePortfolioAssets, mergeFullAssetsWithStockQuotes, extractCoinIdArray } from "../../../utils/stockData";
+import { preparePortfolioAssets, mergeFullAssetsWithStockQuotes, mergeFullAssetsWithCryptoQuotes } from "../../../utils/stockData";
 import usePortfolioStockQuotes from '../../../hooks/usePortfolioStockQuotes';
+import usePortfolioCryptoQuotes from '../../../hooks/usePortfolioCryptoQuotes';
 import { formatCurrency, formatPercentChange } from '../../../utils/format';
 
 const PortfolioAssetsPage = () => {
@@ -10,14 +11,28 @@ const PortfolioAssetsPage = () => {
   const assets = data ? preparePortfolioAssets(data) : [];
 
 
-  let assetArray: string[] = [];
+  let assetArraySymbol: string[] = [];
   for (let i = 0; i < assets.length; i++){
-    data ? assetArray.push(data[i].coin_id): null
+    data ? assetArraySymbol.push(assets[i].symbol): null
   };
 
-  const { data: quotePrices, loading: quotePricesLoading, error: quotePricesError } = usePortfolioStockQuotes(assetArray);
+  let assetArrayCoinId: string[] = [];
+  for (let i = 0; i < assets.length; i++){
+    if (assets[i].coinId != null){
+    assetArrayCoinId.push(assets[i].coinId)
+    }
+  };
 
-  const mergedAssets = data && quotePrices ? mergeFullAssetsWithStockQuotes(quotePrices, data) : [];
+
+  const { data: quoteStockPrices, loading: quoteStockPricesLoading, error: quoteStockPricesError } = usePortfolioStockQuotes(assetArraySymbol);
+  const {data: quoteCryptoPrices, loading: QuoteCryptoPricesLoading, error: quoteCryptopricesError } = usePortfolioCryptoQuotes(assetArrayCoinId);
+  console.log(quoteCryptoPrices)
+  console.log(quoteStockPrices)
+
+  const mergedAssetsStocks = data && quoteStockPrices ? mergeFullAssetsWithStockQuotes(quoteStockPrices, data) : [];
+  const mergedAssetsCrypto = data && quoteCryptoPrices ? mergeFullAssetsWithCryptoQuotes(quoteCryptoPrices, data) : [];
+  const allAssets = [...mergedAssetsStocks, ...mergedAssetsCrypto]
+
 
   let content;
 
@@ -25,7 +40,11 @@ const PortfolioAssetsPage = () => {
     content = (
       <MainContentBox>"Please wait while we fetch the data..."</MainContentBox>
     )
-  } else if (quotePricesLoading) {
+  } else if (quoteStockPricesLoading) {
+    content = (
+      <MainContentBox>"Please wait while we fetch the data..."</MainContentBox>
+    )
+  } else if (QuoteCryptoPricesLoading) {
     content = (
       <MainContentBox>"Please wait while we fetch the data..."</MainContentBox>
     )
@@ -33,9 +52,13 @@ const PortfolioAssetsPage = () => {
     content = (
       <MainContentBox>{`An error occurred: ${error}`}</MainContentBox>
     )
-  } else if (quotePricesError) {
+  } else if (quoteStockPricesError) {
     content = (
-      <MainContentBox>{`An error occurred: ${quotePricesError}`}</MainContentBox>
+      <MainContentBox>{`An error occurred: ${quoteStockPricesError}`}</MainContentBox>
+    )
+  } else if (quoteCryptopricesError) {
+    content = (
+      <MainContentBox>{`An error occurred: ${quoteStockPricesError}`}</MainContentBox>
     )
   } else {
     content = (
@@ -59,7 +82,7 @@ const PortfolioAssetsPage = () => {
               </tr>
             </thead>
             <tbody>
-              {mergedAssets.map(asset => (
+              {allAssets.map(asset => (
                 <tr key={asset.symbol}>
                   <td>{asset.symbol}</td>
                   <td>{asset.name}</td>

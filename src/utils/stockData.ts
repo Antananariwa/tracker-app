@@ -31,7 +31,7 @@ export type StockQuote = {
 
 export type StockOverview = {
   information: string
-  symbol: string
+  coinId: string
   lastRefreshed: string
   timeZone: string
 }
@@ -86,6 +86,7 @@ export type PortfolioAsset = {
   status: 'hold' | 'to_sell' | 'watching'
   acquiredAt: string
   returnData?: AssetReturnData
+  coinId: string
 }
 
 export type MergedPortfolioAssets = {
@@ -113,7 +114,7 @@ export const extractStockOverview = (data: AlphaVantageWeeklyResponse): StockOve
   
   return {
     information: data['Meta Data']['1. Information'],
-    symbol: data['Meta Data']['2. Symbol'],
+    coinId: data['Meta Data']['2. Symbol'],
     lastRefreshed: data['Meta Data']['3. Last Refreshed'],
     timeZone: data['Meta Data']['4. Time Zone'],
   };
@@ -190,6 +191,7 @@ export const preparePortfolioAssets = (assets: SupabaseAssetsTable[]): Portfolio
     purchaseCost: asset.quantity * asset.avg_buy_price,
     status: asset.status,
     acquiredAt: asset.acquired_at,
+    coinId: asset.coin_id,
   }))
 }
 
@@ -243,15 +245,14 @@ export const mergeFullAssetsWithStockQuotes = (quote: {[symbol: string]: StockQu
 
 
 
-export const mergeFullAssetsWithCryptoQuotes = (quote: {[symbol: string]: CoinGeckoResponse | null;}, assets: SupabaseAssetsTable[]): MergedPortfolioAssets[] => {
-  const cryptoAssets = assets.filter(asset => asset.category === 'stock')
-  console.log(cryptoAssets)
+export const mergeFullAssetsWithCryptoQuotes = (quote: {[coinId: string]: CoinGeckoResponse | null;}, assets: SupabaseAssetsTable[]): MergedPortfolioAssets[] => {
 
-  return cryptoAssets.map(asset => {
+
+  return assets.map(asset => {
     const buyCost = asset.quantity * asset.avg_buy_price
-    const symbolPath = quote[asset['symbol']]
+    const coinIdPath = quote[asset['coin_id']]
 
-    if (symbolPath == null) {
+    if (coinIdPath == null) {
       return {
         symbol: asset.symbol,
         category: asset.category,
@@ -268,7 +269,7 @@ export const mergeFullAssetsWithCryptoQuotes = (quote: {[symbol: string]: CoinGe
       }
     }
 
-    const price = symbolPath.current_price
+    const price = coinIdPath.prices[coinIdPath.prices.length - 1][1]
     const value = price * asset.quantity
 
     return {
@@ -286,16 +287,4 @@ export const mergeFullAssetsWithCryptoQuotes = (quote: {[symbol: string]: CoinGe
     gainLossRatio: (value ? (value - buyCost)/buyCost : null), 
     }
   })
-}
-
-export const prepareCryptoQuotes = () => {}
-
-export const extractCoinIdArray = (portfolioAssets: SupabaseAssetsTable[]): string[] => {
-  let array = [];
-
-  for (let i = 0; i < portfolioAssets.length; i++) {
-    array.push(portfolioAssets[i].coin_id)
-  }
-
-  return array;
 }

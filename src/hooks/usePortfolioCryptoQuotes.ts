@@ -7,7 +7,7 @@ type UseBackendCryptoQuotesResult = {
   error: Error | null
 }
 
-const useBackendCryptoQuotes = (ownedCrypto: string[]): UseBackendCryptoQuotesResult => {
+const usePortfolioCryptoQuotes = (ownedCrypto: string[]): UseBackendCryptoQuotesResult => {
   const [data, setData] = useState<{ [coin_id: string]: CoinGeckoResponse | null } | null>(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<Error | null>(null)
@@ -16,9 +16,10 @@ const useBackendCryptoQuotes = (ownedCrypto: string[]): UseBackendCryptoQuotesRe
   useEffect(() => {
     if (ownedCrypto.length === 0) return;
 
+
     let allQuotes: { [coin_id: string]: CoinGeckoResponse | null } = {};
 
-    for (let i = 0; i < 0; i++){
+    for (let i = 0; i < ownedCrypto.length; i++){
       const url = `${import.meta.env.VITE_API_URL}/api/crypto/${ownedCrypto[i]}`
     
 
@@ -49,4 +50,4 @@ const useBackendCryptoQuotes = (ownedCrypto: string[]): UseBackendCryptoQuotesRe
   return { data, loading, error }
 }
 
-export default useBackendCryptoQuotes
+export default usePortfolioCryptoQuotes

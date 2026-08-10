@@ -1,4 +1,4 @@
-import type { CoinGeckoResponse } from "./cryptoData"
+import type { CryptoQuote } from "./cryptoData"
 
 export type AlphaVantageWeeklyResponse = {
   'Meta Data': {
@@ -245,7 +245,7 @@ export const mergeFullAssetsWithStockQuotes = (quote: {[symbol: string]: StockQu
 
 
 
-export const mergeFullAssetsWithCryptoQuotes = (quote: {[coinId: string]: CoinGeckoResponse | null;}, assets: SupabaseAssetsTable[]): MergedPortfolioAssets[] => {
+export const mergeFullAssetsWithCryptoQuotes = (quote: { [coin_id: string]: CryptoQuote | null }, assets: SupabaseAssetsTable[]): MergedPortfolioAssets[] => {
 
 
   return assets.map(asset => {
@@ -269,7 +269,7 @@ export const mergeFullAssetsWithCryptoQuotes = (quote: {[coinId: string]: CoinGe
       }
     }
 
-    const price = coinIdPath.prices[coinIdPath.prices.length - 1][1]
+    const price = coinIdPath.price
     const value = price * asset.quantity
 
     return {

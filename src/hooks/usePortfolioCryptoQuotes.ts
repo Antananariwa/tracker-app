@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react'
-import type { CoinGeckoResponse } from '../utils/cryptoData'
+import type { CryptoQuote } from '../utils/cryptoData'
 
 type UseBackendCryptoQuotesResult = {
-  data: { [coin_id: string]: CoinGeckoResponse | null } | null
+  data: { [coin_id: string]: CryptoQuote | null } | null
   loading: boolean
   error: Error | null
 }
 
 const usePortfolioCryptoQuotes = (ownedCrypto: string[]): UseBackendCryptoQuotesResult => {
-  const [data, setData] = useState<{ [coin_id: string]: CoinGeckoResponse | null } | null>(null)
+  const [data, setData] = useState<{ [coin_id: string]: CryptoQuote | null } | null>(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<Error | null>(null)
 
@@ -17,7 +17,7 @@ const usePortfolioCryptoQuotes = (ownedCrypto: string[]): UseBackendCryptoQuotes
     if (ownedCrypto.length === 0) return;
 
 
-    let allQuotes: { [coin_id: string]: CoinGeckoResponse | null } = {};
+    let allQuotes: { [coin_id: string]: CryptoQuote | null } = {};
 
     for (let i = 0; i < ownedCrypto.length; i++){
       const url = `${import.meta.env.VITE_API_URL}/api/crypto/${ownedCrypto[i]}`

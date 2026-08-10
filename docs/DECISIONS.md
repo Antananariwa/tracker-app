@@ -134,3 +134,16 @@ box.
 
 ### Currency handling unresolved
 Asset values are stored as raw numbers, with no currency tracking or conversion. The core feature of this project is a single combined total across all assets, and that total only means anything once every value is in the same currency. Right now nothing records which currency an asset is in, and mixing currencies into one figure has no handling at all. This has to be solved before the combined total can be trusted. The open questions, are where an asset's currency should live and how differing currencies are being combined.
+
+### A type on fetched data is trusted, not verified
+`response.json()` returns `any`, and `any` fits into any type you declare without complaint. So a type on fetched data is a promise the compiler takes on trust, not something it verifies. Get the shape wrong and nothing flags it at the assignment. It breaks later, wherever a missing field gets read, far from the line that assumed it.
+
+Learned it hard way. The crypto quotes hook was typed `CoinGeckoResponse`, but the backend nests that payload under `raw_data`, so what got stored was the full response, not the part I actually wanted. No type error anywhere, then a crash in the merge reading `.prices`, which really lived one level down under `raw_data`.
+
+Example of the mistake:
+```ts
+const allQuotes: { [coin_id: string]: CoinGeckoResponse } = {}  // claims every value is a CoinGeckoResponse, so .prices should exist
+const result = await response.json()  // response.json() is typed any, shape unknown and unchecked
+allQuotes[coin_id] = result  // wrong step: any slots into CoinGeckoResponse with no check
+const price = allQuotes[coin_id].prices[0][1]  // trusts .prices from the type, but the stored object has none, so it crashes
+```

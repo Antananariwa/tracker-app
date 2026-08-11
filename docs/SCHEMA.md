@@ -20,8 +20,11 @@ Stores all user-owned assets (stocks, crypto, real estate, custom). Single share
 | status | text | `'hold'` | NO | Allowed values enforced by CHECK (see below) |
 | acquired_at | date | none | YES | Actual purchase date (distinct from created_at) |
 | created_at | timestamptz | `now()` | YES | Row creation timestamp |
+| coin_id | text | none | YES | CoinGecko coin id. Required for crypto rows, null for everything else (see constraints) |
  
 **Constraints:** CHECK on `category` (`'stock'`, `'crypto'`, `'real_estate'`; `'custom'` planned for Phase 4) and CHECK on `status` (`'hold'`, `'to_sell'`, `'watching'`). These mirror the TypeScript unions in the frontend types.
+
+**Crypto identity constraints:** `coin_id` holds the CoinGecko id used for crypto pricing, since a ticker alone can map to many coins. A CHECK requires every crypto row to have a `coin_id`. Two partial unique indexes enforce one position per user: `(user_id, coin_id)` for crypto rows and `(user_id, symbol)` for stock rows.
  
 **RLS:** Enabled. Users can only SELECT, INSERT, UPDATE, DELETE their own rows (`user_id = auth.uid()`).
  

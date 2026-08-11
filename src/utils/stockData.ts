@@ -246,9 +246,9 @@ export const mergeFullAssetsWithStockQuotes = (quote: {[symbol: string]: StockQu
 
 
 export const mergeFullAssetsWithCryptoQuotes = (quote: { [coin_id: string]: CryptoQuote | null }, assets: SupabaseAssetsTable[]): MergedPortfolioAssets[] => {
+  const cryptoAssets = assets.filter(asset => asset.category === 'crypto')
 
-
-  return assets.map(asset => {
+  return cryptoAssets.map(asset => {
     const buyCost = asset.quantity * asset.avg_buy_price
     const coinIdPath = quote[asset['coin_id']]
 
@@ -273,18 +273,18 @@ export const mergeFullAssetsWithCryptoQuotes = (quote: { [coin_id: string]: Cryp
     const value = price * asset.quantity
 
     return {
-    symbol: asset.symbol,
-    category: asset.category,
-    name: asset.name,
-    quantity: asset.quantity,
-    avgBuyPrice: asset.avg_buy_price,
-    purchaseCost: buyCost,
-    status: asset.status,
-    acquiredAt: asset.acquired_at,
-    currentPrice: price,
-    currentValue: value,
-    gainLoss: (value ? value - buyCost : null),
-    gainLossRatio: (value ? (value - buyCost)/buyCost : null), 
+      symbol: asset.symbol,
+      category: asset.category,
+      name: asset.name,
+      quantity: asset.quantity,
+      avgBuyPrice: asset.avg_buy_price,
+      purchaseCost: buyCost,
+      status: asset.status,
+      acquiredAt: asset.acquired_at,
+      currentPrice: price,
+      currentValue: value,
+      gainLoss: (value ? value - buyCost : null),
+      gainLossRatio: (value ? (value - buyCost)/buyCost : null), 
     }
   })
 }

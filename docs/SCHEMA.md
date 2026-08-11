@@ -43,6 +43,22 @@ Shared cache of stock prices fetched from AlphaVantage. No user ownership. Backe
 **RLS:** Enabled. Authenticated users can SELECT only. Backend uses service_role key to write (bypasses RLS).
  
 ---
+
+## Table: `stock_quote_cache`
+
+Shared cache of live stock quotes fetched from Finnhub. Kept separate from `stock_price_cache` because a live quote goes stale in minutes while history lasts about a week. No user ownership. Backend writes via service_role key.
+
+| Column | Type | Default | Nullable | Notes |
+|--------|------|---------|----------|-------|
+| id | uuid | `gen_random_uuid()` | NO | Primary key |
+| symbol | text | none | NO | UNIQUE, one cache row per ticker |
+| current_price | numeric | none | NO | Latest live price |
+| fetched_at | timestamptz | `now()` | YES | When this row was last fetched (per-row freshness) |
+| raw_data | jsonb | `{}` | NO | Full Finnhub quote response as JSON |
+
+**RLS:** Enabled, no policies. Backend-only access via service_role key.
+
+---
  
 ## Table: `stock_alphavantage_listings`
  

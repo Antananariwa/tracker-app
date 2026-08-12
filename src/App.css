@@ -10,8 +10,7 @@
   min-width: 600px;
 }
 
-.contentDiv > * {
+.contentNarrow {
   max-width: var(--content-max);
-  margin-left: auto;
-  margin-right: auto;
+  margin-inline: auto;
 }

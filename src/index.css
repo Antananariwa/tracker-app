@@ -32,6 +32,10 @@
   --speed: 110ms;
   --ease: ease-out;
 
+  --page-max-width: 2000px;
+  --table-max-width: 1800px;
+  --graph-max-width: 1200px;
+
   font-family: system-ui, -apple-system, "Segoe UI", Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.45;
   font-weight: 400;

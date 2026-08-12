@@ -93,8 +93,20 @@ const PortfolioAssetsPage = () => {
                   <td>{asset.acquiredAt}</td>
                   <td className="portfolioNum">{asset.currentPrice ? formatCurrency(asset.currentPrice, 'USD') : 'N/A'}</td>
                   <td className="portfolioNum">{asset.currentValue ? formatCurrency(asset.currentValue, 'USD') : 'N/A'}</td>
-                  <td className="portfolioNum">{asset.gainLoss ? (asset.gainLoss > 0 ? '+' : '') + formatCurrency(asset.gainLoss, 'USD') : 'N/A'}</td>
-                  <td className="portfolioNum">{asset.gainLossRatio? formatPercentChange(asset.gainLossRatio) : 'N/A'}</td>
+                  <td className="portfolioNum">
+                    {asset.gainLoss ? (
+                      <span className={`delta-pill ${asset.gainLoss > 0 ? 'up' : 'down'}`}>
+                        {(asset.gainLoss > 0 ? '+' : '') + formatCurrency(asset.gainLoss, 'USD')}
+                      </span>
+                    ) : 'N/A'}
+                  </td>
+                  <td className="portfolioNum">
+                    {asset.gainLossRatio ? (
+                      <span className={`delta-pill ${asset.gainLossRatio > 0 ? 'up' : 'down'}`}>
+                        {formatPercentChange(asset.gainLossRatio)}
+                      </span>
+                    ) : 'N/A'}
+                  </td>
                   <td>{asset.category}</td>
                 </tr>
               ))}

@@ -1,0 +1,14 @@
+.pageWidth {
+  max-width: var(--content-max);
+  margin-inline: auto;
+}
+
+.tableWidth {
+  max-width: var(--table-max-width);
+  margin-inline: auto;
+}
+
+.pageBound {
+  max-width: var(--page-max-width);
+  margin-inline: auto;
+}

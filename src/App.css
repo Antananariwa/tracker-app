@@ -9,8 +9,3 @@
   min-height: calc(100vh - var(--topbar-h));
   min-width: 600px;
 }
-
-.contentNarrow {
-  max-width: var(--content-max);
-  margin-inline: auto;
-}

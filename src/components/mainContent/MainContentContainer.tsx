@@ -1,4 +1,3 @@
-import './MainContentContainer.css';
 import StockMainPage from './browse/StockBrowsePage';
 import LoginPage from './LoginPage'
 import RegisterPage from './RegisterPage';
@@ -12,20 +11,22 @@ import CryptoBrowsePage from './browse/CryptoBrowsePage';
 const MainContentContainer = () => {
 
   return (
-    <Routes>
-      {/* Portfolio group */}
-      <Route path="/portfolio/main" element={<PortfolioAssetsPage />} />
-      <Route path="/portfolio/stocks" element={<PortfolioStocksPage />} />
-      <Route path="/portfolio/crypto" element={<PortfolioCryptoPage />} />
+    <div className="pageWidthLimit">
+      <Routes>
+        {/* Portfolio group */}
+        <Route path="/portfolio/main" element={<PortfolioAssetsPage />} />
+        <Route path="/portfolio/stocks" element={<PortfolioStocksPage />} />
+        <Route path="/portfolio/crypto" element={<PortfolioCryptoPage />} />
 
-      {/* Browse group */}
-      <Route path="/browse/stocks" element={<StockMainPage />} />
-      <Route path="/browse/crypto" element={<CryptoBrowsePage />} />
+        {/* Browse group */}
+        <Route path="/browse/stocks" element={<StockMainPage />} />
+        <Route path="/browse/crypto" element={<CryptoBrowsePage />} />
 
-      {/* Account group */}
-      <Route path="/account/login" element={<LoginPage />} />
-      <Route path="/account/register" element={<RegisterPage />} />
-    </Routes>
+        {/* Account group */}
+        <Route path="/account/login" element={<LoginPage />} />
+        <Route path="/account/register" element={<RegisterPage />} />
+      </Routes>
+    </div>
   )
 }
 

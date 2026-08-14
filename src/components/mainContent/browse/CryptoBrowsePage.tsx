@@ -32,7 +32,7 @@ const CryptoBrowsePage = () => {
   : 'Current Price'
 
   return (
-    <div>
+    <div className="graphWidth">
       <Header title="Search Crypto" subtitle="Discover coins"/>
 
       <MainContentBox>

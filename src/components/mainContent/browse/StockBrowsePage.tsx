@@ -26,7 +26,7 @@ const StockBrowsePage = () => {
   const timeRange: StockGraphTimeFrame[] = ["1M", "3M", "6M", "YTD", "1Y", "3Y", "5Y", "10Y", "20Y"]
 
   return (
-    <div className="StockMainPage-Div">
+    <div className="StockMainPage-Div graphWidth">
       <Header title="Search Stocks" subtitle="Browse Stock Market"/>
 
       <MainContentBox>

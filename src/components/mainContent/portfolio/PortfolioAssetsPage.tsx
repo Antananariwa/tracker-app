@@ -62,7 +62,7 @@ const PortfolioAssetsPage = () => {
     )
   } else {
     content = (
-      <MainContentBox>
+      <MainContentBox className="tableWidth">
         <div className = "portfolioTableScroll">
           <table className="portfolioHoldingsTable">
             <thead>
@@ -95,14 +95,14 @@ const PortfolioAssetsPage = () => {
                   <td className="portfolioNum">{asset.currentValue ? formatCurrency(asset.currentValue, 'USD') : 'N/A'}</td>
                   <td className="portfolioNum">
                     {asset.gainLoss ? (
-                      <span className={`delta-pill ${asset.gainLoss > 0 ? 'up' : 'down'}`}>
+                      <span className={`delta-shape ${asset.gainLoss > 0 ? 'up' : 'down'}`}>
                         {(asset.gainLoss > 0 ? '+' : '') + formatCurrency(asset.gainLoss, 'USD')}
                       </span>
                     ) : 'N/A'}
                   </td>
                   <td className="portfolioNum">
                     {asset.gainLossRatio ? (
-                      <span className={`delta-pill ${asset.gainLossRatio > 0 ? 'up' : 'down'}`}>
+                      <span className={`delta-shape ${asset.gainLossRatio > 0 ? 'up' : 'down'}`}>
                         {formatPercentChange(asset.gainLossRatio)}
                       </span>
                     ) : 'N/A'}

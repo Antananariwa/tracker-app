@@ -147,3 +147,17 @@ const result = await response.json()  // response.json() is typed any, shape unk
 allQuotes[coin_id] = result  // wrong step: any slots into CoinGeckoResponse with no check
 const price = allQuotes[coin_id].prices[0][1]  // trusts .prices from the type, but the stored object has none, so it crashes
 ```
+
+### A second provider for live prices
+AlphaVantage's free tier is too limited to price a whole portfolio on every load, so live quotes come from Finnhub, which suits frequent single lookups. AlphaVantage stays the history source, since Finnhub charges for history. Crypto already gets a fresh price from CoinGecko and needs nothing new. The point is to pick each provider for the job its free tier handles well, not force one to do everything.
+
+### Simple return first, timeframe return later
+This step shows what a holding is worth now and its gain or loss against cost, from the latest price. Return over a chosen window waits, because it needs price history for every holding and there is no cheap way to fetch that yet. The simple return stands on its own, so it ships first.
+
+### An assets row is a position, not a purchase
+The assets table records what a user holds now, one row per asset, not a log of trades. How a position was built, across several buys or sells, belongs to a future transactions ledger that would feed this table later. For now the numbers on the row are set by hand and read as they stand.
+
+### Store the crypto id, do not guess it
+A ticker can point to many coins, so it is a weak key for pricing. When a coin is added its confirmed CoinGecko id is saved on the row and used directly, while the ticker stays for display. A per user uniqueness rule keeps one row per held asset.
+
+---

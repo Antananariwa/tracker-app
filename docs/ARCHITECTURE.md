@@ -40,18 +40,20 @@ The proxy holds every secret key. The browser never calls an external API direct
     main.tsx, App.tsx, vite-env.d.ts
     /lib/         supabase.ts            ← Supabase client (anon key)
     /context/     AuthContext.tsx        ← session state, useAuth
-    /hooks/       useBackendStock, useBackendCrypto, useCoinInfo,
-                  usePortfolio, useCatalog
-    /utils/       stockData.ts, cryptoData.ts   ← extract/transform helpers
+    /hooks/       useBackendStock, useBackendStockQuote, useBackendCrypto,
+                  useCoinInfo, usePortfolio, useCatalog,
+                  usePortfolioStockQuotes, usePortfolioCryptoQuotes
+    /utils/       stockData.ts, cryptoData.ts, format.ts, portfolioMath.ts,
+                  chartFormat.ts, timeScope.ts   ← extract/transform/format helpers
     /components/
       /headerSection/   Header
       /topBar/          TopBar
       /leftMenu/        LeftMenuBox, LeftMenuContainer
-      /ui/              Button
+      /ui/              Button, Header
       /mainContent/     MainContentContainer, MainContentBox,
                         TimeFrameOptions, LoginPage, RegisterPage
         /browse/        StockBrowsePage, CryptoBrowsePage
-        /portfolio/     PortfolioStocksPage, PortfolioCryptoPage
+        /portfolio/     PortfolioAssetsPage, PortfolioStocksPage, PortfolioCryptoPage
         /searchBars/    StockSearchBar, CryptoSearchBar
         /displays/      LatestPriceDisplay, MetaDataDisplay, ApiDataBox,
                         CoinInfoBox, DefaultDisplay
@@ -93,7 +95,7 @@ Plaid routes are planned for Phase 6.
 |-----|----------|-------|
 | Supabase anon key | Frontend `.env` | Public — RLS restricts access |
 | Supabase service_role key | Backend `.env` | Bypasses all RLS — never in frontend |
-| AlphaVantage / CoinGecko keys | Backend `.env` | Backend proxy only |
+| AlphaVantage / CoinGecko / Finnhub keys | Backend `.env` | Backend proxy only |
 | Plaid secrets | Backend `.env` | Backend proxy only |
 
 The proxy exists so that secret keys live only on the server. RLS protects the database for the one key that does reach the browser (anon), restricting it to the rows the logged-in user owns.

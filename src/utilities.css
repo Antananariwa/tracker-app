@@ -1,5 +1,5 @@
-.pageWidth {
-  max-width: var(--content-max);
+.pageWidthLimit {
+  max-width: var(--page-max-width);
   margin-inline: auto;
 }
 
@@ -8,15 +8,15 @@
   margin-inline: auto;
 }
 
-.pageBound {
-  max-width: var(--page-max-width);
+.graphWidth {
+  max-width: var(--graph-max-width);
   margin-inline: auto;
 }
 
 .up   { color: var(--pos); }
 .down { color: var(--neg); }
 
-.delta-pill {
+.delta-shape {
   display: inline-block;
   padding: 3px 10px;
   border-radius: 999px;
@@ -24,3 +24,6 @@
   font-weight: 650;
    white-space: nowrap;
 }
+
+.delta-shape.up   { background: var(--pos-soft); }
+.delta-shape.down { background: var(--neg-soft); }

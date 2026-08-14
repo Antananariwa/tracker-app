@@ -1,7 +1,6 @@
 :root {
   --topbar-h: 50px;
   --sidebar-w: 180px;
-  --content-max: 1200px;
 
   --bg: #0e0e10;
   --surface-1: #18181b;
@@ -64,9 +63,6 @@ html {
   outline-offset: 2px;
   border-radius: var(--radius);
 }
-
-.delta-pill.up   { background: var(--pos-soft); }
-.delta-pill.down { background: var(--neg-soft); }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

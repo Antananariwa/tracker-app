@@ -120,22 +120,36 @@ const PortfolioAssetsPage = () => {
     <div>
       <div className='summaryPanel tableWidth'>
         <MainContentBox className='summaryBigBox'>
-          <p>KEK</p>
+          <div>
+            Account Value (the hero, sum of currentValue)
+            Total Invested / cost basis
+          </div>
         </MainContentBox>
         <MainContentBox className='summarySmallBox'>
-          <p>KEK</p>
+          <div>
+            Total Return, all time, $ and %
+          </div>
         </MainContentBox>
         <MainContentBox className='summarySmallBox'>
-          <p>KEK</p>
+          <div>
+             Best and worst performer, e.g. "NVDA +62%"
+             Realized vs unrealized gains
+          </div>
         </MainContentBox>
         <MainContentBox className='summarySmallBox'>
-          <p>KEK</p>
+          <div>
+            KEK
+          </div>
         </MainContentBox>
         <MainContentBox className='summarySmallBox'>
-          <p>KEK</p>
+          <div>
+            KEK
+          </div>
         </MainContentBox>
         <MainContentBox className='summarySmallBox'>
-          <p>KEK</p>
+          <p>
+            KEK
+          </p>
         </MainContentBox>
       </div>
       {content}

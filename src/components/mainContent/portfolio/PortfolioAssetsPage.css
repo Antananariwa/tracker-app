@@ -1,0 +1,16 @@
+.summaryPanel {
+  display: flex;
+  justify-content: space-between;
+}
+
+.summaryBigBox {
+  flex: 0 0 auto;
+  height: 100px;
+  width: 300px;
+}
+
+.summarySmallBox {
+  flex: 0 0 auto;
+  height: 100px;
+  width: 200px;
+}

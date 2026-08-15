@@ -1,4 +1,5 @@
 import './PortfolioPage.css'; 
+import './PortfolioAssetsPage.css'
 import MainContentBox from "../MainContentBox";
 import { useFullPortfolio } from "../../../hooks/usePortfolio";
 import { preparePortfolioAssets, mergeFullAssetsWithStockQuotes, mergeFullAssetsWithCryptoQuotes } from "../../../utils/stockData";
@@ -26,8 +27,6 @@ const PortfolioAssetsPage = () => {
 
   const { data: quoteStockPrices, loading: quoteStockPricesLoading, error: quoteStockPricesError } = usePortfolioStockQuotes(assetArraySymbol);
   const {data: quoteCryptoPrices, loading: QuoteCryptoPricesLoading, error: quoteCryptopricesError } = usePortfolioCryptoQuotes(assetArrayCoinId);
-  console.log(quoteCryptoPrices)
-  console.log(quoteStockPrices)
 
   const mergedAssetsStocks = data && quoteStockPrices ? mergeFullAssetsWithStockQuotes(quoteStockPrices, data) : [];
   const mergedAssetsCrypto = data && quoteCryptoPrices ? mergeFullAssetsWithCryptoQuotes(quoteCryptoPrices, data) : [];
@@ -119,6 +118,26 @@ const PortfolioAssetsPage = () => {
 
   return (
     <div>
+      <div className='summaryPanel tableWidth'>
+        <MainContentBox className='summaryBigBox'>
+          <p>KEK</p>
+        </MainContentBox>
+        <MainContentBox className='summarySmallBox'>
+          <p>KEK</p>
+        </MainContentBox>
+        <MainContentBox className='summarySmallBox'>
+          <p>KEK</p>
+        </MainContentBox>
+        <MainContentBox className='summarySmallBox'>
+          <p>KEK</p>
+        </MainContentBox>
+        <MainContentBox className='summarySmallBox'>
+          <p>KEK</p>
+        </MainContentBox>
+        <MainContentBox className='summarySmallBox'>
+          <p>KEK</p>
+        </MainContentBox>
+      </div>
       {content}
     </div>
   )

@@ -31,7 +31,15 @@ const PortfolioAssetsPage = () => {
   const mergedAssetsStocks = data && quoteStockPrices ? mergeFullAssetsWithStockQuotes(quoteStockPrices, data) : [];
   const mergedAssetsCrypto = data && quoteCryptoPrices ? mergeFullAssetsWithCryptoQuotes(quoteCryptoPrices, data) : [];
   const allAssets = [...mergedAssetsStocks, ...mergedAssetsCrypto]
+  let accountValue = 0;
+  if (allAssets){
+    for (let i = 0; i < allAssets.length; i++){
+      allAssets.currentValue ? accountValue += allAssets[i].currentValue : null;
+    }
+  }
 
+  let accountReturnNumber = 0;
+  let accountRetrunPercentage = '0%';
 
   let content;
 
@@ -121,8 +129,8 @@ const PortfolioAssetsPage = () => {
       <div className='summaryPanel tableWidth'>
         <MainContentBox className='summaryBigBox'>
           <div>
-            'Account Value'
-            Value of the Account
+            Account Value
+            {accountValue}
             All time return 
           </div>
         </MainContentBox>
@@ -144,7 +152,7 @@ const PortfolioAssetsPage = () => {
           <div>
             'Today change'
             number: +$311.22
-            Percentage with perhaps arrow. 
+            Percentage with perhaps arrow.
           </div>
         </MainContentBox>
       </div>

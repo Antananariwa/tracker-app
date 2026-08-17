@@ -34,9 +34,11 @@ const PortfolioAssetsPage = () => {
   let accountValue = 0;
   if (allAssets){
     for (let i = 0; i < allAssets.length; i++){
-      allAssets.currentValue ? accountValue += allAssets[i].currentValue : null;
+      const a = allAssets[i]
+      a.currentValue != null ? accountValue += a.currentValue : null;
     }
   }
+  accountValue = Number(accountValue.toFixed(2));
 
   let accountReturnNumber = 0;
   let accountRetrunPercentage = '0%';
@@ -129,9 +131,9 @@ const PortfolioAssetsPage = () => {
       <div className='summaryPanel tableWidth'>
         <MainContentBox className='summaryBigBox'>
           <div>
-            Account Value
-            {accountValue}
-            All time return 
+            <p>Account Value</p>
+            <p>${accountValue}</p>
+            <p>All time return</p>
           </div>
         </MainContentBox>
         <MainContentBox className='summarySmallBox'>

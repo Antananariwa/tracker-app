@@ -55,6 +55,28 @@ const PortfolioAssetsPage = () => {
   let accountRetrunPercentage = 0;
   assetsTotalCost ? accountRetrunPercentage = accountReturnNumber/assetsTotalCost * 100 : 0;
 
+  let averageCAGR = 0; // Σ(CAGR_i × purchaseCost_i) / Σ(purchaseCost_i)
+  let sumCAGR_pur_cost = 0;
+  let sumPurchaseCost = 0;
+
+  for (let i = 0; i < allAssets.length; i++){
+    const asset = allAssets[i]
+    const acquiredDateMs = new Date(asset.acquiredAt).getTime();
+    const nowMs = Date.now();
+    let years = 0;
+    acquiredDateMs !=0 ? (nowMs - acquiredDateMs) / (1000 * 60 * 60 * 24 * 365.25) : null;
+
+    let CAGR = 0;
+    if ( asset.currentValue ){
+    asset.purchaseCost ?  CAGR = (asset.currentValue / asset.purchaseCost) ** (1/years) - 1 : null
+    }
+    
+    sumCAGR_pur_cost += CAGR * asset.purchaseCost
+    sumPurchaseCost += asset.purchaseCost
+  }
+
+  sumPurchaseCost != 0 ? averageCAGR = sumCAGR_pur_cost / sumPurchaseCost : null
+
 
 
   let content;
@@ -153,7 +175,7 @@ const PortfolioAssetsPage = () => {
         <MainContentBox className='summarySmallBox'>
           <div>
             Avg Annual Return
-            your average return
+            {averageCAGR}%
             some index comparison
           </div>
         </MainContentBox>

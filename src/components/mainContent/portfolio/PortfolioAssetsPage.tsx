@@ -31,26 +31,31 @@ const PortfolioAssetsPage = () => {
   const mergedAssetsStocks = data && quoteStockPrices ? mergeFullAssetsWithStockQuotes(quoteStockPrices, data) : [];
   const mergedAssetsCrypto = data && quoteCryptoPrices ? mergeFullAssetsWithCryptoQuotes(quoteCryptoPrices, data) : [];
   const allAssets = [...mergedAssetsStocks, ...mergedAssetsCrypto]
-  let accountValue = 0;
 
+  let accountValue = 0;
   for (let i = 0; i < allAssets.length; i++){
     const a = allAssets[i]
     a.currentValue != null ? accountValue += a.currentValue : null;
   }
-
   accountValue = Number(accountValue.toFixed(2));
 
   let accountReturnNumber = 0;
-
   for (let i=0; i<allAssets.length; i++){
     const b = allAssets[i];
     b.gainLoss != null ? accountReturnNumber += b.gainLoss : null;
   }
-
   accountReturnNumber = Number(accountReturnNumber.toFixed(2));
 
+  let assetsTotalCost = 0;
+  for (let i=0; i<allAssets.length; i++){
+    const c = allAssets[i];
+    c.purchaseCost ? assetsTotalCost += c.purchaseCost : null;
+  }
 
-  let accountRetrunPercentage = '0%';
+  let accountRetrunPercentage = 0;
+  assetsTotalCost ? accountRetrunPercentage = accountReturnNumber/assetsTotalCost * 100 : 0;
+
+
 
   let content;
 
@@ -141,13 +146,13 @@ const PortfolioAssetsPage = () => {
         <MainContentBox className='summaryBigBox'>
           <div>
             <p>Account Value</p>
-            <p>${accountValue}</p>
-            <p>${accountReturnNumber}</p>
+            <p>Total ${accountValue}</p>
+            <p>Return ${accountReturnNumber} {accountRetrunPercentage.toFixed(2)}% </p>
           </div>
         </MainContentBox>
         <MainContentBox className='summarySmallBox'>
           <div>
-            'Avg Annual Return'
+            Avg Annual Return
             your average return
             some index comparison
           </div>

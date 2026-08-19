@@ -63,20 +63,22 @@ const PortfolioAssetsPage = () => {
     const asset = allAssets[i]
     const acquiredDateMs = new Date(asset.acquiredAt).getTime();
     const nowMs = Date.now();
-    let years = 0;
-    acquiredDateMs !=0 ? (nowMs - acquiredDateMs) / (1000 * 60 * 60 * 24 * 365.25) : null;
+    const years = (nowMs - acquiredDateMs) / (1000 * 60 * 60 * 24 * 365.25);
 
     let CAGR = 0;
     if ( asset.currentValue ){
-    asset.purchaseCost ?  CAGR = (asset.currentValue / asset.purchaseCost) ** (1/years) - 1 : null
+    asset.purchaseCost ?  CAGR = ((asset.currentValue / asset.purchaseCost) ** (1/years)) - 1 : null
     }
-    
+
+    if(asset.currentValue && asset.purchaseCost && years > 0){
     sumCAGR_pur_cost += CAGR * asset.purchaseCost
-    sumPurchaseCost += asset.purchaseCost
+    sumPurchaseCost += asset.purchaseCost     
+    }
   }
 
-  sumPurchaseCost != 0 ? averageCAGR = sumCAGR_pur_cost / sumPurchaseCost : null
-
+  sumPurchaseCost != 0 ? averageCAGR =  sumCAGR_pur_cost / sumPurchaseCost  : null
+  const avgCAGR_3Y = (((1 + averageCAGR ) **  3) - 1) * 100
+  const avgCAGR_5Y = (((1 + averageCAGR ) **  5) - 1) * 100
 
 
   let content;
@@ -174,9 +176,10 @@ const PortfolioAssetsPage = () => {
         </MainContentBox>
         <MainContentBox className='summarySmallBox'>
           <div>
-            Avg Annual Return
-            {averageCAGR}%
-            some index comparison
+            <p>Avg Return</p>
+            <p>1Y {(averageCAGR*100).toFixed(2)}%</p>
+            <p>3Y {avgCAGR_3Y.toFixed(2)}%</p>
+            <p>5Y {avgCAGR_5Y.toFixed(2)}%</p>
           </div>
         </MainContentBox>
         <MainContentBox className='summarySmallBox'>

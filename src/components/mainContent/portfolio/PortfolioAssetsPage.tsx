@@ -6,6 +6,7 @@ import { preparePortfolioAssets, mergeFullAssetsWithStockQuotes, mergeFullAssets
 import usePortfolioStockQuotes from '../../../hooks/usePortfolioStockQuotes';
 import usePortfolioCryptoQuotes from '../../../hooks/usePortfolioCryptoQuotes';
 import { formatCurrency, formatPercentChange } from '../../../utils/format';
+import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts';
 
 const PortfolioAssetsPage = () => {
   const { data, loading, error } = useFullPortfolio();
@@ -79,6 +80,26 @@ const PortfolioAssetsPage = () => {
   sumPurchaseCost != 0 ? averageCAGR =  sumCAGR_pur_cost / sumPurchaseCost  : null
   const avgCAGR_3Y = (((1 + averageCAGR ) **  3) - 1) * 100
   const avgCAGR_5Y = (((1 + averageCAGR ) **  5) - 1) * 100
+
+
+  const pieData = allAssets
+  .filter(a => a.currentValue != null)
+  .map(a => ({ name: a.symbol, value: a.currentValue }));
+
+  const sliceColors = ['#9147ff', '#00b5ad', '#e0a458', '#5b8def', '#d4655b'];
+
+  <div style={{ width: '100%', height: 200 }}>
+    <ResponsiveContainer>
+      <PieChart>
+        <Pie data={pieData} dataKey="value" nameKey="name" innerRadius={55} outerRadius={80} paddingAngle={2}>
+          {pieData.map((slice, index) => (
+            <Cell key={slice.name} fill={sliceColors[index % sliceColors.length]} />
+          ))}
+        </Pie>
+        <Tooltip />
+      </PieChart>
+    </ResponsiveContainer>
+  </div>
 
 
   let content;
@@ -183,10 +204,27 @@ const PortfolioAssetsPage = () => {
           </div>
         </MainContentBox>
         <MainContentBox className='summarySmallBox'>
-          <div>
-             'Allocation'
-              Small pie chart of currentValue by category
-              Footer line: 5 positions · 3 stocks · 2 crypto
+          <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
+            <div style={{ width: '55%', height: 200 }}>
+              <ResponsiveContainer>
+                <PieChart>
+                  <Pie data={pieData} dataKey="value" nameKey="name" innerRadius={55} outerRadius={80}>
+                    {pieData.map((slice, index) => (
+                      <Cell key={slice.name} fill={sliceColors(index)} />
+                    ))}
+                  </Pie>
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
+
+            <ul style={{ listStyle: 'none', margin: 0, padding: 0 }}>
+              {pieData.map((slice, index) => (
+                <li key={slice.name} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                  <span style={{ width: 10, height: 10, borderRadius: 2, background: sliceColor(index) }} />
+                  {slice.name}
+                </li>
+              ))}
+            </ul>
           </div>
         </MainContentBox>
         <MainContentBox className='summarySmallBox'>

@@ -86,20 +86,7 @@ const PortfolioAssetsPage = () => {
   .filter(a => a.currentValue != null)
   .map(a => ({ name: a.symbol, value: a.currentValue }));
 
-  const sliceColors = ['#9147ff', '#00b5ad', '#e0a458', '#5b8def', '#d4655b'];
-
-  <div style={{ width: '100%', height: 200 }}>
-    <ResponsiveContainer>
-      <PieChart>
-        <Pie data={pieData} dataKey="value" nameKey="name" innerRadius={55} outerRadius={80} paddingAngle={2}>
-          {pieData.map((slice, index) => (
-            <Cell key={slice.name} fill={sliceColors[index % sliceColors.length]} />
-          ))}
-        </Pie>
-        <Tooltip />
-      </PieChart>
-    </ResponsiveContainer>
-  </div>
+  const sliceColor = (index: number) => `hsl(${(index * 137.508) % 360}, 65%, 60%)`;
 
 
   let content;
@@ -204,13 +191,13 @@ const PortfolioAssetsPage = () => {
           </div>
         </MainContentBox>
         <MainContentBox className='summarySmallBox'>
-          <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
-            <div style={{ width: '55%', height: 200 }}>
-              <ResponsiveContainer>
+          <div style={{ display: 'flex', gap: 15, alignItems: 'center' }}>
+            <div style={{ flex: 1 }}>
+              <ResponsiveContainer aspect={1}>
                 <PieChart>
-                  <Pie data={pieData} dataKey="value" nameKey="name" innerRadius={55} outerRadius={80}>
+                  <Pie data={pieData} dataKey="value" nameKey="name" innerRadius="45%" outerRadius="90%">
                     {pieData.map((slice, index) => (
-                      <Cell key={slice.name} fill={sliceColors(index)} />
+                      <Cell key={slice.name} fill={sliceColor(index)} />
                     ))}
                   </Pie>
                 </PieChart>
@@ -218,8 +205,8 @@ const PortfolioAssetsPage = () => {
             </div>
 
             <ul style={{ listStyle: 'none', margin: 0, padding: 0 }}>
-              {pieData.map((slice, index) => (
-                <li key={slice.name} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+              {pieData.reverse().map((slice, index) => (
+                <li key={slice.name} style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: 10 }}>
                   <span style={{ width: 10, height: 10, borderRadius: 2, background: sliceColor(index) }} />
                   {slice.name}
                 </li>

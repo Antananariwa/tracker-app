@@ -191,9 +191,9 @@ const PortfolioAssetsPage = () => {
           </div>
         </MainContentBox>
         <MainContentBox className='summarySmallBox'>
-          <div style={{ display: 'flex', gap: 15, alignItems: 'center' }}>
-            <div style={{ flex: 1 }}>
-              <ResponsiveContainer aspect={1}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-evenly', height: '100%' }}>
+            <div style={{ width: 110, height: 110, flexShrink: 0 }}>
+              <ResponsiveContainer>
                 <PieChart>
                   <Pie data={pieData} dataKey="value" nameKey="name" innerRadius="45%" outerRadius="90%">
                     {pieData.map((slice, index) => (

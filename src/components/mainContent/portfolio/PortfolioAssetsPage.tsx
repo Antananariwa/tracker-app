@@ -7,6 +7,9 @@ import usePortfolioStockQuotes from '../../../hooks/usePortfolioStockQuotes';
 import usePortfolioCryptoQuotes from '../../../hooks/usePortfolioCryptoQuotes';
 import { formatCurrency, formatPercentChange } from '../../../utils/format';
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts';
+import PriceAreaChart from '../displays/graphs/PriceAreaChart';
+import { extractChartPriceByDateWeekly } from '../../../utils/stockData';
+import useBackendStock from '../../../hooks/useBackendStock';
 
 const PortfolioAssetsPage = () => {
   const { data, loading, error } = useFullPortfolio();
@@ -77,7 +80,7 @@ const PortfolioAssetsPage = () => {
     }
   }
 
-  sumPurchaseCost != 0 ? averageCAGR =  sumCAGR_pur_cost / sumPurchaseCost  : null
+  sumPurchaseCost != 0 ? averageCAGR =  sumCAGR_pur_cost * 100 / sumPurchaseCost  : null
   const avgCAGR_3Y = (((1 + averageCAGR ) **  3) - 1) * 100
   const avgCAGR_5Y = (((1 + averageCAGR ) **  5) - 1) * 100
 
@@ -88,6 +91,20 @@ const PortfolioAssetsPage = () => {
   .sort((a, b) => b.value - a.value);
 
   const sliceColor = (index: number) => `hsl(${(index * 137.508) % 360}, 65%, 60%)`;
+
+	// Summary portfolio graphs
+	const {data: dataStock, loading: loadingStock, error: errorStock} = useBackendStock(selectedStock)
+	const chartData = data ? extractChartPriceByDateWeekly(dataStock) : []
+	// Biga problema - existing backend fetch operates on an individually selected positions
+	// It is already looping over every position to fetch quotes, could use similar logic
+	// If we are going to get all of historical data of all the assets, what was the point of using a separate quote fetch
+	// It is possible to make a little ForcenCD. Since we are mostly operationg on the demo account, most of the heavy lifting can be done beforehand.
+	// Concern about ForcenCD path - what about period between last comprehensive update of assets history and current fetch.
+	// Could set up automatic fetches to keep demo account updated. Should be possible within free limits
+	// Actually why not to try automatically updating as much of the cache as possible. We are worling within limits anyway, might as well use them to the max.
+	// Would be enough to run scheduled refreshes during few night hours.
+	// Otherwise how to make it usable in real world by unpredictible user?
+
 
 
   let content;
@@ -185,8 +202,8 @@ const PortfolioAssetsPage = () => {
         </MainContentBox>
         <MainContentBox className='summarySmallBox'>
           <div>
-            <p>Avg Return</p>
-            <p>1Y {(averageCAGR*100).toFixed(2)}%</p>
+            <p>Avg Annual Return</p>
+            <p>1Y {averageCAGR.toFixed(2)}%</p>
             <p>3Y {avgCAGR_3Y.toFixed(2)}%</p>
             <p>5Y {avgCAGR_5Y.toFixed(2)}%</p>
           </div>
@@ -223,6 +240,16 @@ const PortfolioAssetsPage = () => {
             Percentage with perhaps arrow.
           </div>
         </MainContentBox>
+      </div>
+      <div className='summaryGraph'>
+				<MainContentBox>
+          <PriceAreaChart
+            chartData={data of the entire portfolio}
+            XAxisDataKey="date"
+            areaDataKey="close"
+            tickFormatter={pickDateLabel(selectedTimeFrame)}
+          />
+				</MainContentBox>
       </div>
       {content}
     </div>

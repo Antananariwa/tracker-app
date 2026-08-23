@@ -31,7 +31,7 @@ export type StockQuote = {
 
 export type StockOverview = {
   information: string
-  coinId: string
+  symbol: string
   lastRefreshed: string
   timeZone: string
 }
@@ -114,7 +114,7 @@ export const extractStockOverview = (data: AlphaVantageWeeklyResponse): StockOve
   
   return {
     information: data['Meta Data']['1. Information'],
-    coinId: data['Meta Data']['2. Symbol'],
+    symbol: data['Meta Data']['2. Symbol'],
     lastRefreshed: data['Meta Data']['3. Last Refreshed'],
     timeZone: data['Meta Data']['4. Time Zone'],
   };

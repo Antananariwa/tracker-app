@@ -3,6 +3,9 @@ import { preparePortfolioAssets } from '../../../utils/stockData'
 import { usePortfolio } from '../../../hooks/usePortfolio'
 import './PortfolioPage.css';
 
+// pretty much same questions about this as with stock page
+// look PortfolioStocksPage fore more comments
+
 const PortfolioCryptoPage = () => {
   const { data, loading, error } = usePortfolio('crypto');
   const assets = data ? preparePortfolioAssets(data) : [];

@@ -7,7 +7,7 @@ type UseBackendStockResult = {
   error: Error | null
 }
 
-const useBackendStock = (symbols: string[]): UseBackendStockResult => {
+const useBackendPortfolioAssets = (symbols: string[]): UseBackendStockResult => {
   const [data, setData] = useState<{ [symbol: string]: AlphaVantageWeeklyResponse | null } | null>(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<Error | null>(null)
@@ -48,4 +48,4 @@ const useBackendStock = (symbols: string[]): UseBackendStockResult => {
   return { data, loading, error }
 }
 
-export default useBackendStock
+export default useBackendPortfolioAssets

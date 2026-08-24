@@ -10,6 +10,7 @@ import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts';
 import PriceAreaChart from '../displays/graphs/PriceAreaChart';
 import { extractChartPriceByDateWeekly } from '../../../utils/stockData';
 import useBackendStock from '../../../hooks/useBackendStock';
+import useBackendPortfolioAssets from '../../../hooks/useBackendPortfolioAssets.ts';
 
 const PortfolioAssetsPage = () => {
   const { data, loading, error } = useFullPortfolio();
@@ -93,8 +94,9 @@ const PortfolioAssetsPage = () => {
   const sliceColor = (index: number) => `hsl(${(index * 137.508) % 360}, 65%, 60%)`;
 
 	// Summary portfolio graphs
-	const {data: dataStock, loading: loadingStock, error: errorStock} = useBackendStock(selectedStock)
+	const {data: dataStock, loading: loadingStock, error: errorStock} = useBackendPortfolioAssets(allStocks)
 	const chartData = data ? extractChartPriceByDateWeekly(dataStock) : []
+
 	// Biga problema - existing backend fetch operates on an individually selected positions
 	// It is already looping over every position to fetch quotes, could use similar logic
 	// If we are going to get all of historical data of all the assets, what was the point of using a separate quote fetch

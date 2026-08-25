@@ -99,7 +99,10 @@ const PortfolioAssetsPage = () => {
     allSymbols.push(allAssets[i].symbol)
   }
 	const {data: stockTradingData, loading: loadingStock, error: errorStock} = useBackendPortfolioAssets(allSymbols)
-	// need to loop extract funcion, the data is composed of all assets 
+	// There are 2 stages here. Initial data fetch and data processing done by extractChart...
+  // The backend fetch is itself a loop, there is no need to add additional complications here
+  // processing function is not a loop, but it is also not an async function. Could be a loop, but should it?
+  // Perhaps it's better at this point to make another function for many entries or edit existing ones to handle entire array of symbols
   const trimmedstockTradingData = stockTradingData ? extractChartPriceByDateWeekly(stockTradingData) : []
   for (let i=0; i < allAssets.length; i++){
     trimmedstockTradingData.push(allAssets[i])

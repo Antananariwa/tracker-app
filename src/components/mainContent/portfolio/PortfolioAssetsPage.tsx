@@ -94,7 +94,11 @@ const PortfolioAssetsPage = () => {
   const sliceColor = (index: number) => `hsl(${(index * 137.508) % 360}, 65%, 60%)`;
 
 	// Summary portfolio graphs
-	const {data: dataStock, loading: loadingStock, error: errorStock} = useBackendPortfolioAssets(allStocks)
+  let allSymbols: string[] = [];
+  for (let i=0; i<allAssets.length; i++){
+    allSymbols.push(allAssets[i].symbol)
+  }
+	const {data: dataStock, loading: loadingStock, error: errorStock} = useBackendPortfolioAssets(allSymbols)
 	const chartData = data ? extractChartPriceByDateWeekly(dataStock) : []
 
 	// Biga problema - existing backend fetch operates on an individually selected positions

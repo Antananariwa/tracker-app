@@ -98,8 +98,12 @@ const PortfolioAssetsPage = () => {
   for (let i=0; i<allAssets.length; i++){
     allSymbols.push(allAssets[i].symbol)
   }
-	const {data: dataStock, loading: loadingStock, error: errorStock} = useBackendPortfolioAssets(allSymbols)
-	const chartData = data ? extractChartPriceByDateWeekly(dataStock) : []
+	const {data: stockTradingData, loading: loadingStock, error: errorStock} = useBackendPortfolioAssets(allSymbols)
+	// need to loop extract funcion, the data is composed of all assets 
+  const trimmedstockTradingData = stockTradingData ? extractChartPriceByDateWeekly(stockTradingData) : []
+  for (let i=0; i < allAssets.length; i++){
+    trimmedstockTradingData.push(allAssets[i])
+  }
 
 	// Biga problema - existing backend fetch operates on an individually selected positions
 	// It is already looping over every position to fetch quotes, could use similar logic

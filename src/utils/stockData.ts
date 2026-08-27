@@ -288,3 +288,14 @@ export const mergeFullAssetsWithCryptoQuotes = (quote: { [coin_id: string]: Cryp
     }
   })
 }
+
+
+export const mergeGraphStocksData = (allTrimmedData: { [symbol: string]: ChartPriceByDateWeekly[] | null }, allPortfolioAssets: MergedPortfolioAssets[]) => {
+  let mergedData = [];
+  for (let i=0; i<allPortfolioAssets.length; i++){
+    const amount = allPortfolioAssets[i]['quantity'] // individual position quantity
+    // now need to loop over entire allTrimmed Data and combine values from the same date
+    // combination logic would be price * quantity
+    // try map first, sounds like the best tool here
+  }
+}

@@ -8,7 +8,7 @@ import usePortfolioCryptoQuotes from '../../../hooks/usePortfolioCryptoQuotes';
 import { formatCurrency, formatPercentChange } from '../../../utils/format';
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts';
 import PriceAreaChart from '../displays/graphs/PriceAreaChart';
-import { extractChartPriceByDateWeekly } from '../../../utils/stockData';
+import { extractChartPriceByDateWeekly, type ChartPriceByDateWeekly } from '../../../utils/stockData';
 import useBackendStock from '../../../hooks/useBackendStock';
 import useBackendPortfolioAssets from '../../../hooks/useBackendPortfolioAssets.ts';
 
@@ -103,9 +103,11 @@ const PortfolioAssetsPage = () => {
   // The backend fetch is itself a loop, there is no need to add additional complications here
   // processing function is not a loop, but it is also not an async function. Could be a loop, but should it?
   // Perhaps it's better at this point to make another function for many entries or edit existing ones to handle entire array of symbols
-  const trimmedstockTradingData = stockTradingData ? extractChartPriceByDateWeekly(stockTradingData) : []
-  for (let i=0; i < allAssets.length; i++){
-    trimmedstockTradingData.push(allAssets[i])
+  const trimmedstockTradingData: { [symbol: string]: ChartPriceByDateWeekly[] | null } = {};
+  for (let i=0; i < allSymbols.length; i++){
+    const singleStock = stockTradingData ? stockTradingData[allSymbols[i]] : null
+    const trimmedWeekly = singleStock ? extractChartPriceByDateWeekly(singleStock) : null
+    trimmedstockTradingData[allSymbols[i]] = trimmedWeekly
   }
 
 	// Biga problema - existing backend fetch operates on an individually selected positions

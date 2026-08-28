@@ -291,11 +291,17 @@ export const mergeFullAssetsWithCryptoQuotes = (quote: { [coin_id: string]: Cryp
 
 
 export const mergeGraphStocksData = (allTrimmedData: { [symbol: string]: ChartPriceByDateWeekly[] | null }, allPortfolioAssets: MergedPortfolioAssets[]) => {
-  let mergedData = [];
+  let mergedData = {};
   for (let i=0; i<allPortfolioAssets.length; i++){
     const amount = allPortfolioAssets[i]['quantity'] // individual position quantity
-    // now need to loop over entire allTrimmed Data and combine values from the same date
+    // now need to loop over entire allTrimmedData and combine values from the same date
     // combination logic would be price * quantity
     // try map first, sounds like the best tool here
+    // actually perhaps I should loop over the thing and build on new object, matching 
+    // Need to deconstruct those objects. Stuff like const items = [{ price: 10 }, { price: 20 }]
+    // const prices = items.map(({ price }) => price);
+    // Also can convert to an array 
+    // const obj = { a: 1, b: 2, c: 3 };
+    // Object.keys(obj);      // ['a', 'b', 'c']
   }
 }

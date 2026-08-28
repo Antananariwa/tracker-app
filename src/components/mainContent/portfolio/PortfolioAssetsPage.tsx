@@ -110,6 +110,8 @@ const PortfolioAssetsPage = () => {
     trimmedstockTradingData[allSymbols[i]] = trimmedWeekly
   }
 
+
+  
 	// Biga problema - existing backend fetch operates on an individually selected positions
 	// It is already looping over every position to fetch quotes, could use similar logic
 	// If we are going to get all of historical data of all the assets, what was the point of using a separate quote fetch
@@ -119,6 +121,9 @@ const PortfolioAssetsPage = () => {
 	// Actually why not to try automatically updating as much of the cache as possible. We are worling within limits anyway, might as well use them to the max.
 	// Would be enough to run scheduled refreshes during few night hours.
 	// Otherwise how to make it usable in real world by unpredictible user?
+
+  // map might be used for grouping data. Entire concept of summary graph is based on matching dates in individual objects.
+  // This is the direction for now, if works, might just leave it as it is.
 
 
 
@@ -262,7 +267,7 @@ const PortfolioAssetsPage = () => {
             chartData={data of the entire portfolio}
             XAxisDataKey="date"
             areaDataKey="close"
-            tickFormatter={pickDateLabel(selectedTimeFrame)}
+            tickFormatter={pickDateLabel(selectedTimeFrame)} // this will be summed up data. Probably only need price and date on every data point.
           />
 				</MainContentBox>
       </div>

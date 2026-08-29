@@ -293,7 +293,7 @@ export const mergeFullAssetsWithCryptoQuotes = (quote: { [coin_id: string]: Cryp
 export const mergeGraphStocksData = (allTrimmedData: { [symbol: string]: ChartPriceByDateWeekly[] | null }, allPortfolioAssets: MergedPortfolioAssets[]) => {
   const data = Object.values(allTrimmedData) // stip off symbols
   const rawValues = Object.values(data) // gives simpler array from this object [ [ {date: x, close: y, volume: z}, {date: x, close: y, volume: z} ], [ {date: x, close: y, volume: z}, {date: x, close: y, volume: z} ], null ]
-  const rawWaluesFiltered = rawValues.map((n)=>n.map(({date, close, value}) => ([date, close]))) // not sure if I can drop value key:value pairs that way
+  const rawWaluesFiltered = rawValues ? rawValues.map((n)=>n.map(({date, close}) => ({date, close}))) : null
   
 
 

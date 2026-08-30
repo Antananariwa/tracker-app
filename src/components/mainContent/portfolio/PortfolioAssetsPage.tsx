@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import './PortfolioPage.css'; 
 import './PortfolioAssetsPage.css'
 import MainContentBox from "../MainContentBox";
@@ -8,11 +9,15 @@ import usePortfolioCryptoQuotes from '../../../hooks/usePortfolioCryptoQuotes';
 import { formatCurrency, formatPercentChange } from '../../../utils/format';
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts';
 import PriceAreaChart from '../displays/graphs/PriceAreaChart';
-import { extractChartPriceByDateWeekly, type ChartPriceByDateWeekly } from '../../../utils/stockData';
-import useBackendStock from '../../../hooks/useBackendStock';
+import { extractChartPriceByDateWeekly, mergeGraphStocksData, adjustDataByTime, type ChartPriceByDateWeekly, type StockGraphTimeFrame } from '../../../utils/stockData'
 import useBackendPortfolioAssets from '../../../hooks/useBackendPortfolioAssets.ts';
+import TimeFrameOptions from '../TimeFrameOptions'
+import { pickDateLabel } from '../../../utils/chartFormat'
+
 
 const PortfolioAssetsPage = () => {
+  const [selectedTimeFrame, setSelectedTimeFrame] = useState<StockGraphTimeFrame>('3M')
+  const timeRange: StockGraphTimeFrame[] = ["1M", "3M", "6M", "YTD", "1Y", "3Y", "5Y", "10Y", "20Y"]
   const { data, loading, error } = useFullPortfolio();
   const assets = data ? preparePortfolioAssets(data) : [];
 
@@ -94,37 +99,20 @@ const PortfolioAssetsPage = () => {
   const sliceColor = (index: number) => `hsl(${(index * 137.508) % 360}, 65%, 60%)`;
 
 	// Summary portfolio graphs
-  let allSymbols: string[] = [];
-  for (let i=0; i<allAssets.length; i++){
-    allSymbols.push(allAssets[i].symbol)
-  }
+  const allSymbols = mergedAssetsStocks.map(asset => asset.symbol)
 	const {data: stockTradingData, loading: loadingStock, error: errorStock} = useBackendPortfolioAssets(allSymbols)
-	// There are 2 stages here. Initial data fetch and data processing done by extractChart...
-  // The backend fetch is itself a loop, there is no need to add additional complications here
-  // processing function is not a loop, but it is also not an async function. Could be a loop, but should it?
-  // Perhaps it's better at this point to make another function for many entries or edit existing ones to handle entire array of symbols
-  const trimmedstockTradingData: { [symbol: string]: ChartPriceByDateWeekly[] | null } = {};
+
+  const trimmedStockTradingData: { [symbol: string]: ChartPriceByDateWeekly[] | null } = {};
   for (let i=0; i < allSymbols.length; i++){
     const singleStock = stockTradingData ? stockTradingData[allSymbols[i]] : null
     const trimmedWeekly = singleStock ? extractChartPriceByDateWeekly(singleStock) : null
-    trimmedstockTradingData[allSymbols[i]] = trimmedWeekly
+    trimmedStockTradingData[allSymbols[i]] = trimmedWeekly
   }
 
+  const summaryGraphData = mergeGraphStocksData(trimmedStockTradingData, allAssets)
 
+  const summaryGraphDataTimeFrame = adjustDataByTime(summaryGraphData, selectedTimeFrame)
   
-	// Biga problema - existing backend fetch operates on an individually selected positions
-	// It is already looping over every position to fetch quotes, could use similar logic
-	// If we are going to get all of historical data of all the assets, what was the point of using a separate quote fetch
-	// It is possible to make a little ForcenCD. Since we are mostly operationg on the demo account, most of the heavy lifting can be done beforehand.
-	// Concern about ForcenCD path - what about period between last comprehensive update of assets history and current fetch.
-	// Could set up automatic fetches to keep demo account updated. Should be possible within free limits
-	// Actually why not to try automatically updating as much of the cache as possible. We are worling within limits anyway, might as well use them to the max.
-	// Would be enough to run scheduled refreshes during few night hours.
-	// Otherwise how to make it usable in real world by unpredictible user?
-
-  // map might be used for grouping data. Entire concept of summary graph is based on matching dates in individual objects.
-  // This is the direction for now, if works, might just leave it as it is.
-
 
 
   let content;
@@ -262,14 +250,19 @@ const PortfolioAssetsPage = () => {
         </MainContentBox>
       </div>
       <div className='summaryGraph'>
-				<MainContentBox>
+        <MainContentBox>
+          <TimeFrameOptions
+            selectedTimeFrame={selectedTimeFrame}
+            onOptionClick={(time) => setSelectedTimeFrame(time)}
+            timeRange={timeRange}
+          />
           <PriceAreaChart
-            chartData={data of the entire portfolio}
+            chartData={summaryGraphDataTimeFrame}
             XAxisDataKey="date"
             areaDataKey="close"
-            tickFormatter={pickDateLabel(selectedTimeFrame)} // this will be summed up data. Probably only need price and date on every data point.
+            tickFormatter={pickDateLabel(selectedTimeFrame)}
           />
-				</MainContentBox>
+        </MainContentBox>
       </div>
       {content}
     </div>

@@ -305,5 +305,5 @@ export const mergeGraphStocksData = ( allTrimmedData: { [symbol: string]: ChartP
     return acc
   }, {})
 
-  return Object.entries(summary).map(([date, value]) => ({ date, value }))
+  return Object.entries(summary).map(([date, close]) => ({ date, close, volume: 0 }))
 }

@@ -290,26 +290,20 @@ export const mergeFullAssetsWithCryptoQuotes = (quote: { [coin_id: string]: Cryp
 }
 
 
-export const mergeGraphStocksData = (allTrimmedData: { [symbol: string]: ChartPriceByDateWeekly[] | null }, allPortfolioAssets: MergedPortfolioAssets[]) => {
-  const data = Object.values(allTrimmedData) // stip off symbols
-  const rawValues = Object.values(data) // gives simpler array from this object [ [ {date: x, close: y, volume: z}, {date: x, close: y, volume: z} ], [ {date: x, close: y, volume: z}, {date: x, close: y, volume: z} ], null ]
-  const rawWaluesFiltered = rawValues ? rawValues.map((n)=>n.map(({date, close}) => ({date, close}))) : null
-  
+export const mergeGraphStocksData = ( allTrimmedData: { [symbol: string]: ChartPriceByDateWeekly[] | null }, allPortfolioAssets: MergedPortfolioAssets[] ) => {
+  const quantityBySymbol = allPortfolioAssets.reduce((acc: { [symbol: string]: number }, asset) => {
+    acc[asset.symbol] = asset.quantity
+    return acc
+  }, {})
 
+  const summary = Object.entries(allTrimmedData).reduce((acc: { [date: string]: number }, [symbol, series]) => {
+    if (!series) return acc
+    const quantity = quantityBySymbol[symbol] ?? 0
+    for (const { date, close } of series) {
+      acc[date] = (acc[date] || 0) + close * quantity
+    }
+    return acc
+  }, {})
 
-
-  let mergedData = {};
-  
-  for (let i=0; i<allPortfolioAssets.length; i++){
-    const amount = allPortfolioAssets[i]['quantity'] // individual position quantity
-    // now need to loop over entire allTrimmedData and combine values from the same date
-    // combination logic would be price * quantity
-    // try map first, sounds like the best tool here
-    // actually perhaps I should loop over the thing and build on new object, matching 
-    // Need to deconstruct those objects. Stuff like const items = [{ price: 10 }, { price: 20 }]
-    // const prices = items.map(({ price }) => price);
-    // Also can convert to an array 
-    // const obj = { a: 1, b: 2, c: 3 };
-    // Object.keys(obj);      // ['a', 'b', 'c']
-  }
+  return Object.entries(summary).map(([date, value]) => ({ date, value }))
 }

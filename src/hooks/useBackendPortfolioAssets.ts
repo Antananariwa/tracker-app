@@ -23,25 +23,27 @@ const useBackendPortfolioAssets = (symbols: string[]): UseBackendStockResult => 
 
       setLoading(true)
 
-      fetch(url)
-        .then(response => {
-          if (!response.ok) {
-            throw new Error(`Request failed with status ${response.status}`)
-          }
-          return response.json()
-        })
-        .then(result => {
-          allSymbolsData[symbols[i]] = result //creates key(symbol): value(result) pair
-          setData({...allSymbolsData})
-        })
-        .catch(error => {
-          allSymbolsData[symbols[i]] = null
-          setData({...allSymbolsData})
-          console.error('Error:', error)
-        })
-        .finally(() => {
-          setLoading(false)
-        })
+      setTimeout(() => {
+        fetch(url)
+          .then(response => {
+            if (!response.ok) {
+              throw new Error(`Request failed with status ${response.status}`)
+            }
+            return response.json()
+          })
+          .then(result => {
+            allSymbolsData[symbols[i]] = result.raw_data //creates key(symbol): value(result) pair
+            setData({...allSymbolsData})
+          })
+          .catch(error => {
+            allSymbolsData[symbols[i]] = null
+            setData({...allSymbolsData})
+            console.error('Error:', error)
+          })
+          .finally(() => {
+            setLoading(false)
+          })
+      }, i * 1200)
     }
   }, [symbols.join(",")])
 

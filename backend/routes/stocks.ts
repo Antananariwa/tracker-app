@@ -5,9 +5,9 @@ import finnhub from 'finnhub'
 const finnhubClient = new finnhub.DefaultApi(process.env.FINNHUB_KEY)
 
 type AlphaVantageWeeklyResponse = {
-  'Weekly Time Series'?: {
+  'Weekly Adjusted Time Series'?: {
     [date: string]: {
-      '4. close': string
+      '5. adjusted close': string
     }
   }
   'Error Message'?: string
@@ -43,7 +43,7 @@ function isCacheStale(fetchedAt: string) {
 }
 
 function extractLatestPrice(rawData: AlphaVantageWeeklyResponse) {
-  const timeSeries = rawData['Weekly Time Series']
+  const timeSeries = rawData['Weekly Adjusted Time Series']
   if (!timeSeries) return null
 
   const dates = Object.keys(timeSeries).sort((a, b) => b.localeCompare(a))
@@ -51,7 +51,7 @@ function extractLatestPrice(rawData: AlphaVantageWeeklyResponse) {
   if (!latestDate) return null
   const latestBar = timeSeries[latestDate]
   if (!latestBar) return null
-  return parseFloat(latestBar['4. close'])
+  return parseFloat(latestBar['5. adjusted close'])
 }
 
 router.get('/:symbol', async (req: Request<{ symbol: string }>, res: Response) => {
@@ -84,7 +84,7 @@ router.get('/:symbol', async (req: Request<{ symbol: string }>, res: Response) =
 
     const avUrl =
       `https://www.alphavantage.co/query` +
-      `?function=TIME_SERIES_WEEKLY` +
+      `?function=TIME_SERIES_WEEKLY_ADJUSTED` +
       `&symbol=${symbol}` +
       `&apikey=${process.env.ALPHA_VANTAGE_KEY}`
 

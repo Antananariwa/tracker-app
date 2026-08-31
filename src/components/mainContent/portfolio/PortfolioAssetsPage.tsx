@@ -13,10 +13,11 @@ import { extractChartPriceByDateWeekly, mergeGraphStocksData, adjustDataByTime, 
 import useBackendPortfolioAssets from '../../../hooks/useBackendPortfolioAssets.ts';
 import TimeFrameOptions from '../TimeFrameOptions'
 import { pickDateLabel } from '../../../utils/chartFormat'
+import useBackendPortfolioCrypto from '../../../hooks/useBackendPortfolioCrypto.ts';
 
 
 const PortfolioAssetsPage = () => {
-  const [selectedTimeFrame, setSelectedTimeFrame] = useState<StockGraphTimeFrame>('3M')
+  const [selectedTimeFrame, setSelectedTimeFrame] = useState<StockGraphTimeFrame>('20Y')
   const timeRange: StockGraphTimeFrame[] = ["1M", "3M", "6M", "YTD", "1Y", "3Y", "5Y", "10Y", "20Y"]
   const { data, loading, error } = useFullPortfolio();
   const assets = data ? preparePortfolioAssets(data) : [];
@@ -101,6 +102,8 @@ const PortfolioAssetsPage = () => {
 	// Summary portfolio graphs
   const allSymbols = mergedAssetsStocks.map(asset => asset.symbol)
 	const {data: stockTradingData, loading: loadingStock, error: errorStock} = useBackendPortfolioAssets(allSymbols)
+  const { data: cryptoTradingData } = useBackendPortfolioCrypto(assetArrayCoinId)
+
 
   const trimmedStockTradingData: { [symbol: string]: ChartPriceByDateWeekly[] | null } = {};
   for (let i=0; i < allSymbols.length; i++){

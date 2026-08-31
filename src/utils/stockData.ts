@@ -347,7 +347,7 @@ export const buildCryptoWeeklySeries = (
     let close: number
 
     if (date < firstDay) {
-      const progress = (new Date(date).getTime() - acquiredMs) / (firstMs - acqui
+      const progress = (new Date(date).getTime() - acquiredMs) / (firstMs - acquiredMs)
       close = avgBuyPrice + (firstPrice - avgBuyPrice) * progress
     } else {
       close = priceByDay[date] ?? lastPrice

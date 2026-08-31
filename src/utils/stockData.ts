@@ -1,4 +1,4 @@
-import type { CryptoQuote } from "./cryptoData"
+import type { CryptoQuote, CoinChartData } from "./cryptoData"
 
 export type AlphaVantageWeeklyResponse = {
   'Meta Data': {
@@ -7,13 +7,13 @@ export type AlphaVantageWeeklyResponse = {
     '3. Last Refreshed': string
     '4. Time Zone': string
   }
-  'Weekly Time Series': {
+  'Weekly Adjusted Time Series': {
     [date: string]: {
       '1. open': string
       '2. high': string
       '3. low': string
       '4. close': string
-      '5. volume': string
+      '6. volume': string
     }
   }
 }
@@ -121,9 +121,9 @@ export const extractStockOverview = (data: AlphaVantageWeeklyResponse): StockOve
 };
 
 export const extractLatestStockPrice = (data: AlphaVantageWeeklyResponse): LatestStockPrice | null => {
-  if (!data || !data['Weekly Time Series']) return null;
+  if (!data || !data['Weekly Adjusted Time Series']) return null;
   
-  const timeSeries = data['Weekly Time Series'];
+  const timeSeries = data['Weekly Adjusted Time Series'];
   const dates = Object.keys(timeSeries).sort((a, b) => b.localeCompare(a));
   const lastDate = dates[0];
   if (!lastDate) return null;
@@ -139,15 +139,15 @@ export const extractLatestStockPrice = (data: AlphaVantageWeeklyResponse): Lates
 };
 
 export const extractChartPriceByDateWeekly = (data: AlphaVantageWeeklyResponse): ChartPriceByDateWeekly[] => {
-  if (!data || !data['Weekly Time Series']) return [];
+  if (!data || !data['Weekly Adjusted Time Series']) return [];
 
-  const timeSeries = data['Weekly Time Series'];
+  const timeSeries = data['Weekly Adjusted Time Series'];
   const timeSeriesArrayReversed = Object.entries(timeSeries).sort((a, b) => a[0].localeCompare(b[0]));
   
   const preparedData = timeSeriesArrayReversed.map(([date, values]) => ({
     date: date, 
     close: parseFloat(values['4. close']),
-    volume: parseInt(values['5. volume'], 10)
+    volume: parseInt(values['6. volume'], 10)
   }))
 
   return preparedData;
@@ -296,14 +296,65 @@ export const mergeGraphStocksData = ( allTrimmedData: { [symbol: string]: ChartP
     return acc
   }, {})
 
+  const acquiredBySymbol = allPortfolioAssets.reduce((acc: { [symbol: string]: string }, asset) => {
+    acc[asset.symbol] = asset.acquiredAt
+    return acc
+  }, {})
+
   const summary = Object.entries(allTrimmedData).reduce((acc: { [date: string]: number }, [symbol, series]) => {
     if (!series) return acc
     const quantity = quantityBySymbol[symbol] ?? 0
+    const acquired = (acquiredBySymbol[symbol] ?? '').slice(0, 10)
     for (const { date, close } of series) {
+      if (date < acquired) continue
       acc[date] = (acc[date] || 0) + close * quantity
     }
     return acc
   }, {})
 
-  return Object.entries(summary).map(([date, close]) => ({ date, close, volume: 0 }))
+  return Object.entries(summary)
+    .map(([date, close]) => ({ date, close, volume: 0 }))
+    .sort((a, b) => a.date.localeCompare(b.date))
+}
+
+
+export const buildCryptoWeeklySeries = (
+  dailySeries: CoinChartData[],
+  weeklyDates: string[],
+  acquiredAt: string,
+  avgBuyPrice: number
+): ChartPriceByDateWeekly[] => {
+  if (!dailySeries || dailySeries.length === 0) return []
+
+  const priceByDay: { [date: string]: number } = {}
+  for (const point of dailySeries) {
+    priceByDay[point.date] = point.price
+  }
+
+  const acquiredDay = acquiredAt.slice(0, 10)
+  const firstDay = dailySeries[0].date
+  const firstPrice = dailySeries[0].price
+  const lastPrice = dailySeries[dailySeries.length - 1].price
+
+  const acquiredMs = new Date(acquiredDay).getTime()
+  const firstMs = new Date(firstDay).getTime()
+
+  const series: ChartPriceByDateWeekly[] = []
+
+  for (const date of weeklyDates) {
+    if (date < acquiredDay) continue
+
+    let close: number
+
+    if (date < firstDay) {
+      const progress = (new Date(date).getTime() - acquiredMs) / (firstMs - acqui
+      close = avgBuyPrice + (firstPrice - avgBuyPrice) * progress
+    } else {
+      close = priceByDay[date] ?? lastPrice
+    }
+
+    series.push({ date, close, volume: 0 })
+  }
+
+  return series
 }

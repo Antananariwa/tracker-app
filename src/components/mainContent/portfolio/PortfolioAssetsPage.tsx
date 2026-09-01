@@ -9,11 +9,12 @@ import usePortfolioCryptoQuotes from '../../../hooks/usePortfolioCryptoQuotes';
 import { formatCurrency, formatPercentChange } from '../../../utils/format';
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts';
 import PriceAreaChart from '../displays/graphs/PriceAreaChart';
-import { extractChartPriceByDateWeekly, mergeGraphStocksData, adjustDataByTime, type ChartPriceByDateWeekly, type StockGraphTimeFrame } from '../../../utils/stockData'
+import { extractChartPriceByDateWeekly, mergeGraphStocksData, adjustDataByTime, buildCryptoWeeklySeries, type ChartPriceByDateWeekly, type StockGraphTimeFrame } from '../../../utils/stockData'
 import useBackendPortfolioAssets from '../../../hooks/useBackendPortfolioAssets.ts';
 import TimeFrameOptions from '../TimeFrameOptions'
 import { pickDateLabel } from '../../../utils/chartFormat'
 import useBackendPortfolioCrypto from '../../../hooks/useBackendPortfolioCrypto.ts';
+import { extractCoinChartData } from '../../../utils/cryptoData'
 
 
 const PortfolioAssetsPage = () => {
@@ -97,6 +98,23 @@ const PortfolioAssetsPage = () => {
   .map(a => ({ name: a.symbol, value: a.currentValue as number }))
   .sort((a, b) => b.value - a.value);
 
+  const valueByCategory = allAssets.reduce((acc: { [category: string]: number }, asset) => {
+    if (asset.currentValue != null) {
+      acc[asset.category] = (acc[asset.category] || 0) + asset.currentValue
+    }
+    return acc
+  }, {})
+
+  const categoryData = Object.entries(valueByCategory)
+    .map(([name, value]) => ({ name, value }))
+    .sort((a, b) => b.value - a.value)
+
+  const categoryLabels: { [category: string]: string } = {
+    stock: 'Stocks',
+    crypto: 'Crypto',
+    real_estate: 'Real Estate',
+  }
+
   const sliceColor = (index: number) => `hsl(${(index * 137.508) % 360}, 65%, 60%)`;
 
 	// Summary portfolio graphs
@@ -112,7 +130,29 @@ const PortfolioAssetsPage = () => {
     trimmedStockTradingData[allSymbols[i]] = trimmedWeekly
   }
 
-  const summaryGraphData = mergeGraphStocksData(trimmedStockTradingData, allAssets)
+  const weeklyDateSet = new Set<string>()
+  let cutoff = ''
+  for (let i = 0; i < allSymbols.length; i++){
+    const series = trimmedStockTradingData[allSymbols[i]]
+    if (!series || series.length === 0) continue
+    for (const point of series){
+      weeklyDateSet.add(point.date)
+    }
+    const lastDate = series[series.length - 1].date
+    if (cutoff === '' || lastDate < cutoff) cutoff = lastDate
+  }
+  const weeklyDates = Array.from(weeklyDateSet).sort((a, b) => a.localeCompare(b))
+
+  const cryptoAssets = assets.filter(asset => asset.category === 'crypto')
+  const cryptoWeeklyBySymbol: { [symbol: string]: ChartPriceByDateWeekly[] | null } = {}
+  for (let i = 0; i < cryptoAssets.length; i++){
+    const asset = cryptoAssets[i]
+    const raw = cryptoTradingData ? cryptoTradingData[asset.coinId] : null
+    const daily = raw ? extractCoinChartData(raw) : []
+    cryptoWeeklyBySymbol[asset.symbol] = buildCryptoWeeklySeries(daily, weeklyDates, asset.acquiredAt, asset.avgBuyPrice)
+  }
+
+  const summaryGraphData = mergeGraphStocksData({ ...trimmedStockTradingData, ...cryptoWeeklyBySymbol }, allAssets).filter(point => point.date <= cutoff)
 
   const summaryGraphDataTimeFrame = adjustDataByTime(summaryGraphData, selectedTimeFrame)
   
@@ -219,6 +259,31 @@ const PortfolioAssetsPage = () => {
             <p>5Y {avgCAGR_5Y.toFixed(2)}%</p>
           </div>
         </MainContentBox>
+        <MainContentBox className='summarySmallBox'>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', gap: 14, height: '100%' }}>
+            <div style={{ width: 110, height: 110, flexShrink: 0 }}>
+              <ResponsiveContainer>
+                <PieChart>
+                  <Pie data={categoryData} dataKey="value" nameKey="name" innerRadius="45%" outerRadius="82%">
+                    {categoryData.map((slice, index) => (
+                      <Cell key={slice.name} fill={sliceColor(index)} />
+                    ))}
+                  </Pie>
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
+
+            <ul style={{ listStyle: 'none', margin: 0, padding: 0 }}>
+              {categoryData.map((slice, index) => (
+              <li key={slice.name} style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: 10 }}>
+                <span style={{ width: 10, height: 10, borderRadius: 2, background: sliceColor(index) }} />
+                <span>{categoryLabels[slice.name] ?? slice.name}</span>
+                <span>{formatCurrency(slice.value, 'USD')}</span>
+              </li>
+              ))}
+            </ul>
+          </div>
+        </MainContentBox>        
         <MainContentBox className='summarySmallBox'>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', gap: 14, height: '100%' }}>
             <div style={{ width: 110, height: 110, flexShrink: 0 }}>

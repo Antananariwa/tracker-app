@@ -155,8 +155,16 @@ const PortfolioAssetsPage = () => {
   const summaryGraphData = mergeGraphStocksData({ ...trimmedStockTradingData, ...cryptoWeeklyBySymbol }, allAssets).filter(point => point.date <= cutoff)
 
   const summaryGraphDataTimeFrame = adjustDataByTime(summaryGraphData, selectedTimeFrame)
-  
+  let todayChange = 0
+  for (let i = 0; i < mergedAssetsStocks.length; i++){
+    const asset = mergedAssetsStocks[i]
+    const quote = quoteStockPrices ? quoteStockPrices[asset.symbol] : null
+    if (quote) todayChange += quote.change * asset.quantity
+  }
 
+  const lastValue = summaryGraphData[summaryGraphData.length - 1]?.close ?? 0
+  const monthAgoValue = summaryGraphData[summaryGraphData.length - 5]?.close ?? 0
+  const monthChange = lastValue - monthAgoValue
 
   let content;
 
@@ -311,9 +319,19 @@ const PortfolioAssetsPage = () => {
         </MainContentBox>
         <MainContentBox className='summarySmallBox'>
           <div>
-            'Today change'
-            number: +$311.22
-            Percentage with perhaps arrow.
+            <p>Change</p>
+            <p>
+              <span className={`delta-shape ${todayChange >= 0 ? 'up' : 'down'}`}>
+                {todayChange >= 0 ? '▲' : '▼'} {formatCurrency(Math.abs(todayChange), 'USD')}
+              </span>
+              Today
+            </p>
+            <p>
+              <span className={`delta-shape ${monthChange >= 0 ? 'up' : 'down'}`}>
+                {monthChange >= 0 ? '▲' : '▼'} {formatCurrency(Math.abs(monthChange), 'USD')}
+              </span>
+              Month
+            </p>
           </div>
         </MainContentBox>
       </div>

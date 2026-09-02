@@ -67,7 +67,7 @@ const PortfolioAssetsPage = () => {
   let accountRetrunPercentage = 0;
   assetsTotalCost ? accountRetrunPercentage = accountReturnNumber/assetsTotalCost * 100 : 0;
 
-  let averageCAGR = 0; // Σ(CAGR_i × purchaseCost_i) / Σ(purchaseCost_i)
+  let avgRate = 0; // weighted average annual return as a decimal, e.g. 0.125
   let sumCAGR_pur_cost = 0;
   let sumPurchaseCost = 0;
 
@@ -88,9 +88,10 @@ const PortfolioAssetsPage = () => {
     }
   }
 
-  sumPurchaseCost != 0 ? averageCAGR =  sumCAGR_pur_cost * 100 / sumPurchaseCost  : null
-  const avgCAGR_3Y = (((1 + averageCAGR ) **  3) - 1) * 100
-  const avgCAGR_5Y = (((1 + averageCAGR ) **  5) - 1) * 100
+  sumPurchaseCost != 0 ? avgRate = sumCAGR_pur_cost / sumPurchaseCost : null
+  const averageCAGR = avgRate * 100
+  const avgCAGR_3Y = (((1 + avgRate) ** 3) - 1) * 100
+  const avgCAGR_5Y = (((1 + avgRate) ** 5) - 1) * 100
 
 
   const pieData = allAssets
@@ -250,107 +251,115 @@ const PortfolioAssetsPage = () => {
   }
 
   return (
-    <div>
-      <div className='summaryPanel tableWidth'>
-        <MainContentBox className='summaryBigBox'>
-          <div>
-            <p>Account Value</p>
-            <p>Total ${accountValue}</p>
-            <p>Return ${accountReturnNumber} {accountRetrunPercentage.toFixed(2)}% </p>
-          </div>
-        </MainContentBox>
-        <MainContentBox className='summarySmallBox'>
-          <div>
-            <p>Avg Annual Return</p>
-            <p>1Y {averageCAGR.toFixed(2)}%</p>
-            <p>3Y {avgCAGR_3Y.toFixed(2)}%</p>
-            <p>5Y {avgCAGR_5Y.toFixed(2)}%</p>
-          </div>
-        </MainContentBox>
-        <MainContentBox className='summarySmallBox'>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', gap: 14, height: '100%' }}>
-            <div style={{ width: 110, height: 110, flexShrink: 0 }}>
-              <ResponsiveContainer>
-                <PieChart>
-                  <Pie data={categoryData} dataKey="value" nameKey="name" innerRadius="45%" outerRadius="82%">
-                    {categoryData.map((slice, index) => (
-                      <Cell key={slice.name} fill={sliceColor(index)} />
-                    ))}
-                  </Pie>
-                </PieChart>
-              </ResponsiveContainer>
-            </div>
+    <div className="portfolioLayout">
+      <div className="portfolioMain">
 
-            <ul style={{ listStyle: 'none', margin: 0, padding: 0 }}>
-              {categoryData.map((slice, index) => (
-              <li key={slice.name} style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: 10 }}>
-                <span style={{ width: 10, height: 10, borderRadius: 2, background: sliceColor(index) }} />
-                <span>{categoryLabels[slice.name] ?? slice.name}</span>
-                <span>{formatCurrency(slice.value, 'USD')}</span>
-              </li>
-              ))}
-            </ul>
+        <div className="summaryRow">
+          <div className="summaryTile heroTile">
+            <p className="tileLabel">Account Value</p>
+            <p className="tileValue">{formatCurrency(accountValue, 'USD')}</p>
+            <p className="tileDelta">
+              <span className={`delta-shape ${accountReturnNumber >= 0 ? 'up' : 'down'}`}>
+                {accountReturnNumber >= 0 ? '▲' : '▼'} {formatCurrency(Math.abs(accountReturnNumber), 'USD')} ({accountReturnNumber >= 0 ? '+' : ''}{accountRetrunPercentage.toFixed(2)}%)
+              </span>
+              <span className="tilePeriod">overall</span>
+            </p>
           </div>
-        </MainContentBox>        
-        <MainContentBox className='summarySmallBox'>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', gap: 14, height: '100%' }}>
-            <div style={{ width: 110, height: 110, flexShrink: 0 }}>
-              <ResponsiveContainer>
-                <PieChart>
-                  <Pie data={pieData} dataKey="value" nameKey="name" innerRadius="45%" outerRadius="82%">
-                    {pieData.map((slice, index) => (
-                      <Cell key={slice.name} fill={sliceColor(index)} />
-                    ))}
-                  </Pie>
-                </PieChart>
-              </ResponsiveContainer>
-            </div>
 
-            <ul style={{ listStyle: 'none', margin: 0, padding: 0 }}>
-              {pieData.map((slice, index) => (
-              <li key={slice.name} style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: 10 }}>
-                <span style={{ width: 10, height: 10, borderRadius: 2, background: sliceColor(index) }} />
-                <span>{((slice.value / accountValue) * 100).toFixed(1)}%</span>
-                <span>{slice.name}</span>
-              </li>
-              ))}
-            </ul>
+          <div className="summaryTile">
+            <p className="tileLabel">Avg Annual Return</p>
+            <p className="tileValue">+{averageCAGR.toFixed(2)}%</p>
+            <p className="tileSub">3Y +{avgCAGR_3Y.toFixed(2)}%</p>
+            <p className="tileSub">5Y +{avgCAGR_5Y.toFixed(2)}%</p>
           </div>
-        </MainContentBox>
-        <MainContentBox className='summarySmallBox'>
-          <div>
-            <p>Change</p>
-            <p>
+
+          <div className="summaryTile">
+            <p className="tileLabel">Wealth Distribution</p>
+            <div className="donutTileBody">
+              <div className="donutMini">
+                <ResponsiveContainer>
+                  <PieChart>
+                    <Pie data={categoryData} dataKey="value" nameKey="name" innerRadius="45%" outerRadius="85%">
+                      {categoryData.map((slice, index) => (
+                        <Cell key={slice.name} fill={sliceColor(index)} />
+                      ))}
+                    </Pie>
+                  </PieChart>
+                </ResponsiveContainer>
+              </div>
+              <ul className="donutLegend">
+                {categoryData.map((slice, index) => (
+                  <li key={slice.name}>
+                    <span className="legendDot" style={{ background: sliceColor(index) }} />
+                    <span className="legendName">{categoryLabels[slice.name] ?? slice.name}</span>
+                    <span className="legendValue">{formatCurrency(slice.value, 'USD')}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
+          <div className="summaryTile">
+            <p className="tileLabel">Change</p>
+            <p className="tileDelta">
               <span className={`delta-shape ${todayChange >= 0 ? 'up' : 'down'}`}>
                 {todayChange >= 0 ? '▲' : '▼'} {formatCurrency(Math.abs(todayChange), 'USD')}
               </span>
-              Today
+              <span className="tilePeriod">today</span>
             </p>
-            <p>
+            <p className="tileDelta">
               <span className={`delta-shape ${monthChange >= 0 ? 'up' : 'down'}`}>
                 {monthChange >= 0 ? '▲' : '▼'} {formatCurrency(Math.abs(monthChange), 'USD')}
               </span>
-              Month
+              <span className="tilePeriod">month</span>
             </p>
           </div>
-        </MainContentBox>
+        </div>
+
+        <div className="summaryGraph">
+          <MainContentBox>
+            <TimeFrameOptions
+              selectedTimeFrame={selectedTimeFrame}
+              onOptionClick={(time) => setSelectedTimeFrame(time)}
+              timeRange={timeRange}
+            />
+            <PriceAreaChart
+              chartData={summaryGraphDataTimeFrame}
+              XAxisDataKey="date"
+              areaDataKey="close"
+              tickFormatter={pickDateLabel(selectedTimeFrame)}
+            />
+          </MainContentBox>
+        </div>
+
+        {content}
       </div>
-      <div className='summaryGraph'>
-        <MainContentBox>
-          <TimeFrameOptions
-            selectedTimeFrame={selectedTimeFrame}
-            onOptionClick={(time) => setSelectedTimeFrame(time)}
-            timeRange={timeRange}
-          />
-          <PriceAreaChart
-            chartData={summaryGraphDataTimeFrame}
-            XAxisDataKey="date"
-            areaDataKey="close"
-            tickFormatter={pickDateLabel(selectedTimeFrame)}
-          />
-        </MainContentBox>
-      </div>
-      {content}
+
+      <aside className="portfolioRail">
+        <div className="railPanel">
+          <p className="tileLabel">Asset Allocation</p>
+          <div className="wheelWrap">
+            <ResponsiveContainer>
+              <PieChart>
+                <Pie data={pieData} dataKey="value" nameKey="name" innerRadius="34%" outerRadius="90%">
+                  {pieData.map((slice, index) => (
+                    <Cell key={slice.name} fill={sliceColor(index)} />
+                  ))}
+                </Pie>
+              </PieChart>
+            </ResponsiveContainer>
+          </div>
+          <ul className="wheelLegend">
+            {pieData.map((slice, index) => (
+              <li key={slice.name}>
+                <span className="legendDot" style={{ background: sliceColor(index) }} />
+                <span className="legendName">{slice.name}</span>
+                <span className="legendPct">{((slice.value / accountValue) * 100).toFixed(1)}%</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </aside>
     </div>
   )
 }

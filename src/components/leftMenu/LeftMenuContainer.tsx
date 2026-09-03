@@ -19,6 +19,14 @@ const LeftMenuContainer = ({
 
             <Button 
               variant={'secondary'}
+              className={location.pathname === '/portfolio/main' ? 'optionButtons is-active' : 'optionButtons'}
+              onClick={()=>navigate('/portfolio/main')}
+            >
+              Main
+            </Button>
+
+            <Button 
+              variant={'secondary'}
               className={location.pathname === '/portfolio/stocks' ? 'optionButtons is-active' : 'optionButtons'}
               onClick={()=>navigate('/portfolio/stocks')}
             >

@@ -62,9 +62,6 @@ AlphaVantage returns its time series newest-first. Stored in `jsonb`, the keys c
 ### State-driven UI, not DOM-driven
 Timeframe button active state uses React state (`selectedTimeFrame`) as the source of truth, not the CSS `:focus` pseudo-class. `:focus` tracks which DOM element last received input, not which value the app has selected — clicking elsewhere or tabbing away silently breaks the visual. State-driven conditional classes re-evaluate on every render and stay consistent with the actual app state.
 
-### Verification and cleanup as separate branches
-End-to-end verification and dead-code deletion were split into two branches: one "verified and fixed", one "dead code removed" with no logic changes. Keeps git history readable and lets either be reverted independently without entangling fix work with deletion work. Phase boundaries are the right moment to clean up — leaving legacy paths until the next asset class makes "keep old code around" compound.
-
 ### Symbol catalog as a separate table
 The stock listings table is its own table, not a category inside `price_cache`. Different lifecycles: prices refresh row-at-a-time on a short schedule; the catalog refreshes atomically on a long one. Mixing them forces one pattern on both.
 
@@ -78,10 +75,10 @@ PostgREST caps SELECTs at 1000 rows by default. `.limit(N)` and `.range()` above
 All rows in the listings catalog share one `fetched_at` from the same upsert, so the age of any row reveals the age of the table. The probe uses `.order('fetched_at', desc).limit(1)` rather than an arbitrary first row — conservative toward freshness if the invariant ever breaks. Valid only for atomic-refresh tables; row-at-a-time tables like `price_cache` need per-row checks.
 
 ### Parameterise only when generality is confirmed
-`useSymbolCatalog(category)` took a parameter while only `/stocks` existed, because the next phase was already known to add `/crypto` to the same `symbols` route. Rule: parameterise when generality is confirmed by near-term plans, not on speculation. Phase 2 has since shipped `/crypto`, validating the call.
+`useCatalog(category)` took a parameter while only `/stocks` existed, because the next phase was already known to add `/crypto` to the same `symbols` route. Rule: parameterise when generality is confirmed by near-term plans, not on speculation. Phase 2 has since shipped `/crypto`, validating the call.
 
-### URL inconsistency: `/api/stocks/:symbol` vs `/api/symbols/stocks`
-Inverted noun ordering between the price route and the catalog route. Awkward but not fixed now — the rename touches backend, route file, and frontend hook. Revisit in Phase 5 with crypto built; likely target is resource-first (`/api/stocks/catalog`, `/api/stocks/:symbol`).
+### URL inconsistency resolved: catalog moved to /api/catalog
+The two routes were named in opposite orders. The stock price route put the asset type first (/api/stocks/:symbol), while the catalog route put it last (/api/symbols/stocks), so the two never lined up and it waas bothering me. Fixed by giving the catalog its own name: /api/catalog/stocks and /api/catalog/crypto, served by catalog.ts and read by useCatalog. Price and quote for a single stock still sit under /api/stocks.
 
 ### CSV handling for AlphaVantage
 The listings endpoint returns CSV — the only AV endpoint that does. Read with `fetch().text()`, not `.json()`. Parse with `csv-parse/sync` and `columns: true`; hand-parsing breaks on quoted commas. Missing dates arrive as the literal string `"null"` and must be coerced to real `null` before Postgres accepts them in `date` columns.
@@ -109,6 +106,7 @@ Cross-component access to "who is logged in" needs a React-aware mirror of the S
 
 ## Phase 2 — Crypto
 
+
 ### Graph time-range slicing assumes fixed-interval data points
 Slicing the chart to a selected range takes the last N points rather than parsing dates. This assumes each point is a fixed interval: one week per point for stocks (AlphaVantage weekly), one day per point for crypto (CoinGecko daily). Under that assumption a range is just a count — no date arithmetic. It holds only while each API returns evenly spaced points at the expected interval; if an API changes granularity, the point-to-time mapping breaks and the slicing needs revisiting. Worth monitoring.
 
@@ -125,3 +123,41 @@ Each cached data type has its own freshness window, set as a constant in the rel
 Previously Crypto page was handling those itself, causing unexpected problems.
 Now we are rendering the header and search bar unconditionally and letting each `ApiDataBox` show its own loading/error inside the
 box.
+
+---
+
+## Phase 2 — Portfolio enrichment
+
+
+### Return failures do not record why
+`AssetReturnData` in `src/utils/stockData.ts` stores each value as `number | null`. `null` says a value is missing but not why. A fetch can fail, a value can be temporarily unavailable, or an asset may simply have no such value. Those are different situations a user may need told apart, and a single `null` cannot express which one happened. How to carry the reason is unresolved and left open. Today every missing value renders the same.
+
+### Currency handling unresolved
+Asset values are stored as raw numbers, with no currency tracking or conversion. The core feature of this project is a single combined total across all assets, and that total only means anything once every value is in the same currency. Right now nothing records which currency an asset is in, and mixing currencies into one figure has no handling at all. This has to be solved before the combined total can be trusted. The open questions, are where an asset's currency should live and how differing currencies are being combined.
+
+### A type on fetched data is trusted, not verified
+`response.json()` returns `any`, and `any` fits into any type you declare without complaint. So a type on fetched data is a promise the compiler takes on trust, not something it verifies. Get the shape wrong and nothing flags it at the assignment. It breaks later, wherever a missing field gets read, far from the line that assumed it.
+
+Learned it hard way. The crypto quotes hook was typed `CoinGeckoResponse`, but the backend nests that payload under `raw_data`, so what got stored was the full response, not the part I actually wanted. No type error anywhere, then a crash in the merge reading `.prices`, which really lived one level down under `raw_data`.
+
+Example of the mistake:
+```ts
+const allQuotes: { [coin_id: string]: CoinGeckoResponse } = {}  // claims every value is a CoinGeckoResponse, so .prices should exist
+const result = await response.json()  // response.json() is typed any, shape unknown and unchecked
+allQuotes[coin_id] = result  // wrong step: any slots into CoinGeckoResponse with no check
+const price = allQuotes[coin_id].prices[0][1]  // trusts .prices from the type, but the stored object has none, so it crashes
+```
+
+### A second provider for live prices
+AlphaVantage's free tier is too limited to price a whole portfolio on every load, so live quotes come from Finnhub, which suits frequent single lookups. AlphaVantage stays the history source, since Finnhub charges for history. Crypto already gets a fresh price from CoinGecko and needs nothing new. The point is to pick each provider for the job its free tier handles well, not force one to do everything.
+
+### Simple return first, timeframe return later
+This step shows what a holding is worth now and its gain or loss against cost, from the latest price. Return over a chosen window waits, because it needs price history for every holding and there is no cheap way to fetch that yet. The simple return stands on its own, so it ships first.
+
+### An assets row is a position, not a purchase
+The assets table records what a user holds now, one row per asset, not a log of trades. How a position was built, across several buys or sells, belongs to a future transactions ledger that would feed this table later. For now the numbers on the row are set by hand and read as they stand.
+
+### Store the crypto id, do not guess it
+A ticker can point to many coins, so it is a weak key for pricing. When a coin is added its confirmed CoinGecko id is saved on the row and used directly, while the ticker stays for display. A per user uniqueness rule keeps one row per held asset.
+
+---

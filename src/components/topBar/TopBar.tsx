@@ -15,7 +15,7 @@ const TopBar = () => {
       console.error('Login failed:', error.message)
       return
     }
-    navigate('/portfolio/stocks')
+
   }
 
   return (

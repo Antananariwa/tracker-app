@@ -4,6 +4,14 @@ export type CoinGeckoResponse = {
   "total_volumes": [date: number, value: number][],
 }
 
+export type CryptoQuote = {
+  coin_id: string
+  price: number
+  source: string
+  fetched_at: string
+  raw_data: CoinGeckoResponse
+}
+
 export type LatestCryptoPrice = {
   date: number
   price: number

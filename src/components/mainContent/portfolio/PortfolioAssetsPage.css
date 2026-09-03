@@ -1,0 +1,151 @@
+.portfolioLayout {
+  display: grid;
+  grid-template-columns: 1fr 260px;
+  gap: 16px;
+  align-items: start;
+  max-width: 1480px;
+  margin-inline: auto;
+}
+
+.portfolioMain {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+
+/* Top summary tiles */
+
+.summaryRow {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1fr;
+  gap: 14px;
+}
+
+.summaryTile {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.tileLabel {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-3);
+}
+
+.tileValue {
+  font-size: 26px;
+  font-weight: 650;
+}
+
+.heroTile .tileValue {
+  font-size: 40px;
+  line-height: 1.1;
+}
+
+.tileSub {
+  font-size: 12.5px;
+  color: var(--text-3);
+}
+
+.tileDelta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+}
+
+.tilePeriod {
+  color: var(--text-3);
+}
+
+
+.donutTileBody {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.donutMini {
+  width: 84px;
+  height: 84px;
+  flex-shrink: 0;
+}
+
+.donutLegend {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+}
+
+.donutLegend li {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+}
+
+.legendDot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.legendName {
+  color: var(--text-2);
+}
+
+.legendValue {
+  margin-left: auto;
+  color: var(--text-3);
+  font-variant-numeric: tabular-nums;
+}
+
+
+/* Right pie panel  */
+
+.wheelWrap {
+  width: 100%;
+  height: 200px;
+  margin: 10px 0 12px;
+}
+
+.wheelLegend {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.wheelLegend li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+}
+
+.wheelLegend .legendPct {
+  margin-left: auto;
+  color: var(--text-3);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Tiles: 4 across, then 2, then 1, as the core loses room */
+@media (max-width: 1440px) {
+  .summaryRow { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 680px) {
+  .summaryRow { grid-template-columns: 1fr; }
+}
+
+/* Pie drops below the core on narrow screens */
+@media (max-width: 1024px) {
+  .portfolioLayout { grid-template-columns: 1fr; }
+}

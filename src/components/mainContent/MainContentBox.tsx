@@ -3,11 +3,12 @@ import './MainContentBox.css'
 
 type MainContentBoxProps = {
   children: ReactNode
+  className?: string
 }
 
-const MainContentBox = ({ children }: MainContentBoxProps) => {
+const MainContentBox = ({ children, className }: MainContentBoxProps) => {
   return (
-    <div className="MainContentBoxDiv">
+    <div className={className ? `MainContentBoxDiv ${className}` : 'MainContentBoxDiv'}>
       {children}
     </div>
   )

@@ -1,0 +1,29 @@
+.pageWidthLimit {
+  max-width: var(--page-max-width);
+  margin-inline: auto;
+}
+
+.tableWidth {
+  max-width: var(--table-max-width);
+  margin-inline: auto;
+}
+
+.graphWidth {
+  max-width: var(--graph-max-width);
+  margin-inline: auto;
+}
+
+.up   { color: var(--pos); }
+.down { color: var(--neg); }
+
+.delta-shape {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 12.5px;
+  font-weight: 650;
+   white-space: nowrap;
+}
+
+.delta-shape.up   { background: var(--pos-soft); }
+.delta-shape.down { background: var(--neg-soft); }

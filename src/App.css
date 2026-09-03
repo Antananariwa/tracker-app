@@ -9,9 +9,3 @@
   min-height: calc(100vh - var(--topbar-h));
   min-width: 600px;
 }
-
-.contentDiv > * {
-  max-width: var(--content-max);
-  margin-left: auto;
-  margin-right: auto;
-}

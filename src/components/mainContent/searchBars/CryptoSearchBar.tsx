@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import './CryptoSearchBar.css';
-import useSymbolCatalog, { type CryptoSymbol } from '../../../hooks/useSymbolCatalog'
+import useSymbolCatalog, { type CryptoSymbol } from '../../../hooks/useCatalog'
 
 type CryptoSearchBarProps = {
   onCryptoSelect: (symbol: string) => void

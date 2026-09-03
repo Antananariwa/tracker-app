@@ -9,7 +9,7 @@ export type UsePortfolioResult = {
   error: Error | null
 }
 
-const usePortfolio = (category: 'stock' | 'crypto'): UsePortfolioResult => {
+export const usePortfolio = (category?: 'stock' | 'crypto'): UsePortfolioResult => {
   const { session } = useAuth()
   const [data, setData] = useState<SupabaseAssetsTable[] | null>(null)
   const [loading, setLoading] = useState(true)
@@ -43,4 +43,34 @@ const usePortfolio = (category: 'stock' | 'crypto'): UsePortfolioResult => {
   return { data, loading, error }
 }
 
-export default usePortfolio
+export const useFullPortfolio = (): UsePortfolioResult => {
+  const { session } = useAuth()
+  const [data, setData] = useState<SupabaseAssetsTable[] | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<Error | null>(null)
+
+  useEffect(() => {
+    setLoading(true)
+
+    if (!session) {
+      setData(null)
+      setLoading(false)
+      return
+    }
+
+    supabase
+      .from('assets')
+      .select('*')
+      .then(({ data, error }: { data: SupabaseAssetsTable[] | null; error: Error | null }) => {
+        if (error) {
+          setError(error)
+          console.error('Supabase error:', error.message)
+        } else {
+          setData(data)
+        }
+        setLoading(false)
+      })
+  }, [session])
+
+  return { data, loading, error }
+}

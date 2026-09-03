@@ -1,7 +1,6 @@
 :root {
   --topbar-h: 50px;
   --sidebar-w: 180px;
-  --content-max: 1200px;
 
   --bg: #0e0e10;
   --surface-1: #18181b;
@@ -32,6 +31,10 @@
   --speed: 110ms;
   --ease: ease-out;
 
+  --page-max-width: 2000px;
+  --table-max-width: 1800px;
+  --graph-max-width: 1200px;
+
   font-family: system-ui, -apple-system, "Segoe UI", Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.45;
   font-weight: 400;
@@ -60,20 +63,6 @@ html {
   outline-offset: 2px;
   border-radius: var(--radius);
 }
-
-.up   { color: var(--pos); }
-.down { color: var(--neg); }
-
-.delta-pill {
-  display: inline-block;
-  padding: 3px 10px;
-  border-radius: 999px;
-  font-size: 12.5px;
-  font-weight: 650;
-}
-
-.delta-pill.up   { background: var(--pos-soft); }
-.delta-pill.down { background: var(--neg-soft); }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

@@ -20,8 +20,11 @@ Stores all user-owned assets (stocks, crypto, real estate, custom). Single share
 | status | text | `'hold'` | NO | Allowed values enforced by CHECK (see below) |
 | acquired_at | date | none | YES | Actual purchase date (distinct from created_at) |
 | created_at | timestamptz | `now()` | YES | Row creation timestamp |
+| coin_id | text | none | YES | CoinGecko coin id. Required for crypto rows, null for everything else (see constraints) |
  
 **Constraints:** CHECK on `category` (`'stock'`, `'crypto'`, `'real_estate'`; `'custom'` planned for Phase 4) and CHECK on `status` (`'hold'`, `'to_sell'`, `'watching'`). These mirror the TypeScript unions in the frontend types.
+
+**Crypto identity constraints:** `coin_id` holds the CoinGecko id used for crypto pricing, since a ticker alone can map to many coins. A CHECK requires every crypto row to have a `coin_id`. Two partial unique indexes enforce one position per user: `(user_id, coin_id)` for crypto rows and `(user_id, symbol)` for stock rows.
  
 **RLS:** Enabled. Users can only SELECT, INSERT, UPDATE, DELETE their own rows (`user_id = auth.uid()`).
  
@@ -42,6 +45,22 @@ Shared cache of stock prices fetched from AlphaVantage. No user ownership. Backe
  
 **RLS:** Enabled. Authenticated users can SELECT only. Backend uses service_role key to write (bypasses RLS).
  
+---
+
+## Table: `stock_quote_cache`
+
+Shared cache of live stock quotes fetched from Finnhub. Kept separate from `stock_price_cache` because a live quote goes stale in minutes while history lasts about a week. No user ownership. Backend writes via service_role key.
+
+| Column | Type | Default | Nullable | Notes |
+|--------|------|---------|----------|-------|
+| id | uuid | `gen_random_uuid()` | NO | Primary key |
+| symbol | text | none | NO | UNIQUE, one cache row per ticker |
+| current_price | numeric | none | NO | Latest live price |
+| fetched_at | timestamptz | `now()` | YES | When this row was last fetched (per-row freshness) |
+| raw_data | jsonb | `{}` | NO | Full Finnhub quote response as JSON |
+
+**RLS:** Enabled, no policies. Backend-only access via service_role key.
+
 ---
  
 ## Table: `stock_alphavantage_listings`

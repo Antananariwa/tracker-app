@@ -8,7 +8,7 @@ const LoginPage = () => {
   
   return (
     <div className='loginPageWrapper'>
-      <MainContentBox>
+      <MainContentBox className="padded gapBelow">
           <h4>Username</h4>
           <input></input>
           <br/>

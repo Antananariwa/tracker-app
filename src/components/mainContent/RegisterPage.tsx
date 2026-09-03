@@ -5,7 +5,7 @@ import Button from '../ui/Button'
 const RegisterPage = () => {
   return (
     <div className='registerPageWrapper'>
-      <MainContentBox>
+      <MainContentBox className="padded gapBelow">
         <h4>Username</h4>
         <input></input>
         <br/>

@@ -4,6 +4,9 @@ declare namespace NodeJS {
     SUPABASE_SERVICE_KEY: string
     ALPHA_VANTAGE_KEY: string
     COINGECKO_API_KEY: string
+    FINNHUB_KEY: string
     PORT?: string
   }
 }
+
+declare module 'finnhub'

@@ -26,14 +26,14 @@ const StockBrowsePage = () => {
   const timeRange: StockGraphTimeFrame[] = ["1M", "3M", "6M", "YTD", "1Y", "3Y", "5Y", "10Y", "20Y"]
 
   return (
-    <div className="StockMainPage-Div">
+    <div className="StockMainPage-Div graphWidth">
       <Header title="Search Stocks" subtitle="Browse Stock Market"/>
 
-      <MainContentBox>
+      <MainContentBox className="padded gapBelow">
         <StockSearchBar onStockSelect = {setSelectedStock}/>
       </MainContentBox>
 
-      <MainContentBox>
+      <MainContentBox className="padded gapBelow">
           <div className='stockTopPanel'>
             <ApiDataBox title={latestPriceTitle} loading={loading} error={error}>
               <LatestPriceDisplay latestPriceData={latestPriceData} />
@@ -54,7 +54,7 @@ const StockBrowsePage = () => {
           />
       </MainContentBox>
 
-      <MainContentBox>
+      <MainContentBox className="padded gapBelow">
         <MetaDataDisplay metaData = {metaData} />
       </MainContentBox>
 

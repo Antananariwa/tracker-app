@@ -1,6 +1,4 @@
 .MainContentBoxDiv {
-  margin-bottom: 16px;
-  padding: 16px 20px;
   background-color: var(--surface-2);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
@@ -11,4 +9,12 @@
   margin-bottom: 10px;
   font-size: 15px;
   font-weight: 700;
+}
+
+.padded {
+  padding: 16px 20px;
+}
+
+.gapBelow {
+  margin-bottom: 16px;
 }

@@ -26,15 +26,15 @@ const PortfolioStocksPage = () => {
 
   if (loading) {
     content = (
-      <MainContentBox>"Please wait while we fetch the data..."</MainContentBox>
+      <MainContentBox className="padded">"Please wait while we fetch the data..."</MainContentBox>
     )
   } else if (error) {
     content = (
-      <MainContentBox>{`An error occurred: ${error}`}</MainContentBox>
+      <MainContentBox className="padded">{`An error occurred: ${error}`}</MainContentBox>
     )
   } else {
     content = (
-      <MainContentBox>
+      <MainContentBox className="padded">
         <div className = "portfolioTableScroll">
           <table className="portfolioHoldingsTable">
             <thead>

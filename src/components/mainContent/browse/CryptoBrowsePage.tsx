@@ -35,11 +35,11 @@ const CryptoBrowsePage = () => {
     <div className="graphWidth">
       <Header title="Search Crypto" subtitle="Discover coins"/>
 
-      <MainContentBox>
+      <MainContentBox className="padded gapBelow">
         <CryptoSearchBar onCryptoSelect={setSelectedCrypto} />
       </MainContentBox>
 
-      <MainContentBox>
+      <MainContentBox className="padded gapBelow">
         <div className='cryptoTopPanel'>
           <ApiDataBox title={cryptoTitle} loading={loading} error={error}>
             <div>As of {latestCryptoPrice ? new Date(latestCryptoPrice.date).toLocaleDateString('en-GB') : ''}</div>
@@ -61,7 +61,7 @@ const CryptoBrowsePage = () => {
         />
       </MainContentBox>
 
-      <MainContentBox>
+      <MainContentBox className="padded gapBelow">
         <ApiDataBox title={info?.name ?? 'Coin info'} loading={infoLoading} error={infoError}>
           <CoinInfoBox info={info} />
         </ApiDataBox>

@@ -171,31 +171,31 @@ const PortfolioAssetsPage = () => {
 
   if (loading) {
     content = (
-      <MainContentBox>"Please wait while we fetch the data..."</MainContentBox>
+      <MainContentBox className="padded">"Please wait while we fetch the data..."</MainContentBox>
     )
   } else if (quoteStockPricesLoading) {
     content = (
-      <MainContentBox>"Please wait while we fetch the data..."</MainContentBox>
+      <MainContentBox className="padded">"Please wait while we fetch the data..."</MainContentBox>
     )
   } else if (QuoteCryptoPricesLoading) {
     content = (
-      <MainContentBox>"Please wait while we fetch the data..."</MainContentBox>
+      <MainContentBox className="padded">"Please wait while we fetch the data..."</MainContentBox>
     )
   } else if (error) {
     content = (
-      <MainContentBox>{`An error occurred: ${error}`}</MainContentBox>
+      <MainContentBox className="padded">{`An error occurred: ${error}`}</MainContentBox>
     )
   } else if (quoteStockPricesError) {
     content = (
-      <MainContentBox>{`An error occurred: ${quoteStockPricesError}`}</MainContentBox>
+      <MainContentBox className="padded">{`An error occurred: ${quoteStockPricesError}`}</MainContentBox>
     )
   } else if (quoteCryptopricesError) {
     content = (
-      <MainContentBox>{`An error occurred: ${quoteStockPricesError}`}</MainContentBox>
+      <MainContentBox className="padded">{`An error occurred: ${quoteStockPricesError}`}</MainContentBox>
     )
   } else {
     content = (
-      <MainContentBox className="tableWidth">
+      <MainContentBox className="padded">
         <div className = "portfolioTableScroll">
           <table className="portfolioHoldingsTable">
             <thead>
@@ -255,7 +255,7 @@ const PortfolioAssetsPage = () => {
       <div className="portfolioMain">
 
         <div className="summaryRow">
-          <div className="summaryTile heroTile">
+          <MainContentBox className="padded summaryTile heroTile">
             <p className="tileLabel">Account Value</p>
             <p className="tileValue">{formatCurrency(accountValue, 'USD')}</p>
             <p className="tileDelta">
@@ -264,16 +264,16 @@ const PortfolioAssetsPage = () => {
               </span>
               <span className="tilePeriod">overall</span>
             </p>
-          </div>
+          </MainContentBox>
 
-          <div className="summaryTile">
+          <MainContentBox className="padded summaryTile">
             <p className="tileLabel">Avg Annual Return</p>
-            <p className="tileValue">+{averageCAGR.toFixed(2)}%</p>
-            <p className="tileSub">3Y +{avgCAGR_3Y.toFixed(2)}%</p>
-            <p className="tileSub">5Y +{avgCAGR_5Y.toFixed(2)}%</p>
-          </div>
+            <p className={`tileValue ${averageCAGR >= 0 ? 'up' : 'down'}`}>{averageCAGR >= 0 ? '+' : ''}{averageCAGR.toFixed(2)}%</p>
+            <p className="tileSub">3Y <span className={avgCAGR_3Y >= 0 ? 'up' : 'down'}>{avgCAGR_3Y >= 0 ? '+' : ''}{avgCAGR_3Y.toFixed(2)}%</span></p>
+            <p className="tileSub">5Y <span className={avgCAGR_5Y >= 0 ? 'up' : 'down'}>{avgCAGR_5Y >= 0 ? '+' : ''}{avgCAGR_5Y.toFixed(2)}%</span></p>
+          </MainContentBox>
 
-          <div className="summaryTile">
+          <MainContentBox className="padded summaryTile">
             <p className="tileLabel">Wealth Distribution</p>
             <div className="donutTileBody">
               <div className="donutMini">
@@ -297,9 +297,9 @@ const PortfolioAssetsPage = () => {
                 ))}
               </ul>
             </div>
-          </div>
+          </MainContentBox>
 
-          <div className="summaryTile">
+          <MainContentBox className="padded summaryTile">
             <p className="tileLabel">Change</p>
             <p className="tileDelta">
               <span className={`delta-shape ${todayChange >= 0 ? 'up' : 'down'}`}>
@@ -313,53 +313,49 @@ const PortfolioAssetsPage = () => {
               </span>
               <span className="tilePeriod">month</span>
             </p>
-          </div>
-        </div>
-
-        <div className="summaryGraph">
-          <MainContentBox>
-            <TimeFrameOptions
-              selectedTimeFrame={selectedTimeFrame}
-              onOptionClick={(time) => setSelectedTimeFrame(time)}
-              timeRange={timeRange}
-            />
-            <PriceAreaChart
-              chartData={summaryGraphDataTimeFrame}
-              XAxisDataKey="date"
-              areaDataKey="close"
-              tickFormatter={pickDateLabel(selectedTimeFrame)}
-            />
           </MainContentBox>
         </div>
+
+        <MainContentBox className="padded">
+          <TimeFrameOptions
+            selectedTimeFrame={selectedTimeFrame}
+            onOptionClick={(time) => setSelectedTimeFrame(time)}
+            timeRange={timeRange}
+          />
+          <PriceAreaChart
+            chartData={summaryGraphDataTimeFrame}
+            XAxisDataKey="date"
+            areaDataKey="close"
+            tickFormatter={pickDateLabel(selectedTimeFrame)}
+          />
+        </MainContentBox>
 
         {content}
       </div>
 
-      <aside className="portfolioRail">
-        <div className="railPanel">
-          <p className="tileLabel">Asset Allocation</p>
-          <div className="wheelWrap">
-            <ResponsiveContainer>
-              <PieChart>
-                <Pie data={pieData} dataKey="value" nameKey="name" innerRadius="34%" outerRadius="90%">
-                  {pieData.map((slice, index) => (
-                    <Cell key={slice.name} fill={sliceColor(index)} />
-                  ))}
-                </Pie>
-              </PieChart>
-            </ResponsiveContainer>
-          </div>
-          <ul className="wheelLegend">
-            {pieData.map((slice, index) => (
-              <li key={slice.name}>
-                <span className="legendDot" style={{ background: sliceColor(index) }} />
-                <span className="legendName">{slice.name}</span>
-                <span className="legendPct">{((slice.value / accountValue) * 100).toFixed(1)}%</span>
-              </li>
-            ))}
-          </ul>
+      <MainContentBox className="padded">
+        <p className="tileLabel">Asset Allocation</p>
+        <div className="wheelWrap">
+          <ResponsiveContainer>
+            <PieChart>
+              <Pie data={pieData} dataKey="value" nameKey="name" innerRadius="0%" outerRadius="90%">
+                {pieData.map((slice, index) => (
+                  <Cell key={slice.name} fill={sliceColor(index)} />
+                ))}
+              </Pie>
+            </PieChart>
+          </ResponsiveContainer>
         </div>
-      </aside>
+        <ul className="wheelLegend">
+          {pieData.map((slice, index) => (
+            <li key={slice.name}>
+              <span className="legendDot" style={{ background: sliceColor(index) }} />
+              <span className="legendName">{slice.name}</span>
+              <span className="legendPct">{((slice.value / accountValue) * 100).toFixed(1)}%</span>
+            </li>
+          ))}
+        </ul>
+      </MainContentBox>
     </div>
   )
 }

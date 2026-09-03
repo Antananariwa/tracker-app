@@ -1,31 +1,33 @@
 .portfolioLayout {
   display: grid;
-  grid-template-columns: 1fr 320px;
+  grid-template-columns: 1fr 260px;
   gap: 16px;
   align-items: start;
+  max-width: 1480px;
+  margin-inline: auto;
 }
 
 .portfolioMain {
   min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
 }
 
-/* Top summary row */
+
+/* Top summary tiles */
 
 .summaryRow {
   display: grid;
-  grid-template-columns: 1.4fr 1fr 1.2fr 1fr;
-  gap: 12px;
-  margin-bottom: 16px;
+  grid-template-columns: 1.5fr 1fr 1fr 1fr;
+  gap: 14px;
 }
 
 .summaryTile {
+  min-width: 0;
   display: flex;
   flex-direction: column;
   gap: 6px;
-  padding: 14px 16px;
-  background: var(--surface-2);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
 }
 
 .tileLabel {
@@ -60,7 +62,6 @@
   color: var(--text-3);
 }
 
-/* Distribution donut inside a tile */
 
 .donutTileBody {
   display: flex;
@@ -107,14 +108,8 @@
   font-variant-numeric: tabular-nums;
 }
 
-/* Right rail: asset allocation wheel */
 
-.railPanel {
-  padding: 16px;
-  background: var(--surface-2);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-}
+/* Right pie panel  */
 
 .wheelWrap {
   width: 100%;
@@ -142,19 +137,15 @@
   font-variant-numeric: tabular-nums;
 }
 
-/* Smaller screens */
-
-@media (max-width: 1100px) {
-  .portfolioLayout {
-    grid-template-columns: 1fr;
-  }
-  .summaryRow {
-    grid-template-columns: 1fr 1fr;
-  }
+/* Tiles: 4 across, then 2, then 1, as the core loses room */
+@media (max-width: 1440px) {
+  .summaryRow { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 680px) {
+  .summaryRow { grid-template-columns: 1fr; }
 }
 
-@media (max-width: 640px) {
-  .summaryRow {
-    grid-template-columns: 1fr;
-  }
+/* Pie drops below the core on narrow screens */
+@media (max-width: 1024px) {
+  .portfolioLayout { grid-template-columns: 1fr; }
 }

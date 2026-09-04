@@ -42,7 +42,8 @@ The proxy holds every secret key. The browser never calls an external API direct
     /context/     AuthContext.tsx        ← session state, useAuth
     /hooks/       useBackendStock, useBackendStockQuote, useBackendCrypto,
                   useCoinInfo, usePortfolio, useCatalog,
-                  usePortfolioStockQuotes, usePortfolioCryptoQuotes
+                  usePortfolioStockQuotes, usePortfolioCryptoQuotes,
+                  useBackendPortfolioAssets, useBackendPortfolioCrypto.
     /utils/       stockData.ts, cryptoData.ts, format.ts, portfolioMath.ts,
                   chartFormat.ts, timeScope.ts   ← extract/transform/format helpers
     /components/

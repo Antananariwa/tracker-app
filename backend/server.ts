@@ -7,10 +7,17 @@ import catalogRouter from './routes/catalog'
 import cryptoRouter from './routes/crypto'
 
 const app = express()
+app.set('trust proxy', 1)
 const PORT = process.env.PORT || 3001
 
+const allowedOrigins = [
+  'http://localhost:5173',
+  'http://localhost:5174',
+  process.env.FRONTEND_ORIGIN,
+].filter(Boolean) as string[]
+
 app.use(cors({
-  origin: ['http://localhost:5173', 'http://localhost:5174'],
+  origin: allowedOrigins,
 }))
 
 app.use(express.json())

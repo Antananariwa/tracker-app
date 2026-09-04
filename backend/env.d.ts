@@ -6,6 +6,7 @@ declare namespace NodeJS {
     COINGECKO_API_KEY: string
     FINNHUB_KEY: string
     PORT?: string
+    FRONTEND_ORIGIN?: string
   }
 }
 

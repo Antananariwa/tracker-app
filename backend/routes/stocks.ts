@@ -54,6 +54,21 @@ function extractLatestPrice(rawData: AlphaVantageWeeklyResponse) {
   return parseFloat(latestBar['5. adjusted close'])
 }
 
+function serveStale(
+  res: Response,
+  symbol: string,
+  cached: { price: number; fetched_at: string; raw_data: AlphaVantageWeeklyResponse }
+) {
+  console.log(`[STALE CACHE] ${symbol}`)
+  return res.json({
+    symbol,
+    price: cached.price,
+    source: 'stale-cache',
+    fetched_at: cached.fetched_at,
+    raw_data: cached.raw_data,
+  })
+}
+
 router.get('/:symbol', async (req: Request<{ symbol: string }>, res: Response) => {
   const symbol = req.params.symbol.toUpperCase()
 
@@ -99,6 +114,7 @@ router.get('/:symbol', async (req: Request<{ symbol: string }>, res: Response) =
 
     if (rawData['Information']) {
       console.error('AlphaVantage daily limit reached.')
+      if (cached) return serveStale(res, symbol, cached)
       return res.status(429).json({
         error: 'AlphaVantage daily API limit reached. Try again tomorrow.',
       })
@@ -106,6 +122,7 @@ router.get('/:symbol', async (req: Request<{ symbol: string }>, res: Response) =
 
     if (rawData['Note']) {
       console.error('AlphaVantage rate limit hit.')
+      if (cached) return serveStale(res, symbol, cached)
       return res.status(429).json({
         error: 'AlphaVantage rate limit hit. Wait 60 seconds and try again.',
       })
@@ -115,6 +132,7 @@ router.get('/:symbol', async (req: Request<{ symbol: string }>, res: Response) =
 
     if (price === null || isNaN(price)) {
       console.error('Could not extract price from response:', rawData)
+      if (cached) return serveStale(res, symbol, cached)
       return res.status(500).json({
         error: 'Price data was missing or unreadable in the API response.',
       })

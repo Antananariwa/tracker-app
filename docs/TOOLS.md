@@ -24,7 +24,7 @@
 
 | Tool | What it is | Used for |
 |------|------------|----------|
-| AlphaVantage | Stock market data API | Stock prices, history, and the symbol catalog. Restrictive free tier, so responses are cached aggressively and demo data is pre-seeded. |
+| AlphaVantage | Stock market data API | Stock prices, history, and the symbol catalog. Restrictive free tier, so responses are cached aggressively and demo data is pre-seeded. The free tier limits by IP, so live fetches fail from shared hosting; the cache is warmed by fetching from a local machine.| 
 | CoinGecko | Crypto data API | Coin prices, history, metadata, and catalog. Generous free tier. Coins are identified by id ("bitcoin"), not ticker. |
 | Finnhub | Stock market data API | Live current stock price (quote). Free tier calculated per minute, should be enough for personal project. Subject to cache, like other APIs. Historical data is paid, so it is used only for the live quote. AlphaVantage remains the source for historical values. |
 
@@ -35,13 +35,13 @@
 | Supabase | Hosted Postgres with built-in auth, an auto-generated REST/SDK layer, and Edge Functions | All app data, user login, and the daily snapshot function (Phase 3) |
 | @supabase/supabase-js | Supabase client library | Querying the database from the frontend (anon key) and backend (service_role key) |
 
-## Hosting (Phase 5, planned)
+## Hosting
 
 | Tool | What it is | Used for |
 |------|------------|----------|
 | Render | Cloud host for backend services | Running the Express proxy in production |
 | Vercel | Frontend host for React/Vite apps | Running the frontend in production |
-| Cloudflare | Sits in front of the app; all traffic passes through it first | DNS-level DDoS protection, optional custom domain |
+- not used yet | Cloudflare | Sits in front of the app; all traffic passes through it first | DNS-level DDoS protection, optional custom domain |
 
 ## Backend npm packages
 

@@ -18,6 +18,8 @@ const useBackendStock = (symbol: string): UseBackendStockResult => {
     const url = `${import.meta.env.VITE_API_URL}/api/stocks/${symbol}`
 
     setLoading(true)
+    setError(null)
+    setData(null)
 
     fetch(url)
       .then(response => {

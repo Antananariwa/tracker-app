@@ -13,6 +13,7 @@ export type AlphaVantageWeeklyResponse = {
       '2. high': string
       '3. low': string
       '4. close': string
+      '5. adjusted close': string
       '6. volume': string
     }
   }
@@ -134,7 +135,7 @@ export const extractLatestStockPrice = (data: AlphaVantageWeeklyResponse): Lates
     open: parseFloat(latest['1. open']),
     high: parseFloat(latest['2. high']),
     low: parseFloat(latest['3. low']),
-    close: parseFloat(latest['4. close'])
+    close: parseFloat(latest['5. adjusted close'])
   };
 };
 
@@ -146,7 +147,7 @@ export const extractChartPriceByDateWeekly = (data: AlphaVantageWeeklyResponse):
   
   const preparedData = timeSeriesArrayReversed.map(([date, values]) => ({
     date: date, 
-    close: parseFloat(values['4. close']),
+    close: parseFloat(values['5. adjusted close']),
     volume: parseInt(values['6. volume'], 10)
   }))
 

@@ -49,9 +49,9 @@ You can also skip the account and use **Browse** to look up any stock or coin. Q
 
 <table>
   <tr>
-    <td width="33%" valign="top"><img src="docs/screenshots/browse-crypto.png" alt="Crypto browse with chart and coin details"><br><sub><b>Browse crypto.</b> Search a coin, get its chart and details.</sub></td>
-    <td width="33%" valign="top"><img src="docs/screenshots/browse-stocks.png" alt="Stock browse with historical price chart"><br><sub><b>Browse stocks.</b> Price history with range buttons.</sub></td>
-    <td width="33%" valign="top"><img src="docs/screenshots/demo-login.png" alt="Demo account entry"><br><sub><b>Demo account.</b> One click in, no signup.</sub></td>
+    <td width="33%" valign="top"><br><sub><b>Browse crypto.</b> Search a coin, get its chart and details.</sub><br><img src="docs/screenshots/browse-crypto.png" alt="Crypto browse with chart and coin details"></td>
+    <td width="33%" valign="top"><sub><b>Browse stocks.</b> Price history with range buttons.</sub><br><img src="docs/screenshots/browse-stocks.png" alt="Stock browse with historical price chart"></td>
+    <td width="33%" valign="top"><sub><b>Demo account.</b> One click in, no signup.</sub><br><img src="docs/screenshots/demo-login.png" alt="Demo account entry"></td>
   </tr>
 </table>
 

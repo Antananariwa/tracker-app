@@ -161,3 +161,15 @@ The assets table records what a user holds now, one row per asset, not a log of 
 A ticker can point to many coins, so it is a weak key for pricing. When a coin is added its confirmed CoinGecko id is saved on the row and used directly, while the ticker stays for display. A per user uniqueness rule keeps one row per held asset.
 
 ---
+
+
+## Phase 5 — Deployment
+
+### AlphaVantage free tier limits by IP, not by key
+The free tier counts requests per IP address, not per API key. Shared cloud hosts use one IP for many apps, so the limit is already spent by others and live stock fetches fail on the server, while the same call works from a local machine. Finnhub and CoinGecko limit per key, so they are fine.
+
+### Stock route falls back to stale cache
+When a live stock fetch is rejected or its price cannot be read, the route returns the last cached data marked "stale-cache" instead of an error.
+
+### Planned: move stock history to a per key provider
+AlphaVantage cannot be called reliably from shared hosting. The idea is to move to a provider limiting key, not the IP.

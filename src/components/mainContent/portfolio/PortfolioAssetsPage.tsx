@@ -284,6 +284,7 @@ const PortfolioAssetsPage = () => {
                         <Cell key={slice.name} fill={sliceColor(index)} />
                       ))}
                     </Pie>
+                    <Tooltip formatter={(value) => formatCurrency(Number(value), 'USD')} />
                   </PieChart>
                 </ResponsiveContainer>
               </div>
@@ -343,6 +344,7 @@ const PortfolioAssetsPage = () => {
                   <Cell key={slice.name} fill={sliceColor(index)} />
                 ))}
               </Pie>
+              <Tooltip formatter={(value) => formatCurrency(Number(value), 'USD')} />
             </PieChart>
           </ResponsiveContainer>
         </div>

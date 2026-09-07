@@ -191,7 +191,7 @@ const PortfolioAssetsPage = () => {
     )
   } else if (quoteCryptopricesError) {
     content = (
-      <MainContentBox className="padded">{`An error occurred: ${quoteStockPricesError}`}</MainContentBox>
+      <MainContentBox className="padded">{`An error occurred: ${quoteCryptopricesError}`}</MainContentBox>
     )
   } else {
     content = (

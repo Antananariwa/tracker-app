@@ -21,7 +21,7 @@ const PriceAreaChart = ({chartData, XAxisDataKey, areaDataKey, tickFormatter}: P
             </defs>
             <CartesianGrid stroke="#28282e" vertical={false} />
             <XAxis dataKey={XAxisDataKey} tick={{ fill: '#8f8f9a', fontSize: 11 }} axisLine={{ stroke: '#3a3a42' }} tickLine={false} tickFormatter={tickFormatter} minTickGap={40} />
-            <YAxis tick={{ fill: '#8f8f9a', fontSize: 11 }} axisLine={false} tickLine={false} />
+            <YAxis tick={{ fill: '#8f8f9a', fontSize: 11 }} axisLine={false} tickLine={false} width={72} tickFormatter={(value) => `$${Number(value).toLocaleString('en-US', { maximumFractionDigits: 0 })}`} />
             <Tooltip
               contentStyle={{ background: '#26262c', border: '1px solid #3d3d46', borderRadius: 6 }}
               labelStyle={{ color: '#8f8f9a', fontSize: 11 }}

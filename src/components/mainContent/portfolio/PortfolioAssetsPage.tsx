@@ -96,7 +96,7 @@ const PortfolioAssetsPage = () => {
 
   const pieData = allAssets
   .filter(a => a.currentValue != null)
-  .map(a => ({ name: a.symbol, value: a.currentValue as number }))
+  .map(a => ({ name: a.symbol, fullName: a.name, value: a.currentValue as number }))
   .sort((a, b) => b.value - a.value);
 
   const valueByCategory = allAssets.reduce((acc: { [category: string]: number }, asset) => {
@@ -153,7 +153,7 @@ const PortfolioAssetsPage = () => {
     cryptoWeeklyBySymbol[asset.symbol] = buildCryptoWeeklySeries(daily, weeklyDates, asset.acquiredAt, asset.avgBuyPrice)
   }
 
-  const summaryGraphData = mergeGraphStocksData({ ...trimmedStockTradingData, ...cryptoWeeklyBySymbol }, allAssets).filter(point => point.date <= cutoff)
+  const summaryGraphData = mergeGraphStocksData({ ...trimmedStockTradingData, ...cryptoWeeklyBySymbol }, allAssets).filter(point => point.date <= cutoff).filter(point => new Date(point.date).getUTCDay() === 5)
 
   const summaryGraphDataTimeFrame = adjustDataByTime(summaryGraphData, selectedTimeFrame)
   let todayChange = 0
@@ -339,7 +339,7 @@ const PortfolioAssetsPage = () => {
         <div className="wheelWrap">
           <ResponsiveContainer>
             <PieChart>
-              <Pie data={pieData} dataKey="value" nameKey="name" innerRadius="0%" outerRadius="90%">
+              <Pie data={pieData} dataKey="value" nameKey="fullName" innerRadius="0%" outerRadius="90%">
                 {pieData.map((slice, index) => (
                   <Cell key={slice.name} fill={sliceColor(index)} />
                 ))}

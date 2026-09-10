@@ -31,7 +31,9 @@ const TopBar = () => {
         </Button>
       </div>
 
-      <div className='centerGroup'></div>
+      <div className='centerGroup'>
+        <span className='appName'>Wealth Tracker</span>
+      </div>
 
       <div className='rightGroup'>
         <Button variant='secondary' className='demo-account-btn-topbar' onClick={()=>handleDemoLogin()}>

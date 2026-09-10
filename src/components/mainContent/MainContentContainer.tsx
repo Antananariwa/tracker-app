@@ -4,8 +4,9 @@ import RegisterPage from './RegisterPage';
 import PortfolioAssetsPage from './portfolio/PortfolioAssetsPage';
 import PortfolioStocksPage from './portfolio/PortfolioStocksPage'
 import PortfolioCryptoPage from './portfolio/PortfolioCryptoPage';
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, Navigate } from 'react-router-dom'
 import CryptoBrowsePage from './browse/CryptoBrowsePage';
+import NotFoundPage from './NotFoundPage';
 
 
 const MainContentContainer = () => {
@@ -13,6 +14,9 @@ const MainContentContainer = () => {
   return (
     <div className="pageWidthLimit">
       <Routes>
+        {/* Default */}
+        <Route path="/" element={<Navigate to="/portfolio/main" replace />} />
+
         {/* Portfolio group */}
         <Route path="/portfolio/main" element={<PortfolioAssetsPage />} />
         <Route path="/portfolio/stocks" element={<PortfolioStocksPage />} />
@@ -25,6 +29,9 @@ const MainContentContainer = () => {
         {/* Account group */}
         <Route path="/account/login" element={<LoginPage />} />
         <Route path="/account/register" element={<RegisterPage />} />
+
+        {/* Catch-all */}
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </div>
   )

@@ -51,7 +51,7 @@ Unlike `useBackendStock`, which waits for a symbol selection, `usePortfolio` fet
 `handleDemoLogin` is defined inside `TopBar` rather than extracted to its own file, because it calls a React hook. Hooks can only run inside components or other hooks; a plain async function in its own file is neither, so extracting it throws `Invalid hook call`. Keep handlers that depend on hooks inside the component that owns them. (Originally this called the custom `useMainPage`; after the React Router migration it uses `useNavigate`. The rule is unchanged — the example just moved.)
 
 ### Demo credentials hardcoded, not in environment variables
-The demo account email and password are hardcoded in the handler rather than stored in `.env`. Intentional — the demo account is meant to be public. Putting public credentials in `.env` adds complexity with no security benefit. Real user credentials never appear in code.
+The demo account email and password live in the frontend `.env` as `VITE_DEMO_EMAIL` and `VITE_DEMO_PASSWORD`. They are public by design, so this is not a secret. Keeping them in `.env` with the other config means the code holds no account details at all and the demo account can be swapped without a code change.
 
 ### Supabase session persists automatically across page refreshes
 After `signInWithPassword` succeeds, Supabase stores the JWT in browser local storage automatically. No session-management code is needed; every subsequent query through the same client carries the token, and RLS reads it to filter results to the logged-in user transparently.

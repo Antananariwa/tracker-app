@@ -8,8 +8,8 @@ const TopBar = () => {
 
   const handleDemoLogin = async () => {
     const { error } = await supabase.auth.signInWithPassword({
-      email: 'demo@yourapp.com',
-      password: 'demo1234'
+      email: import.meta.env.VITE_DEMO_EMAIL,
+      password: import.meta.env.VITE_DEMO_PASSWORD
     })
     if (error) {
       console.error('Login failed:', error.message)

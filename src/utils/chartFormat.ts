@@ -22,3 +22,54 @@ export const pickDateLabel = function(timeFrame: string) {
     };
   }
 };
+
+export const pickTicks = function(data: { date: string }[], timeFrame: string) {
+  const tickIndexes: number[] = []
+  let lastKey = ""
+
+  for (let i = 0; i < data.length; i++) {
+    const point = data[i]
+    let key = ""
+
+    if (timeFrame === "5Y" || timeFrame === "10Y" || timeFrame === "20Y") {
+      key = point.date.slice(0, 4)
+    } else if (timeFrame === "3Y") {
+      const month = Number(point.date.slice(5, 7))
+      key = point.date.slice(0, 4) + "-" + Math.ceil(month / 3)
+    } else if (timeFrame === "1Y" || timeFrame === "YTD" || timeFrame === "6M") {
+      key = point.date.slice(0, 7)
+    } else {
+      return undefined
+    }
+
+    if (key !== lastKey) {
+      tickIndexes.push(i)
+      lastKey = key
+    }
+  }
+
+  if (tickIndexes.length >= 3) {
+    const firstSpan = tickIndexes[1] - tickIndexes[0]
+    const normalSpan = tickIndexes[2] - tickIndexes[1]
+    if (firstSpan < normalSpan / 2) tickIndexes.shift()
+  }
+
+  return tickIndexes.map(i => data[i].date)
+};
+
+export const thinData = function<T>(data: T[], maxPoints: number) {
+  if (data.length <= maxPoints) return data
+
+  const step = Math.ceil(data.length / maxPoints)
+  const thinned: T[] = []
+
+  for (let i = 0; i < data.length; i += step) {
+    thinned.push(data[i])
+  }
+
+  if (thinned[thinned.length - 1] !== data[data.length - 1]) {
+    thinned.push(data[data.length - 1])
+  }
+
+  return thinned
+};

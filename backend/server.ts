@@ -1,4 +1,5 @@
 import 'dotenv/config'
+import './lib/checkEnv'
 import express, { Request, Response } from 'express'
 import cors from 'cors'
 import rateLimit from 'express-rate-limit'
@@ -24,7 +25,7 @@ app.use(express.json())
 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: 100,
+  max: 1000,
   standardHeaders: true,
   legacyHeaders: false,
 })

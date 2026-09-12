@@ -7,6 +7,7 @@ declare namespace NodeJS {
     FINNHUB_KEY: string
     PORT?: string
     FRONTEND_ORIGIN?: string
+    TWELVE_DATA_KEY: string
   }
 }
 

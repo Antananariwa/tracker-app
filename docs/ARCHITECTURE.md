@@ -21,7 +21,7 @@
            ▼
 ┌──────────────────────┐
 │  EXTERNAL APIs       │
-│    AlphaVantage      │
+│    Twelve Data       │
 │    Finnhub           │
 │    CoinGecko         │
 │    Plaid (planned)   │
@@ -96,7 +96,7 @@ Plaid routes are planned for Phase 6.
 |-----|----------|-------|
 | Supabase anon key | Frontend `.env` | Public — RLS restricts access |
 | Supabase service_role key | Backend `.env` | Bypasses all RLS — never in frontend |
-| AlphaVantage / CoinGecko / Finnhub keys | Backend `.env` | Backend proxy only |
+| Twelve Data / CoinGecko / Finnhub keys | Backend `.env` | Backend proxy only |
 | Plaid secrets | Backend `.env` | Backend proxy only |
 
 The proxy exists so that secret keys live only on the server. RLS protects the database for the one key that does reach the browser (anon), restricting it to the rows the logged-in user owns.

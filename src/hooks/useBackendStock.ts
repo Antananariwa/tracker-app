@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react'
-import type { AlphaVantageWeeklyResponse } from '../utils/stockData'
+import type { StockHistoryResponse } from '../utils/stockData'
 
 type UseBackendStockResult = {
-  data: AlphaVantageWeeklyResponse | null
+  data: StockHistoryResponse | null
   loading: boolean
   error: Error | null
 }
 
 const useBackendStock = (symbol: string): UseBackendStockResult => {
-  const [data, setData] = useState<AlphaVantageWeeklyResponse | null>(null)
+  const [data, setData] = useState<StockHistoryResponse | null>(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<Error | null>(null)
 

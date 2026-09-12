@@ -33,6 +33,7 @@ Stores all user-owned assets (stocks, crypto, real estate, custom). Single share
 ## Table: `stock_price_cache`
  
 Shared cache of stock prices fetched from AlphaVantage. No user ownership. Backend writes via service_role key.
+Not in use since the Twelve Data switch. Kept for a possible second pipeline.
  
 | Column | Type | Default | Nullable | Notes |
 |--------|------|---------|----------|-------|
@@ -66,6 +67,7 @@ Shared cache of live stock quotes fetched from Finnhub. Kept separate from `stoc
 ## Table: `stock_alphavantage_listings`
  
 Symbol catalog for the stock search dropdown. Full AlphaVantage LISTING_STATUS dump. Backend-only.
+Not in use since the Twelve Data switch. Kept for a possible second pipeline.
  
 | Column | Type | Default | Nullable | Notes |
 |--------|------|---------|----------|-------|
@@ -113,7 +115,7 @@ Coin catalog for the crypto search dropdown. Full CoinGecko `/coins/list` dump. 
 | name | text | none | NO | Coin name ("Bitcoin") |
 | fetched_at | timestamptz | `now()` | YES | Shared across all rows (atomic refresh) |
  
-**Refresh model:** Atomic, same as `stock_alphavantage_listings`. One upsert rewrites every row with a shared `fetched_at`.
+**Refresh model:** Atomic. One upsert rewrites every row with a shared `fetched_at`.
  
 **RLS:** Enabled, no policies. Backend-only access via service_role key.
  
@@ -152,3 +154,37 @@ Daily snapshots of a user's total portfolio value. Written by backend/Edge Funct
 **Constraints:** UNIQUE on (`user_id`, `snapshot_date`), prevents duplicate daily snapshots.
  
 **RLS:** Enabled. Users can only SELECT their own rows. Backend writes via service_role key.
+
+## Table: `stock_history_cache`
+
+Shared cache of daily stock history fetched from Twelve Data, about 20 years per symbol. No user ownership. Backend writes via service_role key. Stale rows are served as is and refreshed in the background. Backend has a timer that also re queues every stale row, so anything ever viewed stays warm.
+
+| Column | Type | Default | Nullable | Notes |
+|--------|------|---------|----------|-------|
+| id | uuid | `gen_random_uuid()` | NO | Primary key |
+| symbol | text | none | NO | UNIQUE, one cache row per ticker |
+| price | numeric | none | NO | Latest daily close |
+| fetched_at | timestamptz | `now()` | YES | When this row was last fetched (per-row freshness) |
+| raw_data | jsonb | `{}` | NO | Full Twelve Data time_series response as JSON |
+
+**RLS:** Enabled, no policies. Backend only access via service_role key.
+
+
+## Table: `stock_twelvedata_listings`
+
+Symbol catalog for the stock search dropdown. Twelve Data `/stocks` list filtered to United States, one row per ticker. Backend only.
+
+| Column | Type | Default | Nullable | Notes |
+|--------|------|---------|----------|-------|
+| id | uuid | `gen_random_uuid()` | NO | Primary key |
+| symbol | text | none | NO | UNIQUE, ticker |
+| name | text | none | NO | Company / security name |
+| exchange | text | none | YES | e.g. NYSE, NASDAQ |
+| type | text | none | YES | e.g. Common Stock, ETF |
+| currency | text | none | YES | |
+| mic_code | text | none | YES | Venue code |
+| fetched_at | timestamptz | `now()` | YES | Shared across all rows (atomic refresh) |
+
+**Refresh model:** Atomic. Every row is rewritten and shares one `fetched_at`, so the age of any row is the age of the whole table.
+
+**RLS:** Enabled, no policies. Backend only access via service_role key.

@@ -1,22 +1,24 @@
 import type { CryptoQuote, CoinChartData } from "./cryptoData"
 
-export type AlphaVantageWeeklyResponse = {
-  'Meta Data': {
-    '1. Information': string
-    '2. Symbol': string
-    '3. Last Refreshed': string
-    '4. Time Zone': string
+export type StockHistoryResponse = {
+  meta?: {
+    symbol: string
+    interval: string
+    currency: string
+    exchange_timezone: string
+    exchange: string
+    mic_code: string
+    type: string
   }
-  'Weekly Adjusted Time Series': {
-    [date: string]: {
-      '1. open': string
-      '2. high': string
-      '3. low': string
-      '4. close': string
-      '5. adjusted close': string
-      '6. volume': string
-    }
-  }
+  values?: {
+    datetime: string
+    open: string
+    high: string
+    low: string
+    close: string
+    volume: string
+  }[]
+  status: 'ok' | 'error'
 }
 
 export type StockQuote = {
@@ -31,9 +33,10 @@ export type StockQuote = {
 }
 
 export type StockOverview = {
-  information: string
   symbol: string
-  lastRefreshed: string
+  exchange: string
+  type: string
+  currency: string
   timeZone: string
 }
 
@@ -110,45 +113,42 @@ export type MergedPortfolioAssets = {
 
 
 
-export const extractStockOverview = (data: AlphaVantageWeeklyResponse): StockOverview | null => {
-  if (!data || !data['Meta Data']) return null;
-  
+export const extractStockOverview = (data: StockHistoryResponse): StockOverview | null => {
+  if (!data || !data.meta) return null;
+
   return {
-    information: data['Meta Data']['1. Information'],
-    symbol: data['Meta Data']['2. Symbol'],
-    lastRefreshed: data['Meta Data']['3. Last Refreshed'],
-    timeZone: data['Meta Data']['4. Time Zone'],
+    symbol: data.meta.symbol,
+    exchange: data.meta.exchange,
+    type: data.meta.type,
+    currency: data.meta.currency,
+    timeZone: data.meta.exchange_timezone,
   };
 };
 
-export const extractLatestStockPrice = (data: AlphaVantageWeeklyResponse): LatestStockPrice | null => {
-  if (!data || !data['Weekly Adjusted Time Series']) return null;
-  
-  const timeSeries = data['Weekly Adjusted Time Series'];
-  const dates = Object.keys(timeSeries).sort((a, b) => b.localeCompare(a));
-  const lastDate = dates[0];
-  if (!lastDate) return null;
-  const latest = timeSeries[lastDate];
+export const extractLatestStockPrice = (data: StockHistoryResponse): LatestStockPrice | null => {
+  if (!data || !data.values || data.values.length === 0) return null;
+
+  const sorted = [...data.values].sort((a, b) => b.datetime.localeCompare(a.datetime));
+  const latest = sorted[0];
 
   return {
-    date: lastDate,
-    open: parseFloat(latest['1. open']),
-    high: parseFloat(latest['2. high']),
-    low: parseFloat(latest['3. low']),
-    close: parseFloat(latest['5. adjusted close'])
+    date: latest.datetime.slice(0, 10),
+    open: parseFloat(latest.open),
+    high: parseFloat(latest.high),
+    low: parseFloat(latest.low),
+    close: parseFloat(latest.close)
   };
 };
 
-export const extractChartPriceByDateWeekly = (data: AlphaVantageWeeklyResponse): ChartPriceByDateWeekly[] => {
-  if (!data || !data['Weekly Adjusted Time Series']) return [];
+export const extractChartPriceByDateWeekly = (data: StockHistoryResponse): ChartPriceByDateWeekly[] => {
+  if (!data || !data.values) return [];
 
-  const timeSeries = data['Weekly Adjusted Time Series'];
-  const timeSeriesArrayReversed = Object.entries(timeSeries).sort((a, b) => a[0].localeCompare(b[0]));
-  
-  const preparedData = timeSeriesArrayReversed.map(([date, values]) => ({
-    date: date, 
-    close: parseFloat(values['5. adjusted close']),
-    volume: parseInt(values['6. volume'], 10)
+  const sorted = [...data.values].sort((a, b) => a.datetime.localeCompare(b.datetime));
+
+  const preparedData = sorted.map(bar => ({
+    date: bar.datetime.slice(0, 10),
+    close: parseFloat(bar.close),
+    volume: parseInt(bar.volume, 10)
   }))
 
   return preparedData;
@@ -158,27 +158,25 @@ export const extractChartPriceByDateWeekly = (data: AlphaVantageWeeklyResponse):
 export const adjustDataByTime = (data: ChartPriceByDateWeekly[], timeFrame: StockGraphTimeFrame): ChartPriceByDateWeekly[] => {
   if (!data || data.length === 0) return [];
 
-  let weeks = 0;
+  let days = 0;
 
   switch (timeFrame) {
-    case "1M":  weeks = 4;    break;
-    case "3M":  weeks = 13;   break;
-    case "6M":  weeks = 26;   break;
+    case "1M":  days = 21;    break;
+    case "3M":  days = 63;    break;
+    case "6M":  days = 126;   break;
     case "YTD": {
       const lastDate = data[data.length - 1].date
       const jan1 = lastDate.slice(0, 4) + "-01-01"
-      const msPerWeek = 1000 * 60 * 60 * 24 * 7 // transform default millisecondds to week
-      weeks = Math.ceil((new Date(lastDate).getTime() - new Date(jan1).getTime()) / msPerWeek)
-      break
+      return data.filter(point => point.date >= jan1)
     }
-    case "1Y":  weeks = 52;   break;
-    case "3Y":  weeks = 156;  break;
-    case "5Y":  weeks = 260;  break;
-    case "10Y": weeks = 520;  break;
+    case "1Y":  days = 252;   break;
+    case "3Y":  days = 756;   break;
+    case "5Y":  days = 1260;  break;
+    case "10Y": days = 2520;  break;
     case "20Y": return data;
     default:    return data;
   }
-  return data.slice(-weeks);
+  return data.slice(-days);
 };
 
 

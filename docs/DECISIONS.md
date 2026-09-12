@@ -108,7 +108,7 @@ Cross-component access to "who is logged in" needs a React-aware mirror of the S
 
 
 ### Graph time-range slicing assumes fixed-interval data points
-Slicing the chart to a selected range takes the last N points rather than parsing dates. This assumes each point is a fixed interval: one week per point for stocks (AlphaVantage weekly), one day per point for crypto (CoinGecko daily). Under that assumption a range is just a count — no date arithmetic. It holds only while each API returns evenly spaced points at the expected interval; if an API changes granularity, the point-to-time mapping breaks and the slicing needs revisiting. Worth monitoring.
+Slicing the chart to a selected range takes the last N points rather than parsing dates. This assumes each point is a fixed interval: one trading day per point for stocks (Twelve Data daily), one calendar day per point for crypto (CoinGecko daily). Under that assumption a range is just a count — no date arithmetic. It holds only while each API returns evenly spaced points at the expected interval; if an API changes granularity, the point-to-time mapping breaks and the slicing needs revisiting. Worth monitoring.
 
 ### jsonb preserves array order but not object key order
 Companion to the Phase 1 key-order entry. CoinGecko chart data is a JSON array of `[timestamp, price]` pairs, and jsonb preserves array element order, so cached crypto data comes back in order with no sorting. AlphaVantage data is a JSON object keyed by date, and jsonb does not preserve object key order, which is why that data must be sorted after retrieval. Array-shaped data is safe by structure; object-shaped data is not.
@@ -169,7 +169,7 @@ A ticker can point to many coins, so it is a weak key for pricing. When a coin i
 The free tier counts requests per IP address, not per API key. Shared cloud hosts use one IP for many apps, so the limit is already spent by others and live stock fetches fail on the server, while the same call works from a local machine. Finnhub and CoinGecko limit per key, so they are fine.
 
 ### Stock route falls back to stale cache
-When a live stock fetch is rejected or its price cannot be read, the route returns the last cached data marked "stale-cache" instead of an error.
+When a live stock fetch is rejected or its price cannot be read, the route returns the last cached data marked "stale-cache" instead of an error. Since the Twelve Data switch this is the normal path, not a fallback: the route answers from cache first and refreshes behind it.
 
-### Planned: move stock history to a per key provider
-AlphaVantage cannot be called reliably from shared hosting. The idea is to move to a provider limiting key, not the IP.
+### Stock history moved to Twelve Data
+AlphaVantage counts calls per IP, so the hosted backend never got through. Twelve Data counts per key - good. Its free tier per minute is small, so the backend does not call it on demand. Every request goes through a small queue that spaces calls out, with symbols nobody has cached yet go first. Background refreshes wait therir turn, and two requests for the same symbol share one call. Stale cache is served straight away and refreshed behind the response. Timer keeps every cached row warm, so a page load almost never waits on the provider. Bars are daily now: one call covers the whole range the charts show, which let the weekly workarounds go. New tables instead of reusing the old ones. Different shape, clean start. AlphaVantage tables and key stay, unused, in case a second pipeline is worth having later.

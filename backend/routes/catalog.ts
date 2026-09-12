@@ -1,15 +1,20 @@
 import express from 'express'
 import { createClient } from '@supabase/supabase-js'
-import { parse } from 'csv-parse/sync'
 
-type AlphaVantageListingRow = {
+type TwelveDataStockRow = {
   symbol: string
   name: string
+  currency: string
   exchange: string
-  assetType: string
-  ipoDate: string
-  delistingDate: string
-  status: string
+  mic_code: string
+  country: string
+  type: string
+}
+
+type TwelveDataStocksResponse = {
+  data?: TwelveDataStockRow[]
+  status: 'ok' | 'error'
+  message?: string
 }
 
 type CoinGeckoListingRow = {
@@ -37,7 +42,7 @@ function isCatalogStale(fetchedAt: string | null, catalog_TTL: number) {
 router.get('/stocks', async (_req, res) => {
   try {
     const { data: probe, error: probeError } = await supabase
-      .from('stock_alphavantage_listings')
+      .from('stock_twelvedata_listings')
       .select('fetched_at')
       .order('fetched_at', { ascending: false })
       .limit(1)
@@ -52,8 +57,8 @@ router.get('/stocks', async (_req, res) => {
       console.log('[CATALOG HIT]')
 
       const { data: rows, error: readError } = await supabase
-        .from('stock_alphavantage_listings')
-        .select('symbol, name, exchange, asset_type, status')
+        .from('stock_twelvedata_listings')
+        .select('symbol, name, exchange, type')
 
       if (readError) {
         console.error('Supabase read error:', readError.message)
@@ -65,57 +70,66 @@ router.get('/stocks', async (_req, res) => {
 
     console.log('[CATALOG REFRESH]')
 
-    const avUrl =
-      `https://www.alphavantage.co/query` +
-      `?function=LISTING_STATUS` +
-      `&apikey=${process.env.ALPHA_VANTAGE_KEY}`
+    const tdUrl =
+      `https://api.twelvedata.com/stocks` +
+      `?country=United%20States` +
+      `&apikey=${process.env.TWELVE_DATA_KEY}`
 
-    const avResponse = await fetch(avUrl)
-    const csvText = await avResponse.text()
+    const tdResponse = await fetch(tdUrl)
+    const rawData = await tdResponse.json() as TwelveDataStocksResponse
 
-    const rawRows = parse(csvText, {
-      columns: true,
-      skip_empty_lines: true,
-      trim: true,
-    }) as AlphaVantageListingRow[]
-
-  const cleanedRows = rawRows.map(row => ({
-    symbol: row.symbol,
-    name: row.name,
-    exchange: row.exchange || null,
-    asset_type: row.assetType || null,
-    ipo_date: row.ipoDate && row.ipoDate !== 'null' ? row.ipoDate : null,
-    delisting_date: row.delistingDate && row.delistingDate !== 'null' ? row.delistingDate : null,
-    status: row.status || null,
-    fetched_at: new Date().toISOString(),
-  }))
-
-  const { error: upsertError } = await supabase
-    .from('stock_alphavantage_listings')
-    .upsert(cleanedRows, { onConflict: 'symbol' })
-
-  if (upsertError) {
-    console.error('Supabase upsert error:', upsertError.message)
-    throw upsertError
-  }
-
-  console.log(`[CATALOG REFRESH] Upserted ${cleanedRows.length} rows`)
-
-  const responseRows = cleanedRows.map(row => ({
-    symbol: row.symbol,
-    name: row.name,
-    exchange: row.exchange,
-    asset_type: row.asset_type,
-    status: row.status,
-  }))
-
-  return res.json({ source: 'api', count: responseRows.length, data: responseRows })
-
-    } catch (error) {
-      const message = error instanceof Error ? error.message : 'Unknown error'
-      console.error('Unhandled error:', message)
-      res.status(500).json({ error: 'Internal server error.' })
+    if (rawData.status === 'error' || !rawData.data) {
+      console.error('Twelve Data catalog error:', rawData.message)
+      return res.status(502).json({ error: 'Stock catalog provider returned an error.' })
     }
+
+    const seen: { [symbol: string]: boolean } = {}
+    const cleanedRows = []
+    const fetchedAt = new Date().toISOString()
+
+    for (const row of rawData.data) {
+      if (seen[row.symbol]) continue
+      seen[row.symbol] = true
+      cleanedRows.push({
+        symbol: row.symbol,
+        name: row.name,
+        exchange: row.exchange || null,
+        type: row.type || null,
+        currency: row.currency || null,
+        mic_code: row.mic_code || null,
+        fetched_at: fetchedAt,
+      })
+    }
+
+    const CHUNK = 2000
+    for (let i = 0; i < cleanedRows.length; i += CHUNK) {
+      const chunk = cleanedRows.slice(i, i + CHUNK)
+      const { error: upsertError } = await supabase
+        .from('stock_twelvedata_listings')
+        .upsert(chunk, { onConflict: 'symbol' })
+
+      if (upsertError) {
+        console.error('Supabase upsert error:', upsertError.message)
+        throw upsertError
+      }
+    }
+
+    console.log(`[CATALOG REFRESH] Upserted ${cleanedRows.length} rows`)
+
+    const responseRows = cleanedRows.map(row => ({
+      symbol: row.symbol,
+      name: row.name,
+      exchange: row.exchange,
+      type: row.type,
+    }))
+
+    return res.json({ source: 'api', count: responseRows.length, data: responseRows })
+
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Unknown error'
+    console.error('Unhandled error:', message)
+    res.status(500).json({ error: 'Internal server error.' })
+  }
 })
 
 

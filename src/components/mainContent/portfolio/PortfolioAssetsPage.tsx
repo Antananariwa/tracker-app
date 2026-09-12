@@ -153,7 +153,7 @@ const PortfolioAssetsPage = () => {
     cryptoWeeklyBySymbol[asset.symbol] = buildCryptoWeeklySeries(daily, weeklyDates, asset.acquiredAt, asset.avgBuyPrice)
   }
 
-  const summaryGraphData = mergeGraphStocksData({ ...trimmedStockTradingData, ...cryptoWeeklyBySymbol }, allAssets).filter(point => point.date <= cutoff).filter(point => new Date(point.date).getUTCDay() === 5)
+  const summaryGraphData = mergeGraphStocksData({ ...trimmedStockTradingData, ...cryptoWeeklyBySymbol }, allAssets).filter(point => point.date <= cutoff)
 
   const summaryGraphDataTimeFrame = adjustDataByTime(summaryGraphData, selectedTimeFrame)
   let todayChange = 0
@@ -164,7 +164,7 @@ const PortfolioAssetsPage = () => {
   }
 
   const lastValue = summaryGraphData[summaryGraphData.length - 1]?.close ?? 0
-  const monthAgoValue = summaryGraphData[summaryGraphData.length - 5]?.close ?? 0
+  const monthAgoValue = summaryGraphData[summaryGraphData.length - 22]?.close ?? 0
   const monthChange = lastValue - monthAgoValue
 
   let content;

@@ -4,8 +4,7 @@ export type StockSymbol = {
   symbol: string
   name: string
   exchange: string
-  asset_type: string
-  status: string
+  type: string
 }
 
 export type CryptoSymbol = {

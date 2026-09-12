@@ -24,9 +24,10 @@
 
 | Tool | What it is | Used for |
 |------|------------|----------|
-| AlphaVantage | Stock market data API | Stock prices, history, and the symbol catalog. Restrictive free tier, so responses are cached aggressively and demo data is pre-seeded. The free tier limits by IP, so live fetches fail from shared hosting; the cache is warmed by fetching from a local machine.| 
+| Twelve Data | Stock market data API | Daily stock history and the symbol catalog. Counts calls per key, not per IP, so it works from shared hosting. The free allowance per minute is small, so the backend never calls it on demand: requests go through a queue and stale cache is served first. |
+| AlphaVantage | Stock market data API | Not in use since the Twelve Data switch. Key and tables kept around in case a second pipeline is useful later, for example to split load across two providers. |
 | CoinGecko | Crypto data API | Coin prices, history, metadata, and catalog. Generous free tier. Coins are identified by id ("bitcoin"), not ticker. |
-| Finnhub | Stock market data API | Live current stock price (quote). Free tier calculated per minute, should be enough for personal project. Subject to cache, like other APIs. Historical data is paid, so it is used only for the live quote. AlphaVantage remains the source for historical values. |
+| Finnhub | Stock market data API | Live current stock price (quote). Free tier calculated per minute, should be enough for personal project. Subject to cache, like other APIs. Historical data is paid, so it is used only for the live quote. Twelve Data is the source for historical values. |
 
 ## Database and auth
 
@@ -45,7 +46,7 @@
 
 ## Backend npm packages
 
-`express` (routing), `dotenv` (loads `.env`), `cors` (allows the frontend origin to call the backend), `express-rate-limit` (caps requests per IP), `@supabase/supabase-js` (database client), `csv-parse` (parses AlphaVantage's CSV catalog).
+`express` (routing), `dotenv` (loads `.env`), `cors` (allows the frontend origin to call the backend), `express-rate-limit` (caps requests per IP), `@supabase/supabase-js` (database client)
 
 ## Environment files
 

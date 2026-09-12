@@ -70,7 +70,7 @@ You can also skip the account and use **Browse** to look up any stock or coin. Q
 
 **Data and infrastructure**
 - Supabase: Postgres, Auth, and row level security
-- Market data from AlphaVantage and Finnhub (stocks) and CoinGecko (crypto)
+- Market data from Twelve Data and Finnhub (stocks) and CoinGecko (crypto)
 - Frontend on Vercel, backend on Render
 
 ## Architecture
@@ -82,7 +82,7 @@ flowchart LR
     B["Browser<br/>React and Vite on Vercel"]
     P["Express proxy on Render<br/>holds the secret keys"]
     S[("Supabase<br/>Postgres, Auth, cache tables")]
-    A["Market data APIs<br/>AlphaVantage, Finnhub, CoinGecko"]
+    A["Market data APIs<br/>Twelve Data, Finnhub, CoinGecko"]
 
     B -- "portfolio reads: anon key with RLS" --> S
     B -- "price requests" --> P
@@ -107,7 +107,7 @@ A few bits I'm a little proud of, and a few I'm still figuring out.
 - **It doesn't fall over when an API says no.** When a live stock fetch gets rejected, the route hands back the last good cached value marked stale instead of throwing an error, so the page keeps working.
 - **The net worth line is stitched together by hand.** There's no stored history yet, so the chart gets built on the fly. I line up each holding's weekly prices on a shared date grid, weight them by quantity, and trim to the start they all share. That leaves one line for the whole portfolio over time.
 - **Typed front to back.** TypeScript across the frontend and backend, with a written schema and a decisions log kept next to the code.
-- **A few different market data APIs.** I ended up using three (AlphaVantage, Finnhub, CoinGecko). Partly they each suit a slightly different job, partly I just wanted to try them out and see how they compare.
+- **A few different market data APIs.** I ended up using three (Twelve Data, Finnhub, CoinGecko). Partly they each suit a slightly different job, partly I just wanted to try them out and see how they compare.
 
 ## Project structure
 
@@ -138,7 +138,7 @@ Want to run it yourself? It's two separate projects, and each one has its own `.
 **Prerequisites**
 - Node.js 20 or newer
 - A Supabase project (free tier is fine), with the tables from [docs/SCHEMA.md](docs/SCHEMA.md)
-- API keys for AlphaVantage, Finnhub, and CoinGecko
+- API keys for Twelve Data, Finnhub, and CoinGecko
 
 **1. Frontend** (from the repo root)
 

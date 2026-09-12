@@ -8,7 +8,7 @@ import { extractStockOverview, extractLatestStockPrice, adjustDataByTime, extrac
 import MetaDataDisplay from '../displays/MetaDataDisplay';
 import StockSearchBar from '../searchBars/StockSearchBar';
 import useBackendStock from '../../../hooks/useBackendStock';
-import { pickDateLabel } from '../../../utils/chartFormat';
+import { pickDateLabel, pickTicks, thinData } from '../../../utils/chartFormat';
 import './StockBrowsePage.css';
 import Header from '../../ui/Header';
 
@@ -22,6 +22,8 @@ const StockBrowsePage = () => {
   const latestPriceTitle = latestPriceData && metaData ? metaData.symbol + "          $" + latestPriceData.close : "Current Price"
   const chartData = data ? extractChartPriceByDateWeekly(data) : []
   const chartDataTimeFrame = adjustDataByTime(chartData, selectedTimeFrame)
+  const chartDataThinned = thinData(chartDataTimeFrame, 400)
+  const chartTicks = pickTicks(chartDataThinned, selectedTimeFrame)
   
   const timeRange: StockGraphTimeFrame[] = ["1M", "3M", "6M", "YTD", "1Y", "3Y", "5Y", "10Y", "20Y"]
 
@@ -47,10 +49,11 @@ const StockBrowsePage = () => {
           </div>
 
           <PriceAreaChart
-            chartData={chartDataTimeFrame}
+            chartData={chartDataThinned}
             XAxisDataKey="date"
             areaDataKey="close"
             tickFormatter={pickDateLabel(selectedTimeFrame)}
+            ticks={chartTicks}
           />
       </MainContentBox>
 

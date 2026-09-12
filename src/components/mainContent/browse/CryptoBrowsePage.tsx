@@ -9,7 +9,7 @@ import type {CryptoGraphTimeFrame} from '../../../utils/cryptoData';
 import ApiDataBox from '../displays/ApiDataBox';
 import CoinInfoBox from '../displays/CoinInfoBox'
 import useCoinInfo from '../../../hooks/useCoinInfo'
-import { pickDateLabel } from '../../../utils/chartFormat';
+import { pickDateLabel, pickTicks } from '../../../utils/chartFormat';
 import './CryptoBrowsePage.css';
 import Header from '../../ui/Header';
 
@@ -21,6 +21,7 @@ const CryptoBrowsePage = () => {
   const {data, loading, error} = useBackendCrypto(selectedCrypto)
   const chartData = data ? extractCoinChartData(data) : []
   const chartDataTimeFrame = adjustDataByTime(chartData, selectedTimeFrame)
+  const chartTicks = pickTicks(chartDataTimeFrame, selectedTimeFrame)
   const timeRange: CryptoGraphTimeFrame[] = ['1M', '3M', '6M', 'YTD','1Y']
 
   const { data: infoRaw, loading: infoLoading, error: infoError } = useCoinInfo(selectedCrypto)
@@ -58,6 +59,7 @@ const CryptoBrowsePage = () => {
           XAxisDataKey = "date" 
           areaDataKey = "price"
           tickFormatter={pickDateLabel(selectedTimeFrame)}
+          ticks={chartTicks}
         />
       </MainContentBox>
 

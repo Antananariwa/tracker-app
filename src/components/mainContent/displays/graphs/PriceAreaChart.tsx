@@ -6,9 +6,10 @@ export type PriceAreaChartProps = {
   XAxisDataKey: string
   areaDataKey: string
   tickFormatter?: (value: string) => string
+  ticks?: string[]
 }
 
-const PriceAreaChart = ({chartData, XAxisDataKey, areaDataKey, tickFormatter}: PriceAreaChartProps) => {
+const PriceAreaChart = ({chartData, XAxisDataKey, areaDataKey, tickFormatter, ticks}: PriceAreaChartProps) => {
   return (
       <div style={{ width: '100%', height: 300 }}>
         <ResponsiveContainer>
@@ -20,7 +21,7 @@ const PriceAreaChart = ({chartData, XAxisDataKey, areaDataKey, tickFormatter}: P
               </linearGradient>
             </defs>
             <CartesianGrid stroke="#28282e" vertical={false} />
-            <XAxis dataKey={XAxisDataKey} tick={{ fill: '#8f8f9a', fontSize: 11 }} axisLine={{ stroke: '#3a3a42' }} tickLine={false} tickFormatter={tickFormatter} minTickGap={40} />
+            <XAxis dataKey={XAxisDataKey} tick={{ fill: '#8f8f9a', fontSize: 11 }} axisLine={{ stroke: '#3a3a42' }} tickLine={false} tickFormatter={tickFormatter} ticks={ticks} interval={ticks ? 0 : 'preserveEnd'} minTickGap={40} />
             <YAxis tick={{ fill: '#8f8f9a', fontSize: 11 }} axisLine={false} tickLine={false} width={72} tickFormatter={(value) => `$${Number(value).toLocaleString('en-US', { maximumFractionDigits: 0 })}`} />
             <Tooltip
               contentStyle={{ background: '#26262c', border: '1px solid #3d3d46', borderRadius: 6 }}

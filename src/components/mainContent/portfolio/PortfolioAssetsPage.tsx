@@ -12,7 +12,7 @@ import PriceAreaChart from '../displays/graphs/PriceAreaChart';
 import { extractChartPriceByDateWeekly, mergeGraphStocksData, adjustDataByTime, buildCryptoWeeklySeries, type ChartPriceByDateWeekly, type StockGraphTimeFrame } from '../../../utils/stockData'
 import useBackendPortfolioAssets from '../../../hooks/useBackendPortfolioAssets.ts';
 import TimeFrameOptions from '../TimeFrameOptions'
-import { pickDateLabel } from '../../../utils/chartFormat'
+import { pickDateLabel, pickTicks, thinData } from '../../../utils/chartFormat'
 import useBackendPortfolioCrypto from '../../../hooks/useBackendPortfolioCrypto.ts';
 import { extractCoinChartData } from '../../../utils/cryptoData'
 
@@ -156,6 +156,9 @@ const PortfolioAssetsPage = () => {
   const summaryGraphData = mergeGraphStocksData({ ...trimmedStockTradingData, ...cryptoWeeklyBySymbol }, allAssets).filter(point => point.date <= cutoff)
 
   const summaryGraphDataTimeFrame = adjustDataByTime(summaryGraphData, selectedTimeFrame)
+  const summaryGraphThinned = thinData(summaryGraphDataTimeFrame, 400)
+  const summaryTicks = pickTicks(summaryGraphThinned, selectedTimeFrame)
+
   let todayChange = 0
   for (let i = 0; i < mergedAssetsStocks.length; i++){
     const asset = mergedAssetsStocks[i]
@@ -324,10 +327,11 @@ const PortfolioAssetsPage = () => {
             timeRange={timeRange}
           />
           <PriceAreaChart
-            chartData={summaryGraphDataTimeFrame}
+            chartData={summaryGraphThinned}
             XAxisDataKey="date"
             areaDataKey="close"
             tickFormatter={pickDateLabel(selectedTimeFrame)}
+            ticks={summaryTicks}
           />
         </MainContentBox>
 

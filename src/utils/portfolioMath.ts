@@ -46,3 +46,48 @@ export const sumPurchaseCost = (assets: MergedPortfolioAssets[]): number => {
   }
   return total
 }
+
+export const calcReturnPercent = (gainLoss: number, purchaseCost: number): number => {
+  if (!purchaseCost) return 0
+  return gainLoss / purchaseCost * 100
+}
+
+export const calcWeightedAnnualRate = (assets: MergedPortfolioAssets[], nowMs: number): number => {
+  let sumRateTimesCost = 0
+  let sumCost = 0
+
+  for (const asset of assets) {
+    if (!asset.currentValue || !asset.purchaseCost) continue
+    const years = (nowMs - new Date(asset.acquiredAt).getTime()) / (1000 * 60 * 60 * 24 * 365.25)
+    if (years <= 0) continue
+    const rate = ((asset.currentValue / asset.purchaseCost) ** (1 / years)) - 1
+    sumRateTimesCost += rate * asset.purchaseCost
+    sumCost += asset.purchaseCost
+  }
+
+  if (sumCost === 0) return 0
+  return sumRateTimesCost / sumCost
+}
+
+export const projectRate = (rate: number, years: number): number => {
+  return (((1 + rate) ** years) - 1) * 100
+}
+
+export const buildPieData = (assets: MergedPortfolioAssets[]) => {
+  return assets
+    .filter(a => a.currentValue != null)
+    .map(a => ({ name: a.symbol, fullName: a.name, value: a.currentValue as number }))
+    .sort((a, b) => b.value - a.value)
+}
+
+export const buildCategoryData = (assets: MergedPortfolioAssets[]) => {
+  const valueByCategory: { [category: string]: number } = {}
+  for (const asset of assets) {
+    if (asset.currentValue != null) {
+      valueByCategory[asset.category] = (valueByCategory[asset.category] || 0) + asset.currentValue
+    }
+  }
+  return Object.entries(valueByCategory)
+    .map(([name, value]) => ({ name, value }))
+    .sort((a, b) => b.value - a.value)
+}

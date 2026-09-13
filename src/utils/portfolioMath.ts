@@ -1,3 +1,5 @@
+import type { MergedPortfolioAssets } from './stockData'
+
 export const calcCurrentValue = (quantity: number, currentPrice: number): number => {
   return quantity * currentPrice
 }
@@ -19,4 +21,28 @@ export const calcTimeframeReturn = (
   const nominal = (currentPrice - selectedStartPrice) * quantity
   const percent = selectedStartPrice === 0 ? 0 : (currentPrice - selectedStartPrice) / selectedStartPrice
   return { nominal, percent }
+}
+
+export const sumAccountValue = (assets: MergedPortfolioAssets[]): number => {
+  let total = 0
+  for (const asset of assets) {
+    if (asset.currentValue != null) total += asset.currentValue
+  }
+  return Number(total.toFixed(2))
+}
+
+export const sumGainLoss = (assets: MergedPortfolioAssets[]): number => {
+  let total = 0
+  for (const asset of assets) {
+    if (asset.gainLoss != null) total += asset.gainLoss
+  }
+  return Number(total.toFixed(2))
+}
+
+export const sumPurchaseCost = (assets: MergedPortfolioAssets[]): number => {
+  let total = 0
+  for (const asset of assets) {
+    if (asset.purchaseCost) total += asset.purchaseCost
+  }
+  return total
 }

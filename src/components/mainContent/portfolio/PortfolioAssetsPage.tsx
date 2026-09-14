@@ -4,6 +4,7 @@ import './PortfolioAssetsPage.css'
 import MainContentBox from "../MainContentBox";
 import { useFullPortfolio } from "../../../hooks/usePortfolio";
 import { preparePortfolioAssets, mergeFullAssetsWithStockQuotes, mergeFullAssetsWithCryptoQuotes } from "../../../utils/stockData";
+import { sumAccountValue, sumGainLoss, sumPurchaseCost, calcReturnPercent, calcWeightedAnnualRate, projectRate, buildPieData, buildCategoryData } from '../../../utils/portfolioMath';
 import usePortfolioStockQuotes from '../../../hooks/usePortfolioStockQuotes';
 import usePortfolioCryptoQuotes from '../../../hooks/usePortfolioCryptoQuotes';
 import { formatCurrency, formatPercentChange } from '../../../utils/format';
@@ -44,71 +45,18 @@ const PortfolioAssetsPage = () => {
   const mergedAssetsCrypto = data && quoteCryptoPrices ? mergeFullAssetsWithCryptoQuotes(quoteCryptoPrices, data) : [];
   const allAssets = [...mergedAssetsStocks, ...mergedAssetsCrypto]
 
-  let accountValue = 0;
-  for (let i = 0; i < allAssets.length; i++){
-    const a = allAssets[i]
-    a.currentValue != null ? accountValue += a.currentValue : null;
-  }
-  accountValue = Number(accountValue.toFixed(2));
+  const accountValue = sumAccountValue(allAssets)
+  const accountReturnNumber = sumGainLoss(allAssets)
+  const assetsTotalCost = sumPurchaseCost(allAssets)
+  const accountRetrunPercentage = calcReturnPercent(accountReturnNumber, assetsTotalCost)
 
-  let accountReturnNumber = 0;
-  for (let i=0; i<allAssets.length; i++){
-    const b = allAssets[i];
-    b.gainLoss != null ? accountReturnNumber += b.gainLoss : null;
-  }
-  accountReturnNumber = Number(accountReturnNumber.toFixed(2));
+  const avgRate = calcWeightedAnnualRate(allAssets, Date.now())
+  const averageCAGR = projectRate(avgRate, 1)
+  const avgCAGR_3Y = projectRate(avgRate, 3)
+  const avgCAGR_5Y = projectRate(avgRate, 5)
 
-  let assetsTotalCost = 0;
-  for (let i=0; i<allAssets.length; i++){
-    const c = allAssets[i];
-    c.purchaseCost ? assetsTotalCost += c.purchaseCost : null;
-  }
-
-  let accountRetrunPercentage = 0;
-  assetsTotalCost ? accountRetrunPercentage = accountReturnNumber/assetsTotalCost * 100 : 0;
-
-  let avgRate = 0; // weighted average annual return as a decimal, e.g. 0.125
-  let sumCAGR_pur_cost = 0;
-  let sumPurchaseCost = 0;
-
-  for (let i = 0; i < allAssets.length; i++){
-    const asset = allAssets[i]
-    const acquiredDateMs = new Date(asset.acquiredAt).getTime();
-    const nowMs = Date.now();
-    const years = (nowMs - acquiredDateMs) / (1000 * 60 * 60 * 24 * 365.25);
-
-    let CAGR = 0;
-    if ( asset.currentValue ){
-    asset.purchaseCost ?  CAGR = ((asset.currentValue / asset.purchaseCost) ** (1/years)) - 1 : null
-    }
-
-    if(asset.currentValue && asset.purchaseCost && years > 0){
-    sumCAGR_pur_cost += CAGR * asset.purchaseCost
-    sumPurchaseCost += asset.purchaseCost     
-    }
-  }
-
-  sumPurchaseCost != 0 ? avgRate = sumCAGR_pur_cost / sumPurchaseCost : null
-  const averageCAGR = avgRate * 100
-  const avgCAGR_3Y = (((1 + avgRate) ** 3) - 1) * 100
-  const avgCAGR_5Y = (((1 + avgRate) ** 5) - 1) * 100
-
-
-  const pieData = allAssets
-  .filter(a => a.currentValue != null)
-  .map(a => ({ name: a.symbol, fullName: a.name, value: a.currentValue as number }))
-  .sort((a, b) => b.value - a.value);
-
-  const valueByCategory = allAssets.reduce((acc: { [category: string]: number }, asset) => {
-    if (asset.currentValue != null) {
-      acc[asset.category] = (acc[asset.category] || 0) + asset.currentValue
-    }
-    return acc
-  }, {})
-
-  const categoryData = Object.entries(valueByCategory)
-    .map(([name, value]) => ({ name, value }))
-    .sort((a, b) => b.value - a.value)
+  const pieData = buildPieData(allAssets)
+  const categoryData = buildCategoryData(allAssets)
 
   const categoryLabels: { [category: string]: string } = {
     stock: 'Stocks',

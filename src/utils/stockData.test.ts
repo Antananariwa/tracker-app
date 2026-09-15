@@ -27,3 +27,48 @@ describe('extractChartPriceByDateWeekly', () => {
     expect(points[0]).toEqual({ date: '2024-01-02', close: 10, volume: 200 })
   })
 })
+
+describe('adjustDataByTime', () => {
+  const points = []
+  for (let i = 0; i < 300; i++) {
+    const day = new Date(Date.UTC(2023, 0, 1) + i * 24 * 60 * 60 * 1000)
+    points.push({ date: day.toISOString().slice(0, 10), close: i, volume: 0 })
+  }
+
+  it('takes the last 21 points for 1M', () => {
+    const result = adjustDataByTime(points, '1M')
+    expect(result.length).toBe(21)
+    expect(result[result.length - 1].close).toBe(299)
+  })
+
+  it('filters by date for YTD', () => {
+    const result = adjustDataByTime(points, 'YTD')
+    expect(result[0].date).toBe('2023-01-01')
+    expect(result.length).toBe(300)
+  })
+})
+
+describe('mergeGraphStocksData', () => {
+  const assets = [
+    { symbol: 'AAA', quantity: 2, acquiredAt: '2024-01-01' },
+    { symbol: 'BBB', quantity: 1, acquiredAt: '2024-01-03' },
+  ] as MergedPortfolioAssets[]
+
+  const series = {
+    AAA: [
+      { date: '2024-01-02', close: 10, volume: 0 },
+      { date: '2024-01-03', close: 11, volume: 0 },
+    ],
+    BBB: [
+      { date: '2024-01-02', close: 100, volume: 0 },
+      { date: '2024-01-03', close: 101, volume: 0 },
+    ],
+  }
+
+  it('weights by quantity and skips dates before acquisition', () => {
+    expect(mergeGraphStocksData(series, assets)).toEqual([
+      { date: '2024-01-02', close: 20, volume: 0 },
+      { date: '2024-01-03', close: 22 + 101, volume: 0 },
+    ])
+  })
+})

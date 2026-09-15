@@ -19,3 +19,11 @@ describe('extractLatestStockPrice', () => {
     expect(extractLatestStockPrice({ status: 'ok', values: [] })).toBeNull()
   })
 })
+
+describe('extractChartPriceByDateWeekly', () => {
+  it('sorts oldest first and parses numbers', () => {
+    const points = extractChartPriceByDateWeekly(sample)
+    expect(points.map(p => p.date)).toEqual(['2024-01-02', '2024-01-03', '2024-01-04'])
+    expect(points[0]).toEqual({ date: '2024-01-02', close: 10, volume: 200 })
+  })
+})

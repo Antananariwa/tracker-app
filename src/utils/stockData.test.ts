@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { extractLatestStockPrice, extractChartPriceByDateWeekly, adjustDataByTime, mergeGraphStocksData, type StockHistoryResponse, type MergedPortfolioAssets } from './stockData'
+import { extractLatestStockPrice, extractChartPriceByDateWeekly, adjustDataByTime, mergeGraphStocksData, type StockHistoryResponse, type MergedPortfolioAssets, type ChartPriceByDateWeekly} from './stockData'
 
 const sample: StockHistoryResponse = {
   status: 'ok',
@@ -29,7 +29,7 @@ describe('extractChartPriceByDateWeekly', () => {
 })
 
 describe('adjustDataByTime', () => {
-  const points = []
+  const points: ChartPriceByDateWeekly[] = []
   for (let i = 0; i < 300; i++) {
     const day = new Date(Date.UTC(2023, 0, 1) + i * 24 * 60 * 60 * 1000)
     points.push({ date: day.toISOString().slice(0, 10), close: i, volume: 0 })

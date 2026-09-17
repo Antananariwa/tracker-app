@@ -46,6 +46,7 @@ The proxy holds every secret key. The browser never calls an external API direct
                   useBackendPortfolioAssets, useBackendPortfolioCrypto.
     /utils/       stockData.ts, cryptoData.ts, format.ts, portfolioMath.ts,
                   chartFormat.ts, timeScope.ts   ← extract/transform/format helpers
+                  *.test.ts next to each          ← Vitest unit tests
     /components/
       /headerSection/   Header
       /topBar/          TopBar

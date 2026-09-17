@@ -12,6 +12,7 @@
 | React + Vite | UI library and build tool | The whole frontend app |
 | TypeScript | Typed JavaScript | All frontend and backend source |
 | Recharts | React charting library | Price and net worth charts |
+| Vitest | Test runner from the Vite team | Unit tests for the `src/utils`. Runs with `npm test`, no config beyond Vite's own. |
 
 ## Backend
 

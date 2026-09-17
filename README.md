@@ -146,6 +146,7 @@ Want to run it yourself? It's two separate projects, and each one has its own `.
 npm install
 cp .env.example .env    # then fill in the values
 npm run dev             # http://localhost:5173
+npm test                # unit tests, Vitest
 ```
 
 **2. Backend**

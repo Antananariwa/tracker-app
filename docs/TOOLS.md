@@ -21,6 +21,12 @@
 | Node.js | JavaScript runtime | Runs the backend |
 | Express | Web framework for Node | The proxy server and its API routes |
 
+## Automation
+
+| Tool | What it is | Used for |
+|------|------------|----------|
+| GitHub Actions | CI runner built into GitHub | On every pull request: lint, test and build the frontend, type check the backend. Workflow in `.github/workflows/ci.yml`. |
+
 ## Data APIs
 
 | Tool | What it is | Used for |

@@ -9,6 +9,7 @@
 </p>
 
 <p align="center">
+  <a href="https://github.com/Antananariwa/tracker-app/actions/workflows/ci.yml"><img src="https://github.com/Antananariwa/tracker-app/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
   <a href="https://tracker-app-tau-blue.vercel.app/"><img src="https://img.shields.io/badge/Live_demo-online-7C3AED?logo=vercel&logoColor=white" alt="Live demo"></a>
   <img src="https://img.shields.io/badge/React-19-20232A?logo=react&logoColor=61DAFB" alt="React 19">
   <img src="https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white" alt="TypeScript">

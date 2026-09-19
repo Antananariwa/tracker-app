@@ -40,6 +40,44 @@ export type StockOverview = {
   timeZone: string
 }
 
+export type StockInfoResponse = {
+  profile: {
+    name?: string
+    ticker?: string
+    logo?: string
+    finnhubIndustry?: string
+    country?: string
+    ipo?: string
+    weburl?: string
+    marketCapitalization?: number
+  }
+  metric: {
+    peBasicExclExtraTTM?: number | null
+    epsBasicExclExtraItemsTTM?: number | null
+    '52WeekHigh'?: number | null
+    '52WeekLow'?: number | null
+    dividendYieldIndicatedAnnual?: number | null
+    beta?: number | null
+  }
+}
+
+export type StockInfo = {
+  name: string
+  ticker: string
+  logo: string | null
+  industry: string | null
+  country: string | null
+  ipo: string | null
+  website: string | null
+  marketCap: number | null
+  peRatio: number | null
+  eps: number | null
+  weekHigh52: number | null
+  weekLow52: number | null
+  dividendYield: number | null
+  beta: number | null
+}
+
 export type LatestStockPrice = {
   date: string
   open: number

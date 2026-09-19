@@ -16,6 +16,21 @@ type FinnhubQuoteDataResponse = {
   't': number /** Time */
 }
 
+type FinnhubProfileResponse = {
+  name?: string
+  ticker?: string
+  logo?: string
+  finnhubIndustry?: string
+  country?: string
+  ipo?: string
+  weburl?: string
+  marketCapitalization?: number
+}
+
+type FinnhubMetricResponse = {
+  metric?: { [key: string]: number | string | null }
+}
+
 const router = express.Router()
 
 const supabase = createClient(

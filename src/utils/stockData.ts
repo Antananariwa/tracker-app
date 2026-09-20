@@ -163,6 +163,32 @@ export const extractStockOverview = (data: StockHistoryResponse): StockOverview 
   };
 };
 
+export const extractStockInfo = (data: StockInfoResponse): StockInfo | null => {
+  if (!data || !data.profile) return null;
+
+  const profile = data.profile
+  const metric = data.metric
+
+  if (!profile.name) return null;
+
+  return {
+    name: profile.name,
+    ticker: profile.ticker ?? '',
+    logo: profile.logo || null,
+    industry: profile.finnhubIndustry || null,
+    country: profile.country || null,
+    ipo: profile.ipo || null,
+    website: profile.weburl || null,
+    marketCap: profile.marketCapitalization ? profile.marketCapitalization * 1000000 : null,
+    peRatio: metric.peBasicExclExtraTTM ?? null,
+    eps: metric.epsBasicExclExtraItemsTTM ?? null,
+    weekHigh52: metric['52WeekHigh'] ?? null,
+    weekLow52: metric['52WeekLow'] ?? null,
+    dividendYield: metric.dividendYieldIndicatedAnnual ?? null,
+    beta: metric.beta ?? null,
+  };
+};
+
 export const extractLatestStockPrice = (data: StockHistoryResponse): LatestStockPrice | null => {
   if (!data || !data.values || data.values.length === 0) return null;
 

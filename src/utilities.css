@@ -27,3 +27,19 @@
 
 .delta-shape.up   { background: var(--pos-soft); }
 .delta-shape.down { background: var(--neg-soft); }
+
+
+.sideLayout {
+  display: grid;
+  grid-template-columns: 1fr 280px;
+  gap: 16px;
+  align-items: start;
+}
+
+.sideLayoutMain {
+  min-width: 0;
+}
+
+@media (max-width: 1024px) {
+  .sideLayout { grid-template-columns: 1fr; }
+}

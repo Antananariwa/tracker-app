@@ -4,19 +4,23 @@ import LatestPriceDisplay from '../displays/LatestPriceDisplay';
 import PriceAreaChart from '../displays/graphs/PriceAreaChart';
 import TimeFrameOptions from '../TimeFrameOptions';
 import MainContentBox from '../MainContentBox'
-import { extractStockOverview, extractLatestStockPrice, adjustDataByTime, extractChartPriceByDateWeekly, type StockGraphTimeFrame } from '../../../utils/stockData';
+import { extractStockOverview, extractLatestStockPrice, adjustDataByTime, extractChartPriceByDateWeekly, extractStockInfo, type StockGraphTimeFrame } from '../../../utils/stockData';
 import MetaDataDisplay from '../displays/MetaDataDisplay';
 import StockSearchBar from '../searchBars/StockSearchBar';
 import useBackendStock from '../../../hooks/useBackendStock';
 import { pickDateLabel, pickTicks, thinData } from '../../../utils/chartFormat';
 import './StockBrowsePage.css';
 import Header from '../../ui/Header';
+import useStockInfo from '../../../hooks/useStockInfo';
+import StockInfoBox from '../displays/StockInfoBox';
 
 const StockBrowsePage = () => {
   const [ selectedStock, setSelectedStock ] = useState('')
   const [ selectedTimeFrame, setSelectedTimeFrame ] = useState<StockGraphTimeFrame>('3M')
 
   const {data, loading, error} = useBackendStock(selectedStock)
+  const { data: infoRaw, loading: infoLoading, error: infoError } = useStockInfo(selectedStock)
+  const info = infoRaw ? extractStockInfo(infoRaw) : null
   const metaData = data ? extractStockOverview(data) : null
   const latestPriceData = data ? extractLatestStockPrice(data) : null
   const latestPriceTitle = latestPriceData && metaData ? metaData.symbol + "          $" + latestPriceData.close : "Current Price"
@@ -35,6 +39,8 @@ const StockBrowsePage = () => {
         <StockSearchBar onStockSelect = {setSelectedStock}/>
       </MainContentBox>
 
+      <div className="sideLayout">
+        <div className="sideLayoutMain">
       <MainContentBox className="padded gapBelow">
           <div className='stockTopPanel'>
             <ApiDataBox title={latestPriceTitle} loading={loading} error={error}>
@@ -57,9 +63,17 @@ const StockBrowsePage = () => {
           />
       </MainContentBox>
 
-      <MainContentBox className="padded gapBelow">
-        <MetaDataDisplay metaData = {metaData} />
-      </MainContentBox>
+          <MainContentBox className="padded gapBelow">
+            <MetaDataDisplay metaData = {metaData} />
+          </MainContentBox>
+        </div>
+
+        <MainContentBox className="padded">
+          <ApiDataBox title="Key figures" loading={infoLoading} error={infoError}>
+            <StockInfoBox info={info} />
+          </ApiDataBox>
+        </MainContentBox>
+      </div>
 
     </div>
   )

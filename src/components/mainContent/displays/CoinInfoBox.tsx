@@ -1,4 +1,6 @@
 import type { CoinInfo } from '../../../utils/cryptoData'
+import { formatBigCurrency } from '../../../utils/format'
+import './InfoBox.css'
 
 type CoinInfoBoxProps = {
   info: CoinInfo | null
@@ -7,36 +9,44 @@ type CoinInfoBoxProps = {
 const CoinInfoBox = ({ info }: CoinInfoBoxProps) => {
   if (!info) return <div>No coin info available.</div>
 
-  const formatBig = (n: number): string => {
-    if (n >= 1e12) return `$${(n / 1e12).toFixed(2)}T`
-    if (n >= 1e9)  return `$${(n / 1e9).toFixed(2)}B`
-    if (n >= 1e6)  return `$${(n / 1e6).toFixed(2)}M`
-    return `$${n.toLocaleString()}`
-  }
+  const change = info.priceChange24h
+
+  const rows = [
+    { label: '24h change', value: <span className={`delta-shape ${change >= 0 ? 'up' : 'down'}`}>{change >= 0 ? '+' : ''}{change.toFixed(2)}%</span> },
+    { label: 'Market cap', value: formatBigCurrency(info.marketCap) },
+    { label: '24h volume', value: formatBigCurrency(info.totalVolume) },
+    { label: 'All-time high', value: '$' + info.ath.toLocaleString() },
+    { label: 'Circulating supply', value: info.circulatingSupply.toLocaleString() },
+    { label: 'Max supply', value: info.maxSupply !== null ? info.maxSupply.toLocaleString() : 'No cap' },
+    { label: 'Genesis date', value: info.genesisDate ?? 'Unknown' },
+  ]
 
   return (
-    <div className="CoinInfoBox-div">
-      <div className="CoinInfoBox-header">
-        <img src={info.image} alt={info.name} width="48" height="48" />
-        <h2>{info.name} ({info.symbol})</h2>
-        {info.marketCapRank !== null && <span>Rank #{info.marketCapRank}</span>}
+    <div>
+      <div className="infoBoxHead">
+        <img className="infoBoxLogo" src={info.image} alt={info.name} />
+        <div>
+          <p className="infoBoxName">{info.name}</p>
+          <p className="infoBoxSub">{info.symbol}{info.marketCapRank !== null ? ' · Rank #' + info.marketCapRank : ''}</p>
+        </div>
       </div>
 
-      <p>{info.description}</p>
-
-      <ul>
-        {/* <li>Current price: ${info.currentPrice.toLocaleString()}</li> */}
-        <li>24h change: {info.priceChange24h.toFixed(2)}%</li>
-        <li>Market cap: {formatBig(info.marketCap)}</li>
-        <li>24h volume: {formatBig(info.totalVolume)}</li>
-        <li>All-time high: ${info.ath.toLocaleString()}</li>
-        <li>Circulating supply: {info.circulatingSupply.toLocaleString()}</li>
-        <li>Max supply: {info.maxSupply !== null ? info.maxSupply.toLocaleString() : 'No cap'}</li>
-        <li>Genesis date: {info.genesisDate ?? 'Unknown'}</li>
-        <li>Categories: {info.categories.join(', ')}</li>
+      <ul className="infoList">
+        {rows.map(row => (
+          <li key={row.label}>
+            <span className="infoLabel">{row.label}</span>
+            <span className="infoValue">{row.value}</span>
+          </li>
+        ))}
       </ul>
 
-      <div className="CoinInfoBox-links">
+      <div className="infoTags">
+        {info.categories.map(category => (
+          <span key={category} className="infoTag">{category}</span>
+        ))}
+      </div>
+
+      <div className="infoLinks">
         {info.homepage && <a href={info.homepage} target="_blank" rel="noopener noreferrer">Website</a>}
         {info.whitepaper && <a href={info.whitepaper} target="_blank" rel="noopener noreferrer">Whitepaper</a>}
         {info.github && <a href={info.github} target="_blank" rel="noopener noreferrer">GitHub</a>}

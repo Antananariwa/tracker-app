@@ -1,0 +1,84 @@
+.infoBoxHead {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.infoBoxLogo {
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  object-fit: contain;
+  border-radius: var(--radius);
+  background: var(--surface-3);
+}
+
+.infoBoxName {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.infoBoxSub {
+  font-size: 12px;
+  color: var(--text-3);
+}
+
+.infoList {
+  list-style: none;
+}
+
+.infoList li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 7px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 12.5px;
+}
+
+.infoList li:last-child {
+  border-bottom: 0;
+}
+
+.infoLabel {
+  color: var(--text-3);
+}
+
+.infoValue {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.infoTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 12px;
+}
+
+.infoTag {
+  padding: 1px 7px;
+  border-radius: 999px;
+  font-size: 10.5px;
+  color: var(--text-2);
+  background: var(--surface-3);
+  border: 1px solid var(--border);
+}
+
+.infoLinks {
+  display: flex;
+  gap: 14px;
+  margin-top: 12px;
+  font-size: 12.5px;
+}
+
+.infoLinks a {
+  color: var(--text-2);
+  text-underline-offset: 2px;
+}
+
+.infoLinks a:hover {
+  color: var(--text);
+}

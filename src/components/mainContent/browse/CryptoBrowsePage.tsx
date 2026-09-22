@@ -40,6 +40,9 @@ const CryptoBrowsePage = () => {
         <CryptoSearchBar onCryptoSelect={setSelectedCrypto} />
       </MainContentBox>
 
+      <div className="sideLayout">
+        <div className="sideLayoutMain">
+
       <MainContentBox className="padded gapBelow">
         <div className='cryptoTopPanel'>
           <ApiDataBox title={cryptoTitle} loading={loading} error={error}>
@@ -63,11 +66,19 @@ const CryptoBrowsePage = () => {
         />
       </MainContentBox>
 
-      <MainContentBox className="padded gapBelow">
-        <ApiDataBox title={info?.name ?? 'Coin info'} loading={infoLoading} error={infoError}>
-          <CoinInfoBox info={info} />
-        </ApiDataBox>
-      </MainContentBox>
+          <MainContentBox className="padded gapBelow">
+            <ApiDataBox title={info ? 'About ' + info.name : 'About'} loading={infoLoading} error={infoError}>
+              <p className="coinAbout">{info?.description || 'No description available.'}</p>
+            </ApiDataBox>
+          </MainContentBox>
+        </div>
+
+        <MainContentBox className="padded">
+          <ApiDataBox title="Key figures" loading={infoLoading} error={infoError}>
+            <CoinInfoBox info={info} />
+          </ApiDataBox>
+        </MainContentBox>
+      </div>
     </div>
   )
 }

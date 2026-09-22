@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { extractLatestStockPrice, extractChartPriceByDateWeekly, adjustDataByTime, mergeGraphStocksData, type StockHistoryResponse, type MergedPortfolioAssets, type ChartPriceByDateWeekly} from './stockData'
+import { extractLatestStockPrice, extractChartPriceByDateWeekly, adjustDataByTime, mergeGraphStocksData, extractStockInfo, type StockHistoryResponse, type MergedPortfolioAssets, type ChartPriceByDateWeekly} from './stockData'
 
 const sample: StockHistoryResponse = {
   status: 'ok',
@@ -70,5 +70,21 @@ describe('mergeGraphStocksData', () => {
       { date: '2024-01-02', close: 20, volume: 0 },
       { date: '2024-01-03', close: 22 + 101, volume: 0 },
     ])
+  })
+})
+
+describe('extractStockInfo', () => {
+  it('turns market cap from millions into dollars and fills missing figures with null', () => {
+    const info = extractStockInfo({
+      profile: { name: 'Apple Inc', ticker: 'AAPL', marketCapitalization: 3000000 },
+      metric: { beta: 1.2 },
+    })
+    expect(info?.marketCap).toBe(3000000000000)
+    expect(info?.beta).toBe(1.2)
+    expect(info?.peRatio).toBeNull()
+  })
+
+  it('returns null when the profile is empty', () => {
+    expect(extractStockInfo({ profile: {}, metric: {} })).toBeNull()
   })
 })

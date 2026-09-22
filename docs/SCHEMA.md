@@ -188,3 +188,17 @@ Symbol catalog for the stock search dropdown. Twelve Data `/stocks` list filtere
 **Refresh model:** Atomic. Every row is rewritten and shares one `fetched_at`, so the age of any row is the age of the whole table.
 
 **RLS:** Enabled, no policies. Backend only access via service_role key.
+
+
+## Table: `stock_info_cache`
+
+Per symbol company profile and key figures from Finnhub: the `/stock/profile2` response and the `metric` part of `/stock/metric`, stored together in one row. Backend only.
+
+| Column | Type | Default | Nullable | Notes |
+|--------|------|---------|----------|-------|
+| id | uuid | `gen_random_uuid()` | NO | Primary key |
+| symbol | text | none | NO | UNIQUE, one cache row per ticker |
+| raw_data | jsonb | `{}` | NO | `{ profile, metric }`: the profile2 response and the metric object of basic financials |
+| fetched_at | timestamptz | `now()` | YES | When this row was last fetched (per-row freshness) |
+
+**RLS:** Enabled, no policies. Backend only access via service_role key.

@@ -82,3 +82,33 @@
 .infoLinks a:hover {
   color: var(--text);
 }
+
+.rangeBar {
+  margin: 2px 0 14px;
+}
+
+.rangeBarTrack {
+  position: relative;
+  height: 6px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--neg), var(--surface-4) 50%, var(--pos));
+}
+
+.rangeBarMarker {
+  position: absolute;
+  top: -4px;
+  width: 2px;
+  height: 14px;
+  border-radius: 1px;
+  background: var(--text);
+  transform: translateX(-1px);
+}
+
+.rangeBarLabels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 6px;
+  font-size: 11px;
+  color: var(--text-3);
+  font-variant-numeric: tabular-nums;
+}

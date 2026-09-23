@@ -58,6 +58,12 @@ export type StockInfoResponse = {
     '52WeekLow'?: number | null
     dividendYieldIndicatedAnnual?: number | null
     beta?: number | null
+    '52WeekPriceReturnDaily'?: number | null
+    yearToDatePriceReturnDaily?: number | null
+    revenueGrowthTTMYoy?: number | null
+    epsGrowthTTMYoy?: number | null
+    netProfitMarginTTM?: number | null
+    'priceRelativeToS&P50052Week'?: number | null
   }
 }
 
@@ -76,6 +82,12 @@ export type StockInfo = {
   weekLow52: number | null
   dividendYield: number | null
   beta: number | null
+  priceReturn1Y: number | null
+  priceReturnYTD: number | null
+  revenueGrowth: number | null
+  epsGrowth: number | null
+  netMargin: number | null
+  vsSp500_1Y: number | null
 }
 
 export type LatestStockPrice = {
@@ -186,6 +198,12 @@ export const extractStockInfo = (data: StockInfoResponse): StockInfo | null => {
     weekLow52: metric['52WeekLow'] ?? null,
     dividendYield: metric.dividendYieldIndicatedAnnual ?? null,
     beta: metric.beta ?? null,
+    priceReturn1Y: metric['52WeekPriceReturnDaily'] ?? null,
+    priceReturnYTD: metric.yearToDatePriceReturnDaily ?? null,
+    revenueGrowth: metric.revenueGrowthTTMYoy ?? null,
+    epsGrowth: metric.epsGrowthTTMYoy ?? null,
+    netMargin: metric.netProfitMarginTTM ?? null,
+    vsSp500_1Y: metric['priceRelativeToS&P50052Week'] ?? null,
   };
 };
 

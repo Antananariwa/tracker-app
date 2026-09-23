@@ -18,6 +18,7 @@ const useBackendCrypto = (coin_id: string): UseBackendCryptoResult => {
     const url = `${import.meta.env.VITE_API_URL}/api/crypto/${coin_id}`
 
     setLoading(true)
+    setError(null)
 
     fetch(url)
       .then(response => {

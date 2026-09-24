@@ -70,7 +70,7 @@ const StockBrowsePage = () => {
 
         <MainContentBox className="padded">
           <ApiDataBox title="Key figures" loading={infoLoading} error={infoError}>
-            <StockInfoBox info={info} />
+            <StockInfoBox info={info} price={latestPriceData ? latestPriceData.close : null} />
           </ApiDataBox>
         </MainContentBox>
       </div>

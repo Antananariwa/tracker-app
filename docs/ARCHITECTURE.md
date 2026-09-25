@@ -41,7 +41,7 @@ The proxy holds every secret key. The browser never calls an external API direct
     /lib/         supabase.ts            ← Supabase client (anon key)
     /context/     AuthContext.tsx        ← session state, useAuth
     /hooks/       useBackendStock, useBackendStockQuote, useBackendCrypto,
-                  useCoinInfo, usePortfolio, useCatalog,
+                  useCoinInfo, useStockInfo, usePortfolio, useCatalog,
                   usePortfolioStockQuotes, usePortfolioCryptoQuotes,
                   useBackendPortfolioAssets, useBackendPortfolioCrypto.
     /utils/       stockData.ts, cryptoData.ts, format.ts, portfolioMath.ts,
@@ -58,7 +58,7 @@ The proxy holds every secret key. The browser never calls an external API direct
         /portfolio/     PortfolioAssetsPage, PortfolioStocksPage, PortfolioCryptoPage
         /searchBars/    StockSearchBar, CryptoSearchBar
         /displays/      LatestPriceDisplay, MetaDataDisplay, ApiDataBox,
-                        CoinInfoBox, DefaultDisplay
+                        CoinInfoBox, StockInfoBox, DefaultDisplay
           /graphs/      PriceAreaChart
   /backend/
     server.ts            ← Express entry
@@ -80,6 +80,7 @@ React app lives at the repo root (not a `/frontend` subfolder). The backend is a
 ```
 GET  /api/stocks/:symbol         stock price + history
 GET  /api/stocks/:symbol/quote   stock live quote
+GET  /api/stocks/:symbol/info    stock profile and key figures
 GET  /api/catalog/stocks         stock symbol catalog
 GET  /api/crypto/:coin_id        crypto price + history
 GET  /api/crypto/:coin_id/info   crypto metadata

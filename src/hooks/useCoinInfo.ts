@@ -18,6 +18,7 @@ const useCoinInfo = (coinId: string): UseCoinInfoResult => {
     const url = `${import.meta.env.VITE_API_URL}/api/crypto/${coinId}/info`
 
     setLoading(true)
+    setError(null)
 
     fetch(url)
       .then(response => {

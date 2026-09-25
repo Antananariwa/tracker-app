@@ -173,3 +173,9 @@ When a live stock fetch is rejected or its price cannot be read, the route retur
 
 ### Stock history moved to Twelve Data
 AlphaVantage counts calls per IP, so the hosted backend never got through. Twelve Data counts per key - good. Its free tier per minute is small, so the backend does not call it on demand. Every request goes through a small queue that spaces calls out, with symbols nobody has cached yet go first. Background refreshes wait therir turn, and two requests for the same symbol share one call. Stale cache is served straight away and refreshed behind the response. Timer keeps every cached row warm, so a page load almost never waits on the provider. Bars are daily now: one call covers the whole range the charts show, which let the weekly workarounds go. New tables instead of reusing the old ones. Different shape, clean start. AlphaVantage tables and key stay, unused, in case a second pipeline is worth having later.
+
+
+## Polish pass
+
+### Stock key figures from Finnhub, one cache row per symbol
+The stock browse panel needs a company profile and some ratios. Finnhub's free tier has both, `/stock/profile2` and `/stock/metric`, counted per key. Twelve Data's minute allowance already goes to history, so the figures come from Finnhub. One route makes both calls and stores the two answers together in one row of `stock_info_cache`, so the page makes one request. Only the `metric` object of the basic financials answer is kept. Its `series` part holds years of quarterly and annual history, far bigger than the figures the panel shows, and nothing here reads it. The row stays fresh for a day, since the ratios move with the price.

@@ -1,24 +1,25 @@
 import { useState, useEffect } from 'react'
-import type { CoinGeckoResponse } from '../utils/cryptoData'
+import type { StockInfoResponse } from '../utils/stockData'
 
-type UseBackendCryptoResult = {
-  data: CoinGeckoResponse | null
+type UseStockInfoResult = {
+  data: StockInfoResponse | null
   loading: boolean
   error: Error | null
 }
 
-const useBackendCrypto = (coin_id: string): UseBackendCryptoResult => {
-  const [data, setData] = useState<CoinGeckoResponse | null>(null)
+const useStockInfo = (symbol: string): UseStockInfoResult => {
+  const [data, setData] = useState<StockInfoResponse | null>(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<Error | null>(null)
 
   useEffect(() => {
-    if (!coin_id) return
+    if (!symbol) return
 
-    const url = `${import.meta.env.VITE_API_URL}/api/crypto/${coin_id}`
+    const url = `${import.meta.env.VITE_API_URL}/api/stocks/${symbol}/info`
 
     setLoading(true)
     setError(null)
+    setData(null)
 
     fetch(url)
       .then(response => {
@@ -38,9 +39,9 @@ const useBackendCrypto = (coin_id: string): UseBackendCryptoResult => {
         setLoading(false)
       })
 
-  }, [coin_id])
+  }, [symbol])
 
   return { data, loading, error }
 }
 
-export default useBackendCrypto
+export default useStockInfo

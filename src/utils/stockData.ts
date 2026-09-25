@@ -40,6 +40,56 @@ export type StockOverview = {
   timeZone: string
 }
 
+export type StockInfoResponse = {
+  profile: {
+    name?: string
+    ticker?: string
+    logo?: string
+    finnhubIndustry?: string
+    country?: string
+    ipo?: string
+    weburl?: string
+    marketCapitalization?: number
+  }
+  metric: {
+    peBasicExclExtraTTM?: number | null
+    epsBasicExclExtraItemsTTM?: number | null
+    '52WeekHigh'?: number | null
+    '52WeekLow'?: number | null
+    dividendYieldIndicatedAnnual?: number | null
+    beta?: number | null
+    '52WeekPriceReturnDaily'?: number | null
+    yearToDatePriceReturnDaily?: number | null
+    revenueGrowthTTMYoy?: number | null
+    epsGrowthTTMYoy?: number | null
+    netProfitMarginTTM?: number | null
+    'priceRelativeToS&P50052Week'?: number | null
+  }
+}
+
+export type StockInfo = {
+  name: string
+  ticker: string
+  logo: string | null
+  industry: string | null
+  country: string | null
+  ipo: string | null
+  website: string | null
+  marketCap: number | null
+  peRatio: number | null
+  eps: number | null
+  weekHigh52: number | null
+  weekLow52: number | null
+  dividendYield: number | null
+  beta: number | null
+  priceReturn1Y: number | null
+  priceReturnYTD: number | null
+  revenueGrowth: number | null
+  epsGrowth: number | null
+  netMargin: number | null
+  vsSp500_1Y: number | null
+}
+
 export type LatestStockPrice = {
   date: string
   open: number
@@ -122,6 +172,38 @@ export const extractStockOverview = (data: StockHistoryResponse): StockOverview 
     type: data.meta.type,
     currency: data.meta.currency,
     timeZone: data.meta.exchange_timezone,
+  };
+};
+
+export const extractStockInfo = (data: StockInfoResponse): StockInfo | null => {
+  if (!data || !data.profile) return null;
+
+  const profile = data.profile
+  const metric = data.metric
+
+  if (!profile.name) return null;
+
+  return {
+    name: profile.name,
+    ticker: profile.ticker ?? '',
+    logo: profile.logo || null,
+    industry: profile.finnhubIndustry || null,
+    country: profile.country || null,
+    ipo: profile.ipo || null,
+    website: profile.weburl || null,
+    marketCap: profile.marketCapitalization ? profile.marketCapitalization * 1000000 : null,
+    peRatio: metric.peBasicExclExtraTTM ?? null,
+    eps: metric.epsBasicExclExtraItemsTTM ?? null,
+    weekHigh52: metric['52WeekHigh'] ?? null,
+    weekLow52: metric['52WeekLow'] ?? null,
+    dividendYield: metric.dividendYieldIndicatedAnnual ?? null,
+    beta: metric.beta ?? null,
+    priceReturn1Y: metric['52WeekPriceReturnDaily'] ?? null,
+    priceReturnYTD: metric.yearToDatePriceReturnDaily ?? null,
+    revenueGrowth: metric.revenueGrowthTTMYoy ?? null,
+    epsGrowth: metric.epsGrowthTTMYoy ?? null,
+    netMargin: metric.netProfitMarginTTM ?? null,
+    vsSp500_1Y: metric['priceRelativeToS&P50052Week'] ?? null,
   };
 };
 

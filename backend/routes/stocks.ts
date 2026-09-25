@@ -16,6 +16,21 @@ type FinnhubQuoteDataResponse = {
   't': number /** Time */
 }
 
+type FinnhubProfileResponse = {
+  name?: string
+  ticker?: string
+  logo?: string
+  finnhubIndustry?: string
+  country?: string
+  ipo?: string
+  weburl?: string
+  marketCapitalization?: number
+}
+
+type FinnhubMetricResponse = {
+  metric?: { [key: string]: number | string | null }
+}
+
 const router = express.Router()
 
 const supabase = createClient(
@@ -291,3 +306,87 @@ router.get('/:symbol/quote', async (req: Request<{ symbol: string }>, res: Respo
 })
 
 export default router
+
+
+router.get('/:symbol/info', async (req: Request<{ symbol: string }>, res: Response) => {
+  const symbol = req.params.symbol.toUpperCase()
+
+  if (!isValidSymbol(symbol)) {
+    return res.status(400).json({ error: 'Invalid symbol.' })
+  }
+
+  try {
+    const { data: cached, error: cacheError } = await supabase
+      .from('stock_info_cache')
+      .select('*')
+      .eq('symbol', symbol)
+      .single()
+
+    if (cacheError && cacheError.code !== 'PGRST116') {
+      console.error('Supabase cache read error:', cacheError.message)
+      throw cacheError
+    }
+
+    if (cached && !isCacheStale(cached.fetched_at)) {
+      console.log(`[INFO CACHE HIT] ${symbol}`)
+      return res.json({
+        symbol,
+        source: 'cache',
+        fetched_at: cached.fetched_at,
+        raw_data: cached.raw_data,
+      })
+    }
+
+    console.log(`[INFO API FETCH] ${symbol}`)
+
+    const finnhubProfilePromise = function(symbol: string) {
+      return new Promise<FinnhubProfileResponse>((resolve, reject) => {
+        finnhubClient.companyProfile2({ symbol }, (error: Error | null, data: FinnhubProfileResponse) => {
+          if (error) reject(error);
+          else resolve(data);
+        });
+      });
+    };
+
+    const finnhubMetricPromise = function(symbol: string) {
+      return new Promise<FinnhubMetricResponse>((resolve, reject) => {
+        finnhubClient.companyBasicFinancials(symbol, 'all', (error: Error | null, data: FinnhubMetricResponse) => {
+          if (error) reject(error);
+          else resolve(data);
+        });
+      });
+    };
+
+    const profile = await finnhubProfilePromise(symbol)
+    const metrics = await finnhubMetricPromise(symbol)
+
+    const rawData = {
+      profile,
+      metric: metrics.metric ?? {},
+    }
+
+    const { error: upsertError } = await supabase
+      .from('stock_info_cache')
+      .upsert(
+        { symbol, raw_data: rawData, fetched_at: new Date().toISOString() },
+        { onConflict: 'symbol' }
+      )
+
+    if (upsertError) {
+      console.error('Supabase upsert error:', upsertError.message)
+      throw upsertError
+    }
+
+    return res.json({
+      symbol,
+      source: 'api',
+      fetched_at: new Date().toISOString(),
+      raw_data: rawData,
+    })
+
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Unknown error'
+    console.error(`Unhandled error for ${symbol}:`, message)
+    res.status(500).json({ error: 'Internal server error.' })
+  }
+})

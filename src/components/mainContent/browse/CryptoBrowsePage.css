@@ -6,3 +6,8 @@
   gap: 12px;
   margin-bottom: 8px;
 }
+
+.coinAbout {
+  color: var(--text-2);
+  line-height: 1.6;
+}

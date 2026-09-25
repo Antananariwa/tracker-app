@@ -77,10 +77,11 @@ describe('extractStockInfo', () => {
   it('turns market cap from millions into dollars and fills missing figures with null', () => {
     const info = extractStockInfo({
       profile: { name: 'Apple Inc', ticker: 'AAPL', marketCapitalization: 3000000 },
-      metric: { beta: 1.2 },
+      metric: { beta: 1.2, '52WeekPriceReturnDaily': 41.3 },
     })
     expect(info?.marketCap).toBe(3000000000000)
     expect(info?.beta).toBe(1.2)
+    expect(info?.priceReturn1Y).toBe(41.3)
     expect(info?.peRatio).toBeNull()
   })
 

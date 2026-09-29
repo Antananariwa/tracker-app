@@ -1,10 +1,13 @@
+.portfolioPage {
+  max-width: 1480px;
+  margin-inline: auto;
+}
+
 .portfolioLayout {
   display: grid;
   grid-template-columns: 1fr 260px;
   gap: 16px;
   align-items: start;
-  max-width: 1480px;
-  margin-inline: auto;
 }
 
 .portfolioMain {

@@ -16,6 +16,7 @@ import TimeFrameOptions from '../TimeFrameOptions'
 import { pickDateLabel, pickTicks, thinData } from '../../../utils/chartFormat'
 import useBackendPortfolioCrypto from '../../../hooks/useBackendPortfolioCrypto.ts';
 import { extractCoinChartData } from '../../../utils/cryptoData'
+import Header from '../../ui/Header';
 
 
 const PortfolioAssetsPage = () => {
@@ -202,7 +203,10 @@ const PortfolioAssetsPage = () => {
   }
 
   return (
-    <div className="portfolioLayout">
+    <div className="portfolioPage">
+      <Header title="Portfolio Overview" subtitle="Everything you own"/>
+
+      <div className="portfolioLayout">
       <div className="portfolioMain">
 
         <div className="summaryRow">
@@ -310,6 +314,7 @@ const PortfolioAssetsPage = () => {
           ))}
         </ul>
       </MainContentBox>
+      </div>
     </div>
   )
 }

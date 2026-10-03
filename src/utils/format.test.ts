@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { formatCurrency, formatPercentChange, formatBigCurrency } from './format'
+import { formatCurrency, formatPercentChange, formatBigCurrency, formatQuantity, formatDate } from './format'
 
 describe('formatCurrency', () => {
   it('formats dollars with two decimals and separators', () => {
@@ -22,5 +22,18 @@ describe('formatBigCurrency', () => {
     expect(formatBigCurrency(3450000000000)).toBe('$3.45T')
     expect(formatBigCurrency(12300000000)).toBe('$12.30B')
     expect(formatBigCurrency(4500000)).toBe('$4.50M')
+  })
+})
+
+describe('formatQuantity', () => {
+  it('keeps crypto fractions and groups whole shares', () => {
+    expect(formatQuantity(0.5)).toBe('0.5')
+    expect(formatQuantity(1500)).toBe('1,500')
+  })
+})
+
+describe('formatDate', () => {
+  it('writes the day, short month and year', () => {
+    expect(formatDate('2023-01-10')).toBe('10 Jan 2023')
   })
 })

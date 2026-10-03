@@ -24,3 +24,18 @@ export const formatBigCurrency = (value: number): string => {
   if (value >= 1e6)  return `$${(value / 1e6).toFixed(2)}M`
   return `$${value.toLocaleString()}`
 }
+
+export const formatQuantity = (value: number): string => {
+  return new Intl.NumberFormat('en-US', {
+    maximumFractionDigits: 8,
+  }).format(value)
+}
+
+export const formatDate = (value: string): string => {
+  return new Intl.DateTimeFormat('en-GB', {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+    timeZone: 'UTC',
+  }).format(new Date(value))
+}

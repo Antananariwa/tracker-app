@@ -38,3 +38,34 @@
 .portfolioHoldingsTable td.portfolioNum { text-align: right; }
 
 .portfolioHoldingsTable td.portfolioNum { font-variant-numeric: tabular-nums; }
+
+.assetCell {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 8px;
+  align-items: center;
+}
+
+.assetSymbol {
+  font-weight: 700;
+}
+
+.assetTag {
+  justify-self: start;
+  padding: 1px 7px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text-2);
+  background: var(--surface-3);
+  border: 1px solid var(--border);
+}
+
+.assetName {
+  grid-column: 1 / -1;
+  font-size: 12px;
+  color: var(--text-3);
+}
+

@@ -7,7 +7,7 @@ import { preparePortfolioAssets, mergeFullAssetsWithStockQuotes, mergeFullAssets
 import { sumAccountValue, sumGainLoss, sumPurchaseCost, calcReturnPercent, calcWeightedAnnualRate, projectRate, buildPieData, buildCategoryData } from '../../../utils/portfolioMath';
 import usePortfolioStockQuotes from '../../../hooks/usePortfolioStockQuotes';
 import usePortfolioCryptoQuotes from '../../../hooks/usePortfolioCryptoQuotes';
-import { formatCurrency, formatPercentChange } from '../../../utils/format';
+import { formatCurrency, formatPercentChange, formatQuantity, formatDate } from '../../../utils/format';
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts';
 import PriceAreaChart from '../displays/graphs/PriceAreaChart';
 import { extractChartPriceByDateWeekly, mergeGraphStocksData, adjustDataByTime, buildCryptoWeeklySeries, type ChartPriceByDateWeekly, type StockGraphTimeFrame } from '../../../utils/stockData'
@@ -18,6 +18,11 @@ import useBackendPortfolioCrypto from '../../../hooks/useBackendPortfolioCrypto.
 import { extractCoinChartData } from '../../../utils/cryptoData'
 import Header from '../../ui/Header';
 
+const statusLabels = {
+  hold: 'Hold',
+  to_sell: 'To sell',
+  watching: 'Watching',
+}
 
 const PortfolioAssetsPage = () => {
   const [selectedTimeFrame, setSelectedTimeFrame] = useState<StockGraphTimeFrame>('20Y')
@@ -152,47 +157,44 @@ const PortfolioAssetsPage = () => {
           <table className="portfolioHoldingsTable">
             <thead>
               <tr>
-                <th>Symbol</th>
-                <th>Name</th>
+                <th>Asset</th>
                 <th className="portfolioNum">Quantity</th>
-                <th className="portfolioNum">Avg Buy Price</th>
-                <th className="portfolioNum">Purchase Cost</th>
-                <th>status</th>
-                <th>acquiredAt</th>
-                <th className="portfolioNum">Current Price</th>
-                <th className="portfolioNum">Current Value</th>
-                <th className="portfolioNum">Gain/Loss</th>
-                <th className="portfolioNum">Gain/Loss percent</th>
-                <th>Category</th>
+                <th className="portfolioNum">Avg buy price</th>
+                <th className="portfolioNum">Current price</th>
+                <th className="portfolioNum">Market value</th>
+                <th className="portfolioNum">Gain / loss</th>
+                <th>Status</th>
+                <th>Acquired</th>
               </tr>
             </thead>
             <tbody>
               {allAssets.map(asset => (
                 <tr key={asset.symbol}>
-                  <td>{asset.symbol}</td>
-                  <td>{asset.name}</td>
-                  <td className="portfolioNum">{asset.quantity}</td>
+                  <td>
+                    <div className="assetCell">
+                      <span className="assetSymbol">{asset.symbol}</span>
+                      <span className="assetTag">{categoryLabels[asset.category]}</span>
+                      <span className="assetName">{asset.name}</span>
+                    </div>
+                  </td>
+                  <td className="portfolioNum">{formatQuantity(asset.quantity)}</td>
                   <td className="portfolioNum">{formatCurrency(asset.avgBuyPrice, 'USD')}</td>
-                  <td className="portfolioNum">{formatCurrency(asset.purchaseCost, 'USD')}</td>
-                  <td>{asset.status}</td>
-                  <td>{asset.acquiredAt}</td>
                   <td className="portfolioNum">{asset.currentPrice ? formatCurrency(asset.currentPrice, 'USD') : 'N/A'}</td>
                   <td className="portfolioNum">{asset.currentValue ? formatCurrency(asset.currentValue, 'USD') : 'N/A'}</td>
                   <td className="portfolioNum">
-                    {asset.gainLoss ? (
+                    {asset.gainLoss != null && asset.gainLossRatio != null ? (
                       <span className={`delta-shape ${asset.gainLoss > 0 ? 'up' : 'down'}`}>
-                        {(asset.gainLoss > 0 ? '+' : '') + formatCurrency(asset.gainLoss, 'USD')}
+                        {asset.gainLoss > 0 ? '▲' : '▼'} {formatCurrency(Math.abs(asset.gainLoss), 'USD')} <small>({formatPercentChange(asset.gainLossRatio)})</small>
                       </span>
                     ) : 'N/A'}
                   </td>
-                  <td className="portfolioNum">
-                    {asset.gainLossRatio ? (
-                      <span className={`delta-shape ${asset.gainLossRatio > 0 ? 'up' : 'down'}`}>
-                        {formatPercentChange(asset.gainLossRatio)}
-                      </span>
-                    ) : 'N/A'}
+                  <td>
+                    <span className="statusChip">
+                      <i className={`statusDot statusDot-${asset.status}`}></i>
+                      {statusLabels[asset.status]}
+                    </span>
                   </td>
-                  <td>{asset.category}</td>
+                  <td className="assetDate">{formatDate(asset.acquiredAt)}</td>
                 </tr>
               ))}
             </tbody>

@@ -3,6 +3,10 @@
   margin-inline: auto;
 }
 
+.portfolioPage .portfolioHoldingsTable {
+  min-width: 880px;
+}
+
 .portfolioLayout {
   display: grid;
   grid-template-columns: 1fr 260px;

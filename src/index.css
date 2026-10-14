@@ -22,6 +22,7 @@
   --pos-soft: rgba(61, 214, 140, 0.12);
   --neg: #ef5350;
   --neg-soft: rgba(239, 83, 80, 0.12);
+  --warn: #ec835a;
 
   --grid: #28282e;
   --axis-line: #3a3a42;

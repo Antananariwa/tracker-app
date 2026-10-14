@@ -38,3 +38,67 @@
 .portfolioHoldingsTable td.portfolioNum { text-align: right; }
 
 .portfolioHoldingsTable td.portfolioNum { font-variant-numeric: tabular-nums; }
+
+.assetCell {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 8px;
+  align-items: center;
+}
+
+.assetSymbol {
+  font-weight: 700;
+}
+
+.assetTag {
+  justify-self: start;
+  padding: 1px 7px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text-2);
+  background: var(--surface-3);
+  border: 1px solid var(--border);
+}
+
+.assetName {
+  grid-column: 1 / -1;
+  font-size: 12px;
+  color: var(--text-3);
+}
+
+.portfolioHoldingsTable small {
+  font-size: 12px;
+  font-weight: 600;
+  opacity: 0.85;
+}
+
+.statusChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: var(--surface-3);
+  border: 1px solid var(--border);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-2);
+}
+
+.statusDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+
+.statusDot-hold { background: var(--text-3); }
+.statusDot-watching { background: var(--accent); }
+.statusDot-to_sell { background: var(--warn); }
+
+.assetDate {
+  color: var(--text-2);
+  white-space: nowrap;
+}

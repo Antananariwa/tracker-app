@@ -70,7 +70,10 @@ const PortfolioAssetsPage = () => {
     real_estate: 'Real Estate',
   }
 
-  const sliceColor = (index: number) => `hsl(${(index * 137.508) % 360}, 65%, 60%)`;
+  const sliceColor = (index: number, count: number) => {
+    const step = count > 1 ? index / (count - 1) : 0
+    return `hsl(264, ${100 - step * 55}%, ${64 + step * 18}%)`
+  }
 
 	// Summary portfolio graphs
   const allSymbols = mergedAssetsStocks.map(asset => asset.symbol)
@@ -236,19 +239,23 @@ const PortfolioAssetsPage = () => {
               <div className="donutMini">
                 <ResponsiveContainer>
                   <PieChart>
-                    <Pie data={categoryData} dataKey="value" nameKey="name" innerRadius="45%" outerRadius="85%">
+                    <Pie data={categoryData} dataKey="value" nameKey="name" innerRadius="45%" outerRadius="85%" stroke="#1f1f23" strokeWidth={2}>
                       {categoryData.map((slice, index) => (
-                        <Cell key={slice.name} fill={sliceColor(index)} />
+                        <Cell key={slice.name} fill={sliceColor(index, categoryData.length)} />
                       ))}
                     </Pie>
-                    <Tooltip formatter={(value) => formatCurrency(Number(value), 'USD')} />
+                    <Tooltip
+                      contentStyle={{ background: '#26262c', border: '1px solid #3d3d46', borderRadius: 6 }}
+                      itemStyle={{ color: '#efeff1', fontWeight: 700 }}
+                      formatter={(value, name) => [formatCurrency(Number(value), 'USD'), categoryLabels[String(name)] ?? name]}
+                    />
                   </PieChart>
                 </ResponsiveContainer>
               </div>
               <ul className="donutLegend">
                 {categoryData.map((slice, index) => (
                   <li key={slice.name}>
-                    <span className="legendDot" style={{ background: sliceColor(index) }} />
+                    <span className="legendDot" style={{ background: sliceColor(index, categoryData.length) }} />
                     <span className="legendName">{categoryLabels[slice.name] ?? slice.name}</span>
                     <span className="legendValue">{formatCurrency(slice.value, 'USD')}</span>
                   </li>
@@ -293,25 +300,38 @@ const PortfolioAssetsPage = () => {
       </div>
 
       <MainContentBox className="padded">
-        <p className="tileLabel">Asset Allocation</p>
+        <div className="wheelHead">
+          <p className="wheelTitle">Asset Allocation</p>
+          <p className="wheelSub">{pieData.length} holdings, by market value</p>
+        </div>
         <div className="wheelWrap">
           <ResponsiveContainer>
             <PieChart>
-              <Pie data={pieData} dataKey="value" nameKey="fullName" innerRadius="0%" outerRadius="90%">
+              <Pie data={pieData} dataKey="value" nameKey="fullName" innerRadius="58%" outerRadius="92%" stroke="#1f1f23" strokeWidth={2}>
                 {pieData.map((slice, index) => (
-                  <Cell key={slice.name} fill={sliceColor(index)} />
+                  <Cell key={slice.name} fill={sliceColor(index, pieData.length)} />
                 ))}
               </Pie>
-              <Tooltip formatter={(value) => formatCurrency(Number(value), 'USD')} />
+              <Tooltip
+                contentStyle={{ background: '#26262c', border: '1px solid #3d3d46', borderRadius: 6 }}
+                itemStyle={{ color: '#efeff1', fontWeight: 700 }}
+                formatter={(value) => formatCurrency(Number(value), 'USD')}
+              />
             </PieChart>
           </ResponsiveContainer>
+          <div className="wheelTotal">
+            <p className="wheelTotalValue">{formatCurrency(accountValue, 'USD')}</p>
+            <p className="wheelTotalLabel">total</p>
+          </div>
         </div>
         <ul className="wheelLegend">
           {pieData.map((slice, index) => (
             <li key={slice.name}>
-              <span className="legendDot" style={{ background: sliceColor(index) }} />
-              <span className="legendName">{slice.name}</span>
+              <span className="legendDot" style={{ background: sliceColor(index, pieData.length) }} />
+              <span className="legendSymbol">{slice.name}</span>
               <span className="legendPct">{((slice.value / accountValue) * 100).toFixed(1)}%</span>
+              <span className="legendFull" title={slice.fullName}>{slice.fullName}</span>
+              <span className="legendValue">{formatCurrency(slice.value, 'USD')}</span>
             </li>
           ))}
         </ul>

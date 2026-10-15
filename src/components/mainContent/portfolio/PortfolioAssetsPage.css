@@ -9,7 +9,7 @@
 
 .portfolioLayout {
   display: grid;
-  grid-template-columns: 1fr 260px;
+  grid-template-columns: 1fr 280px;
   gap: 16px;
   align-items: start;
 }
